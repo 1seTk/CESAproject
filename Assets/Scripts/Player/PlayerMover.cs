@@ -31,26 +31,5 @@ public class PlayerMover : MonoBehaviour
 				Debug.Log("Pressed Space");
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
 			});
-
-		// 前方にオブジェクトが存在するか
-		this.UpdateAsObservable()
-			// .Where(_ => Physics.Raycast(transform.position, transform.forward, 10))
-			.Subscribe(_ =>
-			{
-				Ray ray = new Ray(transform.position, transform.forward);
-
-				// Rayの可視化
-				Debug.DrawRay(ray.origin, ray.direction, Color.red, 1.0f);
-
-				if (Physics.Raycast(ray, 0.5f))
-				{
-					Debug.Log("Front Ray Hit");
-					m_canMove = false;
-				}
-				else
-				{
-					m_canMove = true;
-				}
-			});
 	}
 }

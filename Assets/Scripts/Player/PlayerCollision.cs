@@ -10,14 +10,14 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class PlayerCollision : MonoBehaviour
 {
 	private Collider[] m_colliders;
 
-
-	// はさまれているか
-	private int m_isInterPose;
+	// 衝突方向
+	private bool[] m_hitDirections = new bool[4] { false, false, false, false };
 
 	/// <summary> 
 	/// 更新前処理
@@ -33,28 +33,36 @@ public class PlayerCollision : MonoBehaviour
 		this.UpdateAsObservable()
 			.Subscribe(_ => rb.WakeUp());
 
-		//this.UpdateAsObservable()
-		//	.Where(Phi)
-
-		foreach (var item in m_colliders)
+		// はさまれた判定を取る
+		foreach (var item in m_colliders.Select((v, i) => new { Value = v, Index = i}))
 		{
-			item.OnTriggerEnterAsObservable()
+			item.Value.OnTriggerEnterAsObservable()
 				.Where(col => col != transform.root.GetComponent<Collider>())
 				.Subscribe(_ => {
-					m_isInterPose++;
+					m_hitDirections[item.Index] = true;
 					Debug.Log(_.transform.name);
 				 });
 
-			item.OnTriggerExitAsObservable()
+			item.Value.OnTriggerExitAsObservable()
 				.Where(col => col != transform.root.GetComponent<Collider>())
 				.Subscribe(_ => {
-					m_isInterPose--;
+					m_hitDirections[item.Index] = false;
 					Debug.Log(_.transform.name);
 				});
 
 		}
 
 		this.UpdateAsObservable()
-			.Subscribe(_ => Debug.Log(m_isInterPose));
+			.Where(_ => m_hitDirections[0] == true)
+			.Where(_ => m_hitDirections[1] == true)
+			.Subscribe(_ => {
+				Destroy(transform.root.gameObject);
+			 });
+
+		this.UpdateAsObservable()
+			.Where(_ => m_hitDirections[2] == true)
+			.Where(_ => m_hitDirections[3] == true)
+			.Subscribe(_ => Destroy(transform.root.gameObject));
+
 	}
 }
