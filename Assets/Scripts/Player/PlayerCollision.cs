@@ -27,6 +27,15 @@ public class PlayerCollision : MonoBehaviour
 		// Colliderの参照
 		m_colliders = GetComponentsInChildren<Collider>();
 
+		// RigitBodyのスリープ解除用
+		var rb = GetComponentInParent<Rigidbody>();
+
+		this.UpdateAsObservable()
+			.Subscribe(_ => rb.WakeUp());
+
+		//this.UpdateAsObservable()
+		//	.Where(Phi)
+
 		foreach (var item in m_colliders)
 		{
 			item.OnTriggerEnterAsObservable()
