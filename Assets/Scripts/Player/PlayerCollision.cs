@@ -11,10 +11,11 @@ using UniRx.Triggers;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 public class PlayerCollision : MonoBehaviour
 {
-	private Collider[] m_colliders;
+	private List<Collider> m_colliders;
 
 	// 衝突方向
 	private bool[] m_hitDirections = new bool[4] { false, false, false, false };
@@ -24,8 +25,15 @@ public class PlayerCollision : MonoBehaviour
 	/// </summary>
 	void Start ()
 	{
-		// Colliderの参照
-		m_colliders = GetComponentsInChildren<Collider>();
+		// 自身以外のColliderを参照
+		var c = GetComponentsInChildren<Collider>();
+		foreach (var item in c)
+		{
+			if(item.transform.GetInstanceID() != transform.GetInstanceID())
+			{
+				m_colliders.Add(item);
+			}
+		}
 
 		// RigitBodyのスリープ解除用
 		var rb = GetComponentInParent<Rigidbody>();

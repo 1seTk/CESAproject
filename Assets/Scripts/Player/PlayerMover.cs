@@ -16,6 +16,10 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
+	// 衝突距離
+	[SerializeField, Range(0, 10)]
+	private float m_hitDistance;
+
 	private bool m_canMove = true;
 
 	/// <summary> 
@@ -30,6 +34,13 @@ public class PlayerMover : MonoBehaviour
 			{
 				Debug.Log("Pressed Space");
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
+			});
+
+		this.UpdateAsObservable()
+			.Subscribe(_ =>
+			{
+				var r = Physics.Raycast(transform.position, transform.forward, m_hitDistance);
+				m_canMove = !r;
 			});
 	}
 }
