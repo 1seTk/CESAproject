@@ -15,7 +15,6 @@ using System.Collections.Generic;
 
 public class PlayerCollision : MonoBehaviour
 {
-	[SerializeField]
 	private List<Collider> m_colliders;
 
 	// 衝突方向
