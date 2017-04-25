@@ -2282,7 +2282,7 @@ MonoBehaviour:
   cutoutRange: 0
   mat: {fileID: 2100000, guid: 4c710d45ee235444caea9b50aef4d3c9, type: 2}
   rt: {fileID: 8400000, guid: fe99870ba03c2f343b48e98d34ac4fc9, type: 2}
-  texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+  texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 3}
 --- !u!114 &114787779705528078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2310,10 +2310,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbba05fd375e70f4ba0ebc2b7513862b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color1: {r: 0.8588236, g: 0.5176471, b: 0.5176471, a: 1}
-  color2: {r: 0.5717648, g: 0.5176471, b: 0.8588236, a: 1}
-  image: {fileID: 114190096538334154}
-  group: {fileID: 225893913420580722}
+  color1: {r: 1, g: 1, b: 1, a: 1}
+  color2: {r: 1, g: 1, b: 1, a: 1}
+  image: {fileID: 0}
+  group: {fileID: 0}
   fade: {fileID: 114611043697944928}
 --- !u!114 &114817765988023684
 MonoBehaviour:
