@@ -42,9 +42,10 @@ public class FadeTest : MonoBehaviour
 		{
 			image.color = (isMainColor) ? color1 : color2;
 			isMainColor = !isMainColor;
-			fade.FadeOut(1, ()=>{
-				group.blocksRaycasts = true;
-			});
-		});
+            fade.FadeOut(1, () =>
+            {
+                group.blocksRaycasts = true;
+            });
+        });
 	}
 }
