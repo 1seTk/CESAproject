@@ -16,10 +16,6 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
-	// 衝突距離
-	[SerializeField, Range(0, 10)]
-	private float m_hitDistance;
-
 	private bool m_canMove = true;
 
 	/// <summary> 
@@ -27,6 +23,9 @@ public class PlayerMover : MonoBehaviour
 	/// </summary>
 	void Start ()
 	{
+		var col = GetComponent<PlayerCollision>();
+
+		// 移動入力
 		this.UpdateAsObservable()
 			.Where(_ => Input.GetKey(KeyCode.Space))
 			.Where(_ => m_canMove == true)
@@ -36,11 +35,8 @@ public class PlayerMover : MonoBehaviour
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
 			});
 
+		// 衝突状態によって移動を制限する
 		this.UpdateAsObservable()
-			.Subscribe(_ =>
-			{
-				var r = Physics.Raycast(transform.position, transform.forward, m_hitDistance);
-				m_canMove = !r;
-			});
+			.Subscribe(_ =>	m_canMove = !col.Hit.Value);
 	}
 }

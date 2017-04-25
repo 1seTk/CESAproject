@@ -15,10 +15,24 @@ using System.Collections.Generic;
 
 public class PlayerCollision : MonoBehaviour
 {
+	[SerializeField]
 	private List<Collider> m_colliders;
 
 	// 衝突方向
 	private bool[] m_hitDirections = new bool[4] { false, false, false, false };
+
+	// 衝突距離
+	[SerializeField, Range(0, 10)]
+	private float m_hitDistance;
+
+	private ReactiveProperty<bool> hitRP = new ReactiveProperty<bool>();
+
+	// 衝突しているか
+	public IReactiveProperty<bool> Hit
+	{
+		get { return hitRP; }
+	}
+
 
 	/// <summary> 
 	/// 更新前処理
@@ -29,7 +43,7 @@ public class PlayerCollision : MonoBehaviour
 		var c = GetComponentsInChildren<Collider>();
 		foreach (var item in c)
 		{
-			if(item.transform.GetInstanceID() != transform.GetInstanceID())
+			if (item.transform.GetInstanceID() != transform.GetInstanceID())
 			{
 				m_colliders.Add(item);
 			}
@@ -42,35 +56,44 @@ public class PlayerCollision : MonoBehaviour
 			.Subscribe(_ => rb.WakeUp());
 
 		// はさまれた判定を取る
-		foreach (var item in m_colliders.Select((v, i) => new { Value = v, Index = i}))
+		foreach (var item in m_colliders.Select((v, i) => new { Value = v, Index = i }))
 		{
 			item.Value.OnTriggerEnterAsObservable()
 				.Where(col => col != transform.root.GetComponent<Collider>())
-				.Subscribe(_ => {
+				.Subscribe(_ =>
+				{
 					m_hitDirections[item.Index] = true;
 					Debug.Log(_.transform.name);
-				 });
+				});
 
 			item.Value.OnTriggerExitAsObservable()
 				.Where(col => col != transform.root.GetComponent<Collider>())
-				.Subscribe(_ => {
+				.Subscribe(_ =>
+				{
 					m_hitDirections[item.Index] = false;
 					Debug.Log(_.transform.name);
 				});
 
 		}
 
+		// 左右のはさまれた判定
 		this.UpdateAsObservable()
 			.Where(_ => m_hitDirections[0] == true)
 			.Where(_ => m_hitDirections[1] == true)
-			.Subscribe(_ => {
+			.Subscribe(_ =>
+			{
 				Destroy(transform.root.gameObject);
-			 });
+			});
 
+		// 上下のはさまれた判定
 		this.UpdateAsObservable()
 			.Where(_ => m_hitDirections[2] == true)
 			.Where(_ => m_hitDirections[3] == true)
 			.Subscribe(_ => Destroy(transform.root.gameObject));
 
+		// 衝突情報と通知を飛ばす
+		this.UpdateAsObservable()
+			.Select(_ => Physics.Raycast(transform.position, transform.forward, m_hitDistance))
+			.Subscribe(x => hitRP.SetValueAndForceNotify(x));
 	}
 }

@@ -364,7 +364,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speed: 5
-  m_hitDistance: 0.5
 --- !u!54 &355384500
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -391,6 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a385b3b4fe211c4091c37510c529db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_colliders: []
+  m_hitDistance: 0.5
 --- !u!1 &451324444
 GameObject:
   m_ObjectHideFlags: 0
