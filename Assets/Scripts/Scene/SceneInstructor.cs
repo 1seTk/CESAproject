@@ -9,10 +9,11 @@ namespace YamagenLib
     // シーンのの列挙(シーン名と同じ)
     public enum GameScene
     {
-        Test,
         Title,
         Select,
         Play,
+        Clear,
+        Over
     }
 
     // シーンに指示出すクラス
@@ -20,7 +21,7 @@ namespace YamagenLib
     {
         [SerializeField]
         // 初期シーン
-        GameScene m_initScene=GameScene.Test;
+        GameScene m_initScene=GameScene.Title;
 
         // ロードされてるシーン
         Scene m_loadScene;
