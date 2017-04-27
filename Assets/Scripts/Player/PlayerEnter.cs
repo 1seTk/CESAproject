@@ -34,12 +34,23 @@ public class PlayerEnter : MonoBehaviour {
         {
             case PlayerType.Normal:     // 通常
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.OutBounce);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+
                 break;
             case PlayerType.Fat:        // 重め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InExpo);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+
+                //transform.DOPunchScale(new Vector3(0.5f, -0.5f, 0.5f), 3f,0);
+
                 break;
             case PlayerType.Slim:       // 軽め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InQuad);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f,RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+
                 break;
         }
     }
