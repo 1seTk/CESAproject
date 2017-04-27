@@ -54,4 +54,12 @@ public class PlayerEnter : MonoBehaviour {
                 break;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "TargetObj")
+        {
+            Debug.Log("Hit");
+        }
+    }
 }
