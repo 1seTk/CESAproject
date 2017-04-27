@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UniRx;
 
 public class PlayerEnter : MonoBehaviour {
 
@@ -18,6 +19,14 @@ public class PlayerEnter : MonoBehaviour {
 
     [SerializeField]
     PlayerType _playerType;
+
+	//private ReactiveProperty<bool> isGround = new ReactiveProperty<bool>();
+
+	//// 移動しているか
+	//public IReactiveProperty<bool> IsGround
+	//{
+	//	get { return isGround; }
+	//}
 
 	// Use this for initialization
 	void Start () {
