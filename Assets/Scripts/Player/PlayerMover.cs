@@ -47,7 +47,6 @@ public class PlayerMover : MonoBehaviour
 			.Where(_ => m_canMove == true)
 			.Subscribe(x =>
 			{
-				Debug.Log("Pressed Space");
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
 			});
 

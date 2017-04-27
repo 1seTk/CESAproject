@@ -89,8 +89,8 @@ public class PlayerCollision : MonoBehaviour
 		this.UpdateAsObservable()
 			.Select(_ => Physics.Raycast(transform.position, transform.forward, out hit, m_hitDistance))
 			.Subscribe(x => {
-				m_hitObject = hit.transform;
 				isHitRP.SetValueAndForceNotify(x);
+				m_hitObject = hit.transform;
 			});
 
 		// プレイヤーとオブジェクトが衝突した時
@@ -98,10 +98,8 @@ public class PlayerCollision : MonoBehaviour
 			.Where(x => x == true)
 			// 衝突相手が存在するか
 			.Where(_ => m_hitObject != null)
-			.DistinctUntilChanged()
 			.Subscribe(_ =>
 			{
-				Debug.Log("Player Hit Object");
 				transform.parent = m_hitObject;
 			});
 
@@ -109,21 +107,11 @@ public class PlayerCollision : MonoBehaviour
 		pm.IsMoving
 			.Where(x => x == false)
 			// 何かのオブジェクトの子になっているか
-			.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
-			// .DistinctUntilChanged()
+			//.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
 			.Subscribe(_ =>
 			{
-				Debug.Log("Player Exit Object");
-				// m_hitObject.DetachChildren();
 				transform.parent = null;
 				m_hitObject = null;
-			});
-
-		this.UpdateAsObservable()
-			.Subscribe(_ =>
-			{
-				Debug.Log("is hit : " + IsHit.Value);
-				Debug.Log("is moving : " + pm.IsMoving.Value);
 			});
 	}
 }
