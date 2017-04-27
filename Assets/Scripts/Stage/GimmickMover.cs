@@ -16,13 +16,19 @@ public class GimmickMover : MonoBehaviour
 	[SerializeField]
 	private float m_targetPosition;
 
-	// private 
+	[SerializeField, Range(0, 10)]
+	private float m_duration;
+
+	[SerializeField]
+	private Ease m_easeType;
 
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
 	void Start ()
 	{
-		// transform.DOLocalMoveX(m_targetPosition, )
+		transform.DOLocalMoveX(m_targetPosition, m_duration)
+			.SetEase(m_easeType)
+			.SetLoops(-1, LoopType.Yoyo);
 	}
 }
