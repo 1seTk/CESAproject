@@ -22,12 +22,12 @@ public class PlayerCollision : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_hitDistance;
 
-	private ReactiveProperty<bool> hitRP = new ReactiveProperty<bool>();
+	private ReactiveProperty<bool> isHitRP = new ReactiveProperty<bool>();
 
 	// 衝突しているか
-	public IReactiveProperty<bool> Hit
+	public IReactiveProperty<bool> IsHit
 	{
-		get { return hitRP; }
+		get { return isHitRP; }
 	}
 
 	// 衝突相手のオブジェクト
@@ -39,6 +39,8 @@ public class PlayerCollision : MonoBehaviour
 	void Start ()
 	{
 		var rb = GetComponentInParent<Rigidbody>();
+		var pm = GetComponent<PlayerMover>();
+
 		RaycastHit hit = new RaycastHit();
 
 		// 上下左右のColliderを参照
@@ -88,11 +90,11 @@ public class PlayerCollision : MonoBehaviour
 			.Select(_ => Physics.Raycast(transform.position, transform.forward, out hit, m_hitDistance))
 			.Subscribe(x => {
 				m_hitObject = hit.transform;
-				hitRP.SetValueAndForceNotify(x);
+				isHitRP.SetValueAndForceNotify(x);
 			});
 
 		// プレイヤーとオブジェクトが衝突した時
-		Hit
+		IsHit
 			.Where(x => x == true)
 			// 衝突相手が存在するか
 			.Where(_ => m_hitObject != null)
@@ -103,17 +105,25 @@ public class PlayerCollision : MonoBehaviour
 				transform.parent = m_hitObject;
 			});
 
-		//// プレイヤーとオブジェクトが離れた時
-		//Hit
-		//	.Where(x => x == false)
-		//	// 何かのオブジェクトの子になっているか
-		//	.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
-		//	.DistinctUntilChanged()
-		//	.Subscribe(_ =>
-		//	{
-		//		Debug.Log("Player Exit Object");
-		//		m_hitObject.DetachChildren();
-		//	});
+		// プレイヤーとオブジェクトが離れた時
+		pm.IsMoving
+			.Where(x => x == false)
+			// 何かのオブジェクトの子になっているか
+			.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
+			// .DistinctUntilChanged()
+			.Subscribe(_ =>
+			{
+				Debug.Log("Player Exit Object");
+				// m_hitObject.DetachChildren();
+				transform.parent = null;
+				m_hitObject = null;
+			});
 
+		this.UpdateAsObservable()
+			.Subscribe(_ =>
+			{
+				Debug.Log("is hit : " + IsHit.Value);
+				Debug.Log("is moving : " + pm.IsMoving.Value);
+			});
 	}
 }
