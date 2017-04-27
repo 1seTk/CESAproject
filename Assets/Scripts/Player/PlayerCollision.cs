@@ -13,7 +13,6 @@ using System.Linq;
 
 public class PlayerCollision : MonoBehaviour
 {
-	[SerializeField]
 	private Collider[] m_colliders;
 
 	// 衝突方向
@@ -31,18 +30,21 @@ public class PlayerCollision : MonoBehaviour
 		get { return hitRP; }
 	}
 
+	// 衝突相手のオブジェクト
+	private Transform m_hitObject;
 
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
 	void Start ()
 	{
+		var rb = GetComponentInParent<Rigidbody>();
+		RaycastHit hit = new RaycastHit();
+
 		// 上下左右のColliderを参照
 		m_colliders = transform.GetChild(0).GetComponentsInChildren<Collider>();
 
-		// RigitBodyのスリープ解除用
-		var rb = GetComponentInParent<Rigidbody>();
-
+		// RigitBodyのスリープ解除
 		this.UpdateAsObservable()
 			.Subscribe(_ => rb.WakeUp());
 
@@ -64,7 +66,6 @@ public class PlayerCollision : MonoBehaviour
 					m_hitDirections[item.Index] = false;
 					Debug.Log(_.transform.name);
 				});
-
 		}
 
 		// 左右のはさまれた判定
@@ -84,7 +85,35 @@ public class PlayerCollision : MonoBehaviour
 
 		// 衝突情報と通知を飛ばす
 		this.UpdateAsObservable()
-			.Select(_ => Physics.Raycast(transform.position, transform.forward, m_hitDistance))
-			.Subscribe(x => hitRP.SetValueAndForceNotify(x));
+			.Select(_ => Physics.Raycast(transform.position, transform.forward, out hit, m_hitDistance))
+			.Subscribe(x => {
+				m_hitObject = hit.transform;
+				hitRP.SetValueAndForceNotify(x);
+			});
+
+		// プレイヤーとオブジェクトが衝突した時
+		Hit
+			.Where(x => x == true)
+			// 衝突相手が存在するか
+			.Where(_ => m_hitObject != null)
+			.DistinctUntilChanged()
+			.Subscribe(_ =>
+			{
+				Debug.Log("Player Hit Object");
+				transform.parent = m_hitObject;
+			});
+
+		//// プレイヤーとオブジェクトが離れた時
+		//Hit
+		//	.Where(x => x == false)
+		//	// 何かのオブジェクトの子になっているか
+		//	.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
+		//	.DistinctUntilChanged()
+		//	.Subscribe(_ =>
+		//	{
+		//		Debug.Log("Player Exit Object");
+		//		m_hitObject.DetachChildren();
+		//	});
+
 	}
 }
