@@ -16,8 +16,6 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
-	private bool m_canMove = true;
-
 	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>();
 
 	// 移動しているか
@@ -31,6 +29,7 @@ public class PlayerMover : MonoBehaviour
 	/// </summary>
 	void Start ()
 	{
+		var core = GetComponent<PlayerCore>();
 		var col = GetComponent<PlayerCollision>();
 
 		// 移動入力
@@ -44,7 +43,7 @@ public class PlayerMover : MonoBehaviour
 		// 移動処理
 		this.UpdateAsObservable()
 			.Where(_ => IsMoving.Value == true)
-			.Where(_ => m_canMove == true)
+			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
@@ -52,6 +51,6 @@ public class PlayerMover : MonoBehaviour
 
 		// 衝突状態によって移動を制限する
 		this.UpdateAsObservable()
-			.Subscribe(_ =>	m_canMove = !col.IsHit.Value);
+			.Subscribe(_ =>	core.PlayerControllable.Value = !col.IsHit.Value);
 	}
 }
