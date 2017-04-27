@@ -39,6 +39,7 @@ public class PlayerCollision : MonoBehaviour
 	void Start ()
 	{
 		var rb = GetComponentInParent<Rigidbody>();
+		var core = GetComponent<PlayerCore>();
 		var pm = GetComponent<PlayerMover>();
 
 		RaycastHit hit = new RaycastHit();
@@ -76,14 +77,16 @@ public class PlayerCollision : MonoBehaviour
 			.Where(_ => m_hitDirections[1] == true)
 			.Subscribe(_ =>
 			{
-				Destroy(transform.root.gameObject);
+				core.IsDead.Value = true;
 			});
 
 		// 上下のはさまれた判定
 		this.UpdateAsObservable()
 			.Where(_ => m_hitDirections[2] == true)
 			.Where(_ => m_hitDirections[3] == true)
-			.Subscribe(_ => Destroy(transform.root.gameObject));
+			.Subscribe(_ => {
+				core.IsDead.Value = true;
+			});
 
 		// 衝突情報と通知を飛ばす
 		this.UpdateAsObservable()

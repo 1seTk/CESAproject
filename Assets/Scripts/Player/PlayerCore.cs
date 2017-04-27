@@ -20,6 +20,11 @@ public class PlayerCore : MonoBehaviour
 	/// </summary>
 	public ReactiveProperty<bool> PlayerControllable = new BoolReactiveProperty(false);
 
+	/// <summary>
+	/// 死んだか
+	/// </summary>
+	public ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>();
+
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
