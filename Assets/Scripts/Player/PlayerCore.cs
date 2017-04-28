@@ -23,7 +23,7 @@ public class PlayerCore : MonoBehaviour
 	/// <summary>
 	/// 死んだか
 	/// </summary>
-	public ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>();
+	public ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>(false);
 
 	/// <summary> 
 	/// 更新前処理
@@ -31,6 +31,11 @@ public class PlayerCore : MonoBehaviour
 	void Start ()
 	{
 		StartCoroutine(WaitStartAnimation());
+
+		IsDead
+			.DistinctUntilChanged()
+			.Where(x => x == true)
+			.Subscribe(_ => Debug.Log("死ゾ"));
 	}
 
 
