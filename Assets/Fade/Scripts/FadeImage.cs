@@ -27,7 +27,7 @@ using UnityEngine.UI;
 public class FadeImage : UnityEngine.UI.Graphic , IFade
 {
     //フェードイン用のテクスチャ
-    [SerializeField]
+    //[SerializeField]
     private Texture maskTexture = null;
 
     [SerializeField, Range (0, 1)]
