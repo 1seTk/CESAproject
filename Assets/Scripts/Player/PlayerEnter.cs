@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UniRx;
+using System;
 
 public class PlayerEnter : MonoBehaviour {
 
@@ -19,8 +21,26 @@ public class PlayerEnter : MonoBehaviour {
     [SerializeField]
     PlayerType _playerType;
 
-	// Use this for initialization
-	void Start () {
+    private bool _playAnim;             // プレイヤーがアニメーションしているか
+                                        // Use this for initialization
+
+    private void Awake()
+    {
+        // プレイヤーをアニメーション再生中
+        _playAnim = true;
+    }
+
+    void Start ()
+    {
+        //// 設定された時間待機する
+        //Observable.Return(Unit.Default)
+        //    .Delay(TimeSpan.FromMilliseconds(_endSec * 1200))
+        //    .Subscribe(_ =>
+        //    {
+        //        Debug.Log("active");
+        //    });
+
+        // player登場
         SetPlayer();
     }
 
@@ -35,31 +55,36 @@ public class PlayerEnter : MonoBehaviour {
             case PlayerType.Normal:     // 通常
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.OutBounce);
 
-                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
 
                 break;
             case PlayerType.Fat:        // 重め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InExpo);
 
-                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
 
-                //transform.DOPunchScale(new Vector3(0.5f, -0.5f, 0.5f), 3f,0);
 
                 break;
             case PlayerType.Slim:       // 軽め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InQuad);
 
-                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f,RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f,RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
+
 
                 break;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == "TargetObj")
-        {
-            Debug.Log("Hit");
-        }
-    }
 }
