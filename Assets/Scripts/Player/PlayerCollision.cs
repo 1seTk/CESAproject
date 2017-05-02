@@ -96,25 +96,25 @@ public class PlayerCollision : MonoBehaviour
 				m_hitObject = hit.transform;
 			});
 
-		// プレイヤーとオブジェクトが衝突した時
-		IsHit
-			.Where(x => x == true)
-			// 衝突相手が存在するか
-			.Where(_ => m_hitObject != null)
-			.Subscribe(_ =>
-			{
-				transform.parent = m_hitObject;
-			});
+		//// プレイヤーとオブジェクトが衝突した時
+		//IsHit
+		//	.Where(x => x == true)
+		//	// 衝突相手が存在するか
+		//	.Where(_ => m_hitObject != null)
+		//	.Subscribe(_ =>
+		//	{
+		//		transform.parent = m_hitObject;
+		//	});
 
-		// プレイヤーとオブジェクトが離れた時
-		pm.IsMoving
-			.Where(x => x == false)
-			// 何かのオブジェクトの子になっているか
-			//.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
-			.Subscribe(_ =>
-			{
-				transform.parent = null;
-				m_hitObject = null;
-			});
+		//// プレイヤーとオブジェクトが離れた時
+		//pm.IsMoving
+		//	.Where(x => x == false)
+		//	// 何かのオブジェクトの子になっているか
+		//	//.Where(_ => transform.root.GetInstanceID() != transform.GetInstanceID())
+		//	.Subscribe(_ =>
+		//	{
+		//		transform.parent = null;
+		//		m_hitObject = null;
+		//	});
 	}
 }
