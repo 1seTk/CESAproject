@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------
 // Brief : ギミックの移動
 // 
-// Date  : 2017/04/24
+// Date  : 2017/05/02
 // 
 // Author: Y.Watanabe
 // ---------------------------------------
@@ -11,24 +11,13 @@ using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
-public class GimmickMover : MonoBehaviour
+public class GimmickMover : GimmickTarget
 {
-	[SerializeField]
-	private Vector3 m_targetPosition;
-
-	[SerializeField, Range(0, 10)]
-	private float m_duration;
-
-	[SerializeField]
-	private Ease m_easeType;
-
-	/// <summary> 
-	/// 更新前処理
-	/// </summary>
-	void Start ()
+	public override Tween GimmickTween (Transform gimmick)
 	{
-		transform.DOMove(m_targetPosition, m_duration)
-			.SetEase(m_easeType)
-			.SetLoops(-1, LoopType.Yoyo);
+		return gimmick
+			.DOLocalMove(transform.localPosition, Duration)
+			.SetEase(EaseType)
+			.SetDelay(Delay);
 	}
 }
