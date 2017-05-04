@@ -22,14 +22,22 @@ public class PlayerEnter : MonoBehaviour {
     PlayerType _playerType;
 
     private bool _playAnim;             // プレイヤーがアニメーションしているか
-                                        // Use this for initialization
-
+  
+  	//private ReactiveProperty<bool> isGround = new ReactiveProperty<bool>();
+  
+  	//// 移動しているか
+    //public IReactiveProperty<bool> IsGround
+    //{
+    //	get { return isGround; }
+    //}
+  
     private void Awake()
     {
         // プレイヤーをアニメーション再生中
         _playAnim = true;
     }
-
+  
+    // Use this for initialization
     void Start ()
     {
         //// 設定された時間待機する
@@ -41,6 +49,7 @@ public class PlayerEnter : MonoBehaviour {
         //    });
 
         // player登場
+      
         SetPlayer();
     }
 
