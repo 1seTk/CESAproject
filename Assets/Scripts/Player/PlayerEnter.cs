@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UniRx;
+using System;
 
 public class PlayerEnter : MonoBehaviour {
 
@@ -20,20 +21,51 @@ public class PlayerEnter : MonoBehaviour {
     [SerializeField]
     PlayerType _playerType;
 
-	//private ReactiveProperty<bool> isGround = new ReactiveProperty<bool>();
+    private bool _playAnim;             // プレイヤーがアニメーションしているか
+  
+  	//private ReactiveProperty<bool> isGround = new ReactiveProperty<bool>();
+  
+  	//// 移動しているか
+    //public IReactiveProperty<bool> IsGround
+    //{
+    //	get { return isGround; }
+    //}
+  
+    private void Awake()
+    {
+        // プレイヤーをアニメーション再生中
+        _playAnim = true;
 
-	//// 移動しているか
-	//public IReactiveProperty<bool> IsGround
-	//{
-	//	get { return isGround; }
-	//}
+		// Playerの重力を無効にする(アニメーションに影響がないようにするため)
+		GetComponent<Rigidbody>().useGravity = false;
+    }
+  
+    // Use this for initialization
+    void Start ()
+    {
+        //// 設定された時間待機する
+        //Observable.Return(Unit.Default)
+        //    .Delay(TimeSpan.FromMilliseconds(_endSec * 1200))
+        //    .Subscribe(_ =>
+        //    {
+        //        Debug.Log("active");
+        //    });
 
-	// Use this for initialization
-	void Start () {
+        // player登場
+      
         SetPlayer();
     }
 
-    private void SetPlayer()
+	void Update()
+	{
+		// Playerのアニメーションが終了したら重力を有効にする
+		if(_playAnim == true)
+		{
+			GetComponent<Rigidbody>().useGravity = true;
+		}
+	}
+
+	private void SetPlayer()
     {
         // プレイヤーの座標を設定
         transform.position = _targetObj.transform.position + (Vector3.up * _popPosY);
@@ -43,13 +75,37 @@ public class PlayerEnter : MonoBehaviour {
         {
             case PlayerType.Normal:     // 通常
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.OutBounce);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
+
                 break;
             case PlayerType.Fat:        // 重め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InExpo);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f, RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
+
+
                 break;
             case PlayerType.Slim:       // 軽め
                 transform.DOLocalMoveY(_targetObj.transform.position.y, _endSec).SetEase(Ease.InQuad);
+
+                transform.DOLocalRotate(new Vector3(0f, 1800, 0f), _endSec + 0.5f,RotateMode.FastBeyond360).SetEase(Ease.OutQuad)
+                    .OnKill(() =>
+                    {
+                        _playAnim = false;
+                    });
+
+
                 break;
         }
     }
+
 }
