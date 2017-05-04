@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------
-// Brief : ギミックと移動ターゲット
+// Brief : ギミックの移動ターゲット
 // 
 // Date  : 2017/04/28
 // 
@@ -36,4 +36,6 @@ public class GimmickTarget : MonoBehaviour
 	{
 		get { return m_delay; }
 	}
+
+	public virtual Tween GimmickTween(Transform gimmick) { return null; }
 }
