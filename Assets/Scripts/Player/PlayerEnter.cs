@@ -35,6 +35,9 @@ public class PlayerEnter : MonoBehaviour {
     {
         // プレイヤーをアニメーション再生中
         _playAnim = true;
+
+		// Playerの重力を無効にする(アニメーションに影響がないようにするため)
+		GetComponent<Rigidbody>().useGravity = false;
     }
   
     // Use this for initialization
@@ -53,7 +56,16 @@ public class PlayerEnter : MonoBehaviour {
         SetPlayer();
     }
 
-    private void SetPlayer()
+	void Update()
+	{
+		// Playerのアニメーションが終了したら重力を有効にする
+		if(_playAnim == true)
+		{
+			GetComponent<Rigidbody>().useGravity = true;
+		}
+	}
+
+	private void SetPlayer()
     {
         // プレイヤーの座標を設定
         transform.position = _targetObj.transform.position + (Vector3.up * _popPosY);
