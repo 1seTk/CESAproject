@@ -59,7 +59,7 @@ namespace ShunLib
         //フェードインするかどうか
         [SerializeField]
         private bool m_fadeInOut;
-        public bool FadeInOut
+        public bool isFadeInOut
         {
             set { this.m_fadeInOut = value; }
         }
@@ -103,12 +103,32 @@ namespace ShunLib
                 m_fade.FadeIn(m_fadeInTime, CallBack);
                 m_fadeInOut = false;
             }
+
             if (CallBack(0))
             {
                 m_fadeImage.UpdateMaskTexture(m_fadeOutMaskTexture);
                 m_fade.FadeOut(m_fadeOutTime);
                 m_isCallBack = false;
             }
+        }
+
+
+        //フェードイン
+        public void FadeIn()
+        {
+            m_fadeIn = true;
+        }
+
+        //フェードインアウト
+        public void FadeOut()
+        {
+            m_fadeOut = true;
+        }
+
+        //フェードイン -> フェードアウト
+        public void FadeInOut()
+        {
+            m_fadeInOut = true;
         }
 
 
