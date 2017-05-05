@@ -13,8 +13,8 @@ using DG.Tweening;
 
 public class GimmickMover : GimmickTarget
 {
-	// デフォルトコンストラクタ
-	GimmickMover(){}
+	[SerializeField, Tooltip("初期座標へ移動するか")]
+	public bool m_isReset = false;
 
 	// コンストラクタ
 	public void Converse (GimmickTarget target)
@@ -26,9 +26,20 @@ public class GimmickMover : GimmickTarget
 
 	public override Tween GimmickTween (Transform gimmick)
 	{
-		return gimmick
-			.DOLocalMove(transform.localPosition, Duration)
-			.SetEase(EaseType)
-			.SetDelay(Delay);
+		if(m_isReset)
+		{
+			return gimmick
+				// 初期座標を取得して戻す(もっといい方法ありそう…)
+				.DOMove(transform.GetComponentInParent<GimmickCore>().StartPosition, Duration)
+				.SetEase(EaseType)
+				.SetDelay(Delay);
+		}
+		else
+		{
+			return gimmick
+				.DOLocalMove(transform.localPosition, Duration)
+				.SetEase(EaseType)
+				.SetDelay(Delay);
+		}
 	}
 }

@@ -35,6 +35,12 @@ public class GimmickConversion : MonoBehaviour
 
 			targets[i].gameObject.AddComponent<GimmickMover>().Converse(targets[i]);
 
+			// ギミック自身へのTweenの場合の例外
+			if (targets[i].GetComponent<GimmickCore>() != null)
+			{
+				targets[i].GetComponent<GimmickMover>().m_isReset = true;
+			}
+
 			Debug.Log("Destroy");
 
 			Destroy(targets[i]);
