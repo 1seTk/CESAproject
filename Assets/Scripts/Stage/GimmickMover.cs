@@ -13,6 +13,17 @@ using DG.Tweening;
 
 public class GimmickMover : GimmickTarget
 {
+	// デフォルトコンストラクタ
+	GimmickMover(){}
+
+	// コンストラクタ
+	public void Converse (GimmickTarget target)
+	{
+		m_easeType = target.EaseType;
+		m_duration = target.Duration;
+		m_delay = target.Delay;
+	}
+
 	public override Tween GimmickTween (Transform gimmick)
 	{
 		return gimmick

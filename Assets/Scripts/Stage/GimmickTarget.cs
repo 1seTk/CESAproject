@@ -14,7 +14,7 @@ using DG.Tweening;
 public class GimmickTarget : MonoBehaviour
 {
 	[SerializeField, Tooltip("イージング方法")]
-	private Ease m_easeType;
+	protected Ease m_easeType;
 
 	public Ease EaseType
 	{
@@ -22,7 +22,7 @@ public class GimmickTarget : MonoBehaviour
 	}
 
 	[SerializeField, Range(0, 30), Tooltip("移動にかかる時間")]
-	private float m_duration;
+	protected float m_duration;
 
 	public float Duration
 	{
@@ -30,7 +30,7 @@ public class GimmickTarget : MonoBehaviour
 	}
 
 	[SerializeField, Range(0, 30), Tooltip("ディレイ(遅延する時間)")]
-	private float m_delay = 0;
+	protected float m_delay = 0;
 
 	public float Delay
 	{
@@ -38,4 +38,19 @@ public class GimmickTarget : MonoBehaviour
 	}
 
 	public virtual Tween GimmickTween(Transform gimmick) { return null; }
+
+	/// <summary>
+	/// 複製用関数
+	/// </summary>
+	/// <returns></returns>
+	public virtual object Clone()
+	{
+		//GimmickTarget target = new GimmickTarget();
+		//target.m_easeType = m_easeType;
+		//target.m_duration = m_duration;
+		//target.m_delay = m_delay;
+
+		//return target;
+		return MemberwiseClone();
+	}
 }
