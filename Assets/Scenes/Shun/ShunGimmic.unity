@@ -118,7 +118,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 10718869}
-  - component: {fileID: 10718870}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -141,18 +140,6 @@ Transform:
   m_Father: {fileID: 1557256054}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &10718870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114784364503635426, guid: 0794ac8331dc7ad43be2a53da37271a5,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 10718868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71cf7e2a1e837ac419076e91d92af4b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &19885355
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +354,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &60589439
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +401,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &65629615
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +448,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &85565665
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +648,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &170978353
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +695,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &181114655
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +742,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &183570070
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,6 +965,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &274859390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,6 +1105,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 2
+  m_isReset: 0
 --- !u!1 &289215925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1186,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &296644587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,6 +1248,7 @@ MonoBehaviour:
   m_easeType: 24
   m_duration: 2
   m_delay: 0.2
+  m_isReset: 1
 --- !u!114 &313829947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,6 +1511,7 @@ MonoBehaviour:
   m_easeType: 34
   m_duration: 2
   m_delay: 0.1
+  m_isReset: 1
 --- !u!114 &357455412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1872,6 +1870,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &485806623
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,6 +2095,7 @@ MonoBehaviour:
   m_easeType: 25
   m_duration: 2
   m_delay: 2
+  m_isReset: 1
 --- !u!114 &504372639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2157,6 +2157,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &543553497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2216,6 +2217,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &601457718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,6 +2266,7 @@ MonoBehaviour:
   m_easeType: 29
   m_duration: 2
   m_delay: 1
+  m_isReset: 1
 --- !u!114 &601457721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2323,6 +2326,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &670529501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2369,6 +2373,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0.1
+  m_isReset: 0
 --- !u!1 &681110744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,6 +2510,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &747383258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,6 +2559,7 @@ MonoBehaviour:
   m_easeType: 14
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &747383261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2663,7 +2670,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 770651386}
-  - component: {fileID: 770651387}
   m_Layer: 0
   m_Name: Trampoline
   m_TagString: Untagged
@@ -2687,18 +2693,6 @@ Transform:
   m_Father: {fileID: 1557256054}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &770651387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114371282221994844, guid: edd097769919b9441a4356cde0ec35eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 770651385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71cf7e2a1e837ac419076e91d92af4b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &780646138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2745,6 +2739,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0.8
+  m_isReset: 0
 --- !u!1 &787833063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2911,6 +2906,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!4 &840224824 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4739757561262838, guid: 813d9fa1230365b47bb52d412cf92a1f,
@@ -2964,6 +2960,7 @@ MonoBehaviour:
   m_easeType: 5
   m_duration: 2
   m_delay: 2
+  m_isReset: 1
 --- !u!114 &843860236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3117,6 +3114,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0.5
+  m_isReset: 0
 --- !u!4 &905990061 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4971453232568414, guid: 3cdedca6e9f7df84b91d2a49ad6296bd,
@@ -3226,6 +3224,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &958798431
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,6 +3273,7 @@ MonoBehaviour:
   m_easeType: 28
   m_duration: 2
   m_delay: 0.9
+  m_isReset: 1
 --- !u!114 &958798434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3505,6 +3505,7 @@ MonoBehaviour:
   m_easeType: 5
   m_duration: 2
   m_delay: 3
+  m_isReset: 1
 --- !u!114 &1029858514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3566,6 +3567,7 @@ MonoBehaviour:
   m_easeType: 33
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &1053795688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3627,6 +3629,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &1054046712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3779,6 +3782,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1119940488
 GameObject:
   m_ObjectHideFlags: 0
@@ -3827,6 +3831,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 2
   m_delay: 1
+  m_isReset: 1
 --- !u!114 &1119940491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3886,6 +3891,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1223697161
 GameObject:
   m_ObjectHideFlags: 0
@@ -4022,6 +4028,7 @@ MonoBehaviour:
   m_easeType: 8
   m_duration: 2
   m_delay: 0.2
+  m_isReset: 1
 --- !u!114 &1231956241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4081,6 +4088,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1275693661
 GameObject:
   m_ObjectHideFlags: 0
@@ -4216,6 +4224,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 1
+  m_isReset: 0
 --- !u!1 &1335259813
 GameObject:
   m_ObjectHideFlags: 0
@@ -4358,6 +4367,7 @@ MonoBehaviour:
   m_easeType: 16
   m_duration: 2
   m_delay: 1
+  m_isReset: 1
 --- !u!114 &1368467100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4465,6 +4475,7 @@ MonoBehaviour:
   m_easeType: 7
   m_duration: 2
   m_delay: 0.4
+  m_isReset: 1
 --- !u!114 &1393908963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4614,6 +4625,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0.2
+  m_isReset: 0
 --- !u!1 &1440208717
 GameObject:
   m_ObjectHideFlags: 0
@@ -4750,6 +4762,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &1441112398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4897,6 +4910,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 1
+  m_isReset: 0
 --- !u!1 &1471406712
 GameObject:
   m_ObjectHideFlags: 0
@@ -4943,6 +4957,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1482835377
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,6 +5004,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!4 &1486339943 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4932008594089256, guid: 0631d4ef8e8a84247bcbea342b67ab86,
@@ -5042,6 +5058,7 @@ MonoBehaviour:
   m_easeType: 15
   m_duration: 2
   m_delay: 0.4
+  m_isReset: 1
 --- !u!114 &1490631688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5219,6 +5236,7 @@ MonoBehaviour:
   m_easeType: 17
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &1545269714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5366,6 +5384,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1557256053
 GameObject:
   m_ObjectHideFlags: 0
@@ -5574,6 +5593,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &1626373012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5811,6 +5831,7 @@ MonoBehaviour:
   m_easeType: 21
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &1666385907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5913,6 +5934,7 @@ MonoBehaviour:
   m_easeType: 22
   m_duration: 2
   m_delay: 0
+  m_isReset: 1
 --- !u!114 &1685143761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6130,6 +6152,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!4 &1814517104 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4918955992880634, guid: c0ae0e25240e27948b43065e19297090,
@@ -6442,6 +6465,7 @@ MonoBehaviour:
   m_easeType: 11
   m_duration: 0.1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &1948996841
 GameObject:
   m_ObjectHideFlags: 0
@@ -6570,6 +6594,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &2013191780
 GameObject:
   m_ObjectHideFlags: 0
@@ -6616,6 +6641,7 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 1
   m_delay: 0
+  m_isReset: 0
 --- !u!1 &2016037898
 GameObject:
   m_ObjectHideFlags: 0
