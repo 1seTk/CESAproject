@@ -35,6 +35,11 @@ public class GimmickCore : MonoBehaviour
 	// ギミックの初期座標
 	private Vector3 m_startPosition;
 
+	public Vector3 StartPosition
+	{
+		get { return m_startPosition; }
+	}
+
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
