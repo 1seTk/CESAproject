@@ -40,6 +40,11 @@ public class GimmickCore : MonoBehaviour
 		get { return m_startPosition; }
 	}
 
+	public bool IsLoop
+	{
+		get { return isLoop; }
+		set { isLoop = value;x }
+	}
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
