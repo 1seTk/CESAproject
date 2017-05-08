@@ -22,7 +22,14 @@ public class PlayerEnter : MonoBehaviour {
     PlayerType _playerType;
 
     private bool _playAnim;             // プレイヤーがアニメーションしているか
-  
+
+	private Camera _playerCamera;		// プレイヤーのカメラ
+
+	// プレイヤーが登場し終えたか
+	public bool IsPlayerEnter
+	{
+		get { return !_playAnim; }
+	}
   	//private ReactiveProperty<bool> isGround = new ReactiveProperty<bool>();
   
   	//// 移動しているか
@@ -35,6 +42,10 @@ public class PlayerEnter : MonoBehaviour {
     {
         // プレイヤーをアニメーション再生中
         _playAnim = true;
+
+		// プレイヤーとカメラの親子関係を一旦リセット
+		_playerCamera = GetComponentInChildren<Camera>();
+		_playerCamera.transform.parent = null;
 
 		// Playerの重力を無効にする(アニメーションに影響がないようにするため)
 		GetComponent<Rigidbody>().useGravity = false;
@@ -58,10 +69,14 @@ public class PlayerEnter : MonoBehaviour {
 
 	void Update()
 	{
-		// Playerのアニメーションが終了したら重力を有効にする
-		if(_playAnim == true)
+		// Playerのアニメーションが終了したら
+		if(_playAnim == false)
 		{
+			// 重力を有効にする
 			GetComponent<Rigidbody>().useGravity = true;
+
+			// カメラをプレイヤーに追従するようにする
+			_playerCamera.transform.parent = transform;
 		}
 	}
 
