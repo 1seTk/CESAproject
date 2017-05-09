@@ -18,7 +18,7 @@ public class PlayerCore : MonoBehaviour
 	/// <summary>
 	/// プレイヤが操作可能な状態か
 	/// </summary>
-	public ReactiveProperty<bool> PlayerControllable = new BoolReactiveProperty(false);
+	public ReactiveProperty<bool> PlayerControllable = new ReactiveProperty<bool>(false);
 
 	/// <summary>
 	/// 死んだか
@@ -45,7 +45,13 @@ public class PlayerCore : MonoBehaviour
 	/// <returns></returns>
 	IEnumerator WaitStartAnimation ()
 	{
-		yield return new WaitForSeconds(m_waitTime);
+		var enter = GetComponent<PlayerEnter>();
+
+		// プレイヤーが登場し終えるまで待機
+		while (enter.IsPlayerEnter == false)
+		{
+			yield return new WaitForEndOfFrame();
+		}
 
 		PlayerControllable.Value = true;
 	}

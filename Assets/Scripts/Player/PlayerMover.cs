@@ -50,7 +50,8 @@ public class PlayerMover : MonoBehaviour
 			});
 
 		// 衝突状態によって移動を制限する
-		this.UpdateAsObservable()
-			.Subscribe(_ =>	core.PlayerControllable.Value = !col.IsHit.Value);
+		//this.UpdateAsObservable()
+		//	.Subscribe(_ => core.PlayerControllable.Value = !col.IsHit.Value);
+
 	}
 }
