@@ -33,7 +33,7 @@ public class CheckGround : MonoBehaviour
 
 	void Start ()
 	{
-		this.OnTriggerEnterAsObservable()
+		this.OnTriggerStayAsObservable()
 			// .Where(collider => collider.transform.root.GetInstanceID() != transform.GetInstanceID())
 			.Subscribe(_ => isGroundRP.Value = true);
 

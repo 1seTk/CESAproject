@@ -16,10 +16,13 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
-	/// <summary> 
-	/// 更新前処理
-	/// </summary>
-	void Start ()
+    [SerializeField, Range(0, 10)]
+    private float m_jumpPower = 10.0f;
+
+    /// <summary> 
+    /// 更新前処理
+    /// </summary>
+    void Start ()
 	{
 		var core = GetComponent<PlayerCore>();
 		var input = GetComponent<PlayerInput>();
@@ -42,7 +45,7 @@ public class PlayerMover : MonoBehaviour
 			.Where(_ => cg.IsGround.Value == true)
 			.Subscribe(_ =>
 			{
-				transform.GetComponent<Rigidbody>().AddForce(Vector3.up * 10.0f,ForceMode.Impulse);
+				transform.GetComponent<Rigidbody>().AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
 			});
 
 		// 衝突状態によって移動を制限する
