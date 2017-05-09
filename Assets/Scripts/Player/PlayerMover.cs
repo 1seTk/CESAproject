@@ -16,37 +16,33 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
-	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>();
-
-	// 移動しているか
-	public IReactiveProperty<bool> IsMoving
-	{
-		get { return isMovingRP; }
-	}
-
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
 	void Start ()
 	{
 		var core = GetComponent<PlayerCore>();
+		var input = GetComponent<PlayerInput>();
 		var col = GetComponent<PlayerCollision>();
-
-		// 移動入力
-		this.UpdateAsObservable()
-			.Select(_ => Input.GetKey(KeyCode.Space))
-			.Subscribe(x =>
-			{
-				isMovingRP.SetValueAndForceNotify(x);
-			});
+		var cg = GetComponent<CheckGround>();
 
 		// 移動処理
-		this.UpdateAsObservable()
-			.Where(_ => IsMoving.Value == true)
+		input.IsMoving
+			.Where(x => x == true)
 			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
+			});
+
+		// ジャンプ処理
+		input.OnJumpButtonObservable
+			.Where(x => x == true)
+			.Where(_ => core.PlayerControllable.Value == true)
+			.Where(_ => cg.IsGround.Value == true)
+			.Subscribe(_ =>
+			{
+				transform.GetComponent<Rigidbody>().AddForce(Vector3.up * 10.0f,ForceMode.Impulse);
 			});
 
 		// 衝突状態によって移動を制限する
