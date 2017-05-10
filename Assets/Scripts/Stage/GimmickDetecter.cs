@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------
-// Brief : 判定付きギミック
+// Brief : ギミックの切り替え
 // 
 // Date  : 2017/05/08
 // 
@@ -9,13 +9,14 @@
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using System.Collections;
-using DG.Tweening;
+using System;
 
 public class GimmickDetecter : MonoBehaviour
 {
+	[SerializeField]
 	private bool m_isEnter = false;
 
+	[HideInInspector]
 	public BoolReactiveProperty IsEnterRP = new BoolReactiveProperty(false);
 
 	private GimmickCore[] m_cores;
@@ -30,22 +31,6 @@ public class GimmickDetecter : MonoBehaviour
 
 		SwitchActive();
 
-		// 衝突した時
-		this.OnTriggerEnterAsObservable()
-			.Subscribe(_ =>
-			{
-				Debug.Log("player enter");
-				m_isEnter = true;
-			});
-
-		// 離れたとき
-		this.OnTriggerExitAsObservable()
-			.Subscribe(_ =>
-			{
-				Debug.Log("player exit");
-				m_isEnter = false;
-			});
-
 		// 衝突情報の更新と通知
 		this.UpdateAsObservable()
 			.Select(_ => m_isEnter)
@@ -56,20 +41,29 @@ public class GimmickDetecter : MonoBehaviour
 			.DistinctUntilChanged()
 			.Subscribe(x =>
 			{
-				Debug.Log("aa");
 				SwitchActive();
 			});
 	}
 
 	void SwitchActive()
 	{
+
 		m_cores[0].GetComponentInChildren<Renderer>().enabled = m_isEnter;
 		m_cores[1].GetComponentInChildren<Renderer>().enabled = !m_isEnter;
+
+		m_cores[0].GetComponentInChildren<Collider>().enabled = m_isEnter;
+		m_cores[1].GetComponentInChildren<Collider>().enabled = !m_isEnter;
+
+		// 非アクティブになるオブジェクトの座標をアクティブになるオブジェクトの座標にコピー
+		int foo = Convert.ToInt32(!m_isEnter);
+		int bar = Convert.ToInt32(m_isEnter);
+
+		m_cores[foo].transform.GetChild(0).localPosition = m_cores[bar].transform.GetChild(0).localPosition;
+		m_cores[foo].transform.GetChild(0).localRotation = m_cores[bar].transform.GetChild(0).localRotation;
+		m_cores[foo].transform.GetChild(0).localScale = m_cores[bar].transform.GetChild(0).localScale;
 
 		m_cores[0].enabled = m_isEnter;
 		m_cores[1].enabled = !m_isEnter;
 
-		m_cores[0].IsLoop = m_isEnter;
-		m_cores[1].IsLoop = !m_isEnter;
 	}
 }
