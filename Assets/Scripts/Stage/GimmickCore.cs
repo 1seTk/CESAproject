@@ -43,12 +43,10 @@ public class GimmickCore : MonoBehaviour
 	public bool IsLoop
 	{
 		get { return isLoop; }
-		set { isLoop = value;x }
+		set { isLoop = value; }
 	}
-	/// <summary> 
-	/// 更新前処理
-	/// </summary>
-	void Start ()
+
+	private void OnEnable ()
 	{
 		// ギミックへの参照を取得(子のコライダーを持ったゲームオブジェクト)
 		m_gimmick = GetComponentInChildren<Collider>().transform;
@@ -79,6 +77,19 @@ public class GimmickCore : MonoBehaviour
 
 	IEnumerator WaitDoMove()
 	{
+		// 中断時の値変更対策
+		if(m_currentTarget >= m_targets.Count)
+		{
+			if(isLoop)
+			{
+				m_currentTarget = 0;
+			}
+			else
+			{
+				StopAllCoroutines();
+			}
+		}
+
 		// ターゲット情報をリストから取得
 		m_nextTarget = m_targets[m_currentTarget].GetComponents<GimmickTarget>();
 
@@ -94,13 +105,11 @@ public class GimmickCore : MonoBehaviour
 				waitTime = tween.Duration() + tween.Delay();
 		}
 
-		// 移動時間だけ待機する
-		yield return new WaitForSeconds(waitTime);
-
-		Debug.Log("move end");
-
 		// ターゲットを次に進める
 		m_currentTarget++;
+
+		// 移動時間だけ待機する
+		yield return new WaitForSeconds(waitTime);
 
 		// 次のターゲットの番号が全ターゲット数を越えていたら
 		if (m_currentTarget >= m_targets.Count)
@@ -119,5 +128,11 @@ public class GimmickCore : MonoBehaviour
 			// コルーチンの再帰
 			StartCoroutine(WaitDoMove());
 		}
+	}
+
+	private void OnDisable ()
+	{
+		m_targets = new List<Transform>();
+		StopAllCoroutines();
 	}
 }
