@@ -13,8 +13,7 @@ using System;
 
 public class GimmickDetecter : MonoBehaviour
 {
-	[SerializeField]
-	private bool m_isEnter = false;
+	public bool m_isEnter = false;
 
 	[HideInInspector]
 	public BoolReactiveProperty IsEnterRP = new BoolReactiveProperty(false);
