@@ -19,7 +19,7 @@ public class BreakBlock : MonoBehaviour {
     {
         var parts = GetComponentsInChildren<Transform>();
 
-		var parent = transform.root;
+		var parent = transform.parent;
 
 		transform.parent = null;
 
