@@ -54,7 +54,7 @@ public class PlayerCollision : MonoBehaviour
 		// はさまれた判定を取る
 		foreach (var item in m_colliders.Select((v, i) => new { Value = v, Index = i }))
 		{
-			item.Value.OnTriggerEnterAsObservable()
+			item.Value.OnTriggerStayAsObservable()
 				.Where(col => col != transform.root.GetComponent<Collider>())
 				.Subscribe(_ =>
 				{
