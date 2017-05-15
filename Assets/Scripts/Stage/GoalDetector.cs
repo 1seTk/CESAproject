@@ -10,22 +10,45 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class GoalDetector : MonoBehaviour
 {
+    private GameObject _player;
+
+    [SerializeField]
+    private float _duration = 2.0f;
+
+    YamagenLib.SceneInstructor ins;
+
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
 	void Start ()
 	{
-		var ins = FindObjectOfType<YamagenLib.SceneInstructor>();
+        _player = GameObject.Find("Player");
+
+		ins = FindObjectOfType<YamagenLib.SceneInstructor>();
 
 		this.OnTriggerEnterAsObservable()
 			.DistinctUntilChanged()
 			.Subscribe(_ =>
 			{
 				Debug.Log("Goal");
-				ins.LoadMainScene(YamagenLib.GameScene.Clear);
-			});
+
+                _player.transform.DOScaleY(0, _duration);
+
+            });
 	}
+
+    void Update()
+    {
+        if (_player.transform.localScale.y <= 1)
+        {
+            Debug.Log("scene change");
+
+            ins.LoadMainScene(YamagenLib.GameScene.Clear);
+        }
+    }
+
 }
