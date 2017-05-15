@@ -7,7 +7,7 @@ using UnityEngine.UI;   // ボタン用
 namespace YamagenLib
 {
     // シーン遷移のボタン用クラス
-    public class ScneButton : MonoBehaviour
+    public class SceneButton : MonoBehaviour
     {
         // ロードしたいシーン
         [SerializeField]
