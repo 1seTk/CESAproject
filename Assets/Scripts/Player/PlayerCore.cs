@@ -32,10 +32,16 @@ public class PlayerCore : MonoBehaviour
 	{
 		StartCoroutine(WaitStartAnimation());
 
+		var des = GetComponentInChildren<BreakBlock>();
+
 		IsDead
 			.DistinctUntilChanged()
 			.Where(x => x == true)
-			.Subscribe(_ => Debug.Log("死ゾ"));
+			.Subscribe(_ =>
+			{
+				Debug.Log("死ゾ");
+				des.Break();
+			});
 	}
 
 
