@@ -17,6 +17,7 @@ namespace YamagenLib
         [SerializeField]
         private Ease m_easeType = Ease.InSine;
 
+        // ぷかぷか
         private Sequence m_moveSequence;
 
         /// <summary>
@@ -29,6 +30,9 @@ namespace YamagenLib
             transform.position = new Vector3(pos.x, -(m_moveDistance / 2.0f), pos.z);
             pos = transform.position;
 
+            // どついーん初期化
+            DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+
             // ループぷかぷか
             m_moveSequence = DOTween.Sequence();
             m_moveSequence.Append(transform.DOLocalMoveY(m_moveDistance / 2.0f, m_animeTime)).SetEase(m_easeType);
@@ -39,7 +43,7 @@ namespace YamagenLib
         /// <summary>
         /// 移動一時停止
         /// </summary>
-        void MoveStop()
+        public void MoveStop()
         {
             // 一時停止
             m_moveSequence.Pause();
@@ -48,11 +52,10 @@ namespace YamagenLib
         /// <summary>
         /// 移動再開
         /// </summary>
-        void MoveReStart()
+        public void MoveReStart()
         {
             // 一時停止
             m_moveSequence.Play();
         }
-
     }
 }
