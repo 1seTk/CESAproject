@@ -5,7 +5,7 @@ using DG.Tweening;  // どついーん使用
 
 namespace YamagenLib
 {
-    public class SelectManager: MonoBehaviour
+    public class SelectManager : MonoBehaviour
     {
         // シングルトン
         static public SelectManager instance;
@@ -28,7 +28,7 @@ namespace YamagenLib
         private float m_MendPos;             // マウス終了座標
 
         // スワイプ許容割合
-        [SerializeField,Range(0.0f,1.0f)]
+        [SerializeField, Range(0.0f, 1.0f)]
         private float m_AcceptableValue;
         private float m_MoveTouchX;         // 横軸移動量
         private float m_MoveMouseX;         // 横軸移動量
@@ -42,11 +42,13 @@ namespace YamagenLib
         void Awake()
         {
             // シングルトン
-            if (instance == null){
+            if (instance == null)
+            {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
             }
-            else{
+            else
+            {
                 Destroy(gameObject);
             }
 
@@ -62,13 +64,17 @@ namespace YamagenLib
         /// </summary>
         void Update()
         {
+#if UNITY_ANDROID           // アンドロイドの処理
             TouchUpdate();
+#elif UNITY_STANDALONE_WIN  // ウインドウズの処理
+            MouseUpdate();
+#endif
         }
 
         /// <summary>
         /// タッチの場合
         /// </summary>
-        void TouchUpdate()
+        private void TouchUpdate()
         {
             // 一か所タッチされている時
             if (Input.touchCount == 1)
@@ -78,31 +84,23 @@ namespace YamagenLib
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:      // タッチ開始時
-
-                        // ログ
-                        Debug.Log("タッチ！");
-
                         // タッチ開始座標
                         m_startPos = touch.position.x;
-
                         break;
                     case TouchPhase.Moved:      // タッチ移動時
                     case TouchPhase.Stationary: // タッチ静止時
                         break;
                     case TouchPhase.Ended:      // タッチ終了時
-
                         // 横移動量画面割合(-1<tx<1)
-                        m_MoveTouchX = (touch.position.x - m_startPos) / m_screenWidth; 
-
+                        m_MoveTouchX = (touch.position.x - m_startPos) / m_screenWidth;
                         if ((m_MoveTouchX > m_AcceptableValue) || (m_MoveTouchX < -m_AcceptableValue))
                         {
                             // スワイプが許容内の場合
                             // 回転
                             ObjectRotate(m_MoveTouchX);
                         }
-
                         // 移動量リセット
-                        m_MoveTouchX = 0.0f;                       
+                        m_MoveTouchX = 0.0f;
                         break;
                     case TouchPhase.Canceled:   // タッチキャンセル時
                         break;
@@ -115,7 +113,7 @@ namespace YamagenLib
         /// <summary>
         /// マウスの場合
         /// </summary>
-        void MouseUpdate()
+        private void MouseUpdate()
         {
             // マウスが押された時
             if (Input.GetMouseButtonDown(0))
@@ -133,7 +131,7 @@ namespace YamagenLib
                     // 許容値内でスワイプの場合
 
                     // 回転
-                    ObjectRotate(m_MoveMouseX); 
+                    ObjectRotate(m_MoveMouseX);
                 }
                 m_MoveMouseX = 0.0f;                       // 移動量リセット
             }
@@ -157,6 +155,19 @@ namespace YamagenLib
                     m_rotateTime                        // アニメーション時間
                 ).OnKill(() => m_rotation = null);
             }
+        }
+
+        private GameObject SearchObject(Vector3 pos)
+        {
+            GameObject result = null;
+            // 指定場所のオブジェクトを取得
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit))
+            {
+                result = hit.collider.gameObject;
+            }
+            return result;
         }
     }
 }
