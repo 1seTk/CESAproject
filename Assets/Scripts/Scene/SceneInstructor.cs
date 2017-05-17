@@ -28,8 +28,10 @@ namespace YamagenLib
 
         bool m_initFlag = true;
 
-        // 初期化
-        void Awake()
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        void Start() // ScenemanagerはStart以降じゃないと危ないため
         {
             // 初期シーンをロード
             LoadMainScene(m_initScene);

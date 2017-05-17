@@ -44,8 +44,8 @@ public class PlayerEnter : MonoBehaviour {
         _playAnim = true;
 
 		// プレイヤーとカメラの親子関係を一旦リセット
-		_playerCamera = GetComponentInChildren<Camera>();
-		_playerCamera.transform.parent = null;
+		//_playerCamera = GetComponentInChildren<Camera>();
+		//_playerCamera.transform.parent = null;
 
 		// Playerの重力を無効にする(アニメーションに影響がないようにするため)
 		GetComponent<Rigidbody>().useGravity = false;
@@ -76,7 +76,7 @@ public class PlayerEnter : MonoBehaviour {
 			GetComponent<Rigidbody>().useGravity = true;
 
 			// カメラをプレイヤーに追従するようにする
-			_playerCamera.transform.parent = transform;
+			//_playerCamera.transform.parent = transform;
 		}
 	}
 

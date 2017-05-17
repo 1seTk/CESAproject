@@ -10,28 +10,27 @@ public class BreakBlock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(Input.GetKeyDown(KeyCode.Space))
-            Breack();
+	    //if(Input.GetKeyDown(KeyCode.Space))
+     //       Break();
 
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.GetInstanceID() == transform.GetInstanceID())
-            return;
-
-        Debug.Log("hit");
-
-    }
-
-    void Breack()
+    public void Break()
     {
         var parts = GetComponentsInChildren<Transform>();
+
+		var parent = transform.parent;
+
+		transform.parent = null;
 
         foreach (var item in parts)
         {
             item.gameObject.AddComponent<Rigidbody>();
+			item.parent = null;
         }
 
+		Destroy(parent.gameObject, 0.1f);
+		Destroy(transform.gameObject, 0.1f);
+		// GetComponentInParent<Collider>().enabled = false;
     }
 }
