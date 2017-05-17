@@ -34,6 +34,19 @@ namespace YamagenLib
         /// <summary>
         /// 初期化
         /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
         void Start() // ScenemanagerはStart以降じゃないと危ないため
         {
             // 初期シーンをロード
