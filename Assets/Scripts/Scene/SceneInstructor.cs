@@ -19,6 +19,9 @@ namespace YamagenLib
     // シーンに指示出すクラス
     public class SceneInstructor : MonoBehaviour
     {
+        // シングルトン
+        static public SceneInstructor instance;
+
         [SerializeField]
         // 初期シーン
         GameScene m_initScene=GameScene.Title;

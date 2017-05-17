@@ -6,7 +6,7 @@ using DG.Tweening;   // どついーん使用
 // 山元のやーつ
 namespace YamagenLib
 {
-    public class TitleCube : MonoBehaviour
+    public class SelectCube : MonoBehaviour
     {
         [SerializeField]
         private float m_moveDistance = 0.0f;

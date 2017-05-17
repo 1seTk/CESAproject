@@ -5,10 +5,10 @@ using DG.Tweening;  // どついーん使用
 
 namespace YamagenLib
 {
-    public class TitleManager: MonoBehaviour
+    public class SelectManager: MonoBehaviour
     {
         // シングルトン
-        static public TitleManager instance;
+        static public SelectManager instance;
 
         // 回転させるオブジェクト
         [SerializeField]

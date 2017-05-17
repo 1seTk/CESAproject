@@ -28,11 +28,11 @@ namespace YamagenLib
         {
             if (m_dir == Direction.Right)
             {
-                TitleManager.instance.ObjectRotate(1.0f);
+                SelectManager.instance.ObjectRotate(1.0f);
             }
             else
             {
-                TitleManager.instance.ObjectRotate(-1.0f);
+                SelectManager.instance.ObjectRotate(-1.0f);
             }
         }
     }
