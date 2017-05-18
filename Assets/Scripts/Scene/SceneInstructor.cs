@@ -19,6 +19,9 @@ namespace YamagenLib
     // シーンに指示出すクラス
     public class SceneInstructor : MonoBehaviour
     {
+        // シングルトン
+        static public SceneInstructor instance;
+
         [SerializeField]
         // 初期シーン
         GameScene m_initScene=GameScene.Title;
@@ -28,8 +31,23 @@ namespace YamagenLib
 
         bool m_initFlag = true;
 
-        // 初期化
-        void Awake()
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        void Start() // ScenemanagerはStart以降じゃないと危ないため
         {
             // 初期シーンをロード
             LoadMainScene(m_initScene);
