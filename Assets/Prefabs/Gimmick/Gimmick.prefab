@@ -100,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1041374450255488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.0024023056, y: 1, z: 7.9561296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4460241434348726}
@@ -201,7 +201,6 @@ MonoBehaviour:
   m_duration: 4
   m_delay: 0
   m_isLocal: 0
-  m_resetRotate: 0
 --- !u!114 &114155518972751762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,7 +228,6 @@ MonoBehaviour:
   m_duration: 3
   m_delay: 0
   m_isLocal: 0
-  m_resetRotate: 0
 --- !u!114 &114557714953858536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,6 +242,7 @@ MonoBehaviour:
   m_easeType: 29
   m_duration: 2
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &114578439103253512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,6 +257,7 @@ MonoBehaviour:
   m_easeType: 2
   m_duration: 2
   m_delay: 0
+  m_isReset: 0
 --- !u!114 &114775782796172146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -272,3 +272,4 @@ MonoBehaviour:
   m_easeType: 1
   m_duration: 3
   m_delay: 0
+  m_isReset: 0
