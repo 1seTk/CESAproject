@@ -19,7 +19,7 @@ namespace YamagenLib
         // シーンをリロードする
         public void ReLoadScene()
         {
-            FindObjectOfType<PlayInstructor>().ReLoadStage();
+            PlayInstructor.instance.ReLoadStage();
         }
     }
 }

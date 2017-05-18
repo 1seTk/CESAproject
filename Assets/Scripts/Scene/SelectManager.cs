@@ -10,6 +10,10 @@ namespace YamagenLib
         // シングルトン
         static public SelectManager instance;
 
+        // 次のシーン
+        [SerializeField]
+        GameScene m_nextScene;
+
         // 回転させるオブジェクト
         [SerializeField]
         private GameObject m_obj;
@@ -18,14 +22,10 @@ namespace YamagenLib
         [SerializeField]
         private float m_rotateTime = 1.0f;
 
-        // タッチ用
-        private float m_startPos;           // タッチ開始座標
-        private float m_endPos;             // タッチ終了座標
+        // タッチマウス用
+        private Vector3 m_startPos;           // タッチ開始座標
+        private Vector3 m_endPos;             // タッチ終了座標
         private float m_screenWidth;        // 画面の横幅
-
-        // マウス用
-        private float m_MstartPos;           // マウス開始座標
-        private float m_MendPos;             // マウス終了座標
 
         // スワイプ許容割合
         [SerializeField, Range(0.0f, 1.0f)]
@@ -64,11 +64,8 @@ namespace YamagenLib
         /// </summary>
         void Update()
         {
-#if UNITY_ANDROID           // アンドロイドの処理
             TouchUpdate();
-#elif UNITY_STANDALONE_WIN  // ウインドウズの処理
             MouseUpdate();
-#endif
         }
 
         /// <summary>
@@ -85,14 +82,20 @@ namespace YamagenLib
                 {
                     case TouchPhase.Began:      // タッチ開始時
                         // タッチ開始座標
-                        m_startPos = touch.position.x;
+                        m_startPos = touch.position;
                         break;
                     case TouchPhase.Moved:      // タッチ移動時
                     case TouchPhase.Stationary: // タッチ静止時
                         break;
                     case TouchPhase.Ended:      // タッチ終了時
+                        // タッチ終了座標
+                        m_endPos = touch.position;
+
+                        // タッチ開始位置と終了位置がオブジェクト内の場合シーンを変更
+                        if (SearchObject(m_startPos) && SearchObject(m_endPos)) SceneChange();
+
                         // 横移動量画面割合(-1<tx<1)
-                        m_MoveTouchX = (touch.position.x - m_startPos) / m_screenWidth;
+                        m_MoveTouchX = (touch.position.x - m_startPos.x) / m_screenWidth;
                         if ((m_MoveTouchX > m_AcceptableValue) || (m_MoveTouchX < -m_AcceptableValue))
                         {
                             // スワイプが許容内の場合
@@ -118,13 +121,19 @@ namespace YamagenLib
             // マウスが押された時
             if (Input.GetMouseButtonDown(0))
             {
-                m_MstartPos = Input.mousePosition.x;             // プッシュ開始座標
+                m_startPos = Input.mousePosition;             // プッシュ開始座標
             }
             // マウスが離された時
             if (Input.GetMouseButtonUp(0))
             {
+                // マウスが離れた座標
+                m_endPos = Input.mousePosition;
+
+                // クリック開始位置と終了位置がオブジェクト内の場合シーンを変更
+                if (SearchObject(m_startPos) && SearchObject(m_endPos)) SceneChange();
+
                 // 横移動量画面割合(-1<tx<1)
-                m_MoveMouseX = (Input.mousePosition.x - m_MstartPos) / m_screenWidth;
+                m_MoveMouseX = (Input.mousePosition.x - m_startPos.x) / m_screenWidth;
 
                 if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
                 {
@@ -157,17 +166,31 @@ namespace YamagenLib
             }
         }
 
-        private GameObject SearchObject(Vector3 pos)
+        private bool SearchObject(Vector3 pos)
         {
+            bool isSearch = false;
             GameObject result = null;
             // 指定場所のオブジェクトを取得
             Ray ray = Camera.main.ScreenPointToRay(pos);
+            Debug.DrawRay(ray.origin, ray.direction, Color.red, 10.0f);
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit))
             {
                 result = hit.collider.gameObject;
             }
-            return result;
+
+            if (result == m_obj) isSearch = true;
+
+            return isSearch;
+        }
+
+        /// <summary>
+        /// シーンを変更
+        /// </summary>
+        private void SceneChange()
+        {
+            // 次のシーンに移動
+            SceneInstructor.instance.LoadMainScene(m_nextScene);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace YamagenLib
         GameScene m_initScene=GameScene.Title;
 
         // ロードされてるシーン
-        Scene m_loadScene;
+        GameScene m_loadScene;
 
         bool m_initFlag = true;
 
@@ -57,11 +57,11 @@ namespace YamagenLib
         public void LoadMainScene(GameScene scene)
         {
             if (m_initFlag == false)
-                SceneManager.UnloadSceneAsync(m_loadScene.name);
+                SceneManager.UnloadSceneAsync(m_loadScene.ToString());
             else
                 m_initFlag = false;
             SceneManager.LoadScene(scene.ToString(), LoadSceneMode.Additive);
-            m_loadScene = SceneManager.GetSceneByName(scene.ToString());
+            m_loadScene = scene;
 
         }
     }
