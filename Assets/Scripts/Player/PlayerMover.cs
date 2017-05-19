@@ -36,6 +36,7 @@ public class PlayerMover : MonoBehaviour
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
+				//transform.GetComponent<Rigidbody>().AddForce(Vector3.forward * m_speed / 10.0f, ForceMode.Impulse);
 			});
 
 		// ジャンプ処理
