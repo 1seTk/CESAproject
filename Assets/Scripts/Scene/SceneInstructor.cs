@@ -53,16 +53,30 @@ namespace YamagenLib
             LoadMainScene(m_initScene);
         }
 
-        // メインのシーンをロードする
+        /// <summary>
+        /// メインシーンのロード
+        /// </summary>
+        /// <param name="scene">ロードしたいシーン</param>
         public void LoadMainScene(GameScene scene)
         {
             if (m_initFlag == false)
+                // 今のシーンをアンロード
                 SceneManager.UnloadSceneAsync(m_loadScene.ToString());
             else
                 m_initFlag = false;
+            // 次のシーンをロード
             SceneManager.LoadScene(scene.ToString(), LoadSceneMode.Additive);
+            // 変わったシーンを覚えておく
             m_loadScene = scene;
 
+            // シーンがタイトル画面かセレクト画面の時SelectManagerを作成
+            if (scene==GameScene.Title||scene==GameScene.Select){
+                SelectManager.instance = new SelectManager();
+            }
+            else{
+                // それ以外の時は破棄
+                Destroy(SelectManager.instance.gameObject);
+            }
         }
     }
 }

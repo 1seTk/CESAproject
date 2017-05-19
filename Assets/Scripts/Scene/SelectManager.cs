@@ -9,10 +9,13 @@ namespace YamagenLib
     {
         // シングルトン
         static public SelectManager instance;
-
+    
         // 次のシーン
         [SerializeField]
         GameScene m_nextScene;
+
+        [SerializeField]
+        Texture[] m_texture;
 
         // 回転させるオブジェクト
         [SerializeField]
@@ -45,7 +48,6 @@ namespace YamagenLib
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -57,6 +59,8 @@ namespace YamagenLib
 
             // ついーん初期化
             DOTween.Init();
+
+            SetCubeTexture();
         }
 
         /// <summary>
@@ -191,6 +195,11 @@ namespace YamagenLib
         {
             // 次のシーンに移動
             SceneInstructor.instance.LoadMainScene(m_nextScene);
+        }
+
+        private void SetCubeTexture()
+        {
+            m_obj.GetComponent<SelectCube>().SetTexture(m_texture);
         }
     }
 }

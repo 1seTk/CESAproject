@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;   // 子要素取得の際使用
 using UnityEngine;
 using DG.Tweening;   // どついーん使用
 
@@ -12,13 +13,18 @@ namespace YamagenLib
         private float m_moveDistance = 0.0f;
 
         [SerializeField]
-        private float m_animeTime=0.0f;
+        private float m_animeTime = 0.0f;
 
         [SerializeField]
         private Ease m_easeType = Ease.InSine;
 
         // ぷかぷか
         private Sequence m_moveSequence;
+
+        // 画像を付ける面の数
+        private const int FACE_NUM = 3;
+        // 画像
+        private GameObject[] m_texture;
 
         /// <summary>
         /// 初期化
@@ -36,7 +42,7 @@ namespace YamagenLib
             // ループぷかぷか
             m_moveSequence = DOTween.Sequence();
             m_moveSequence.Append(transform.DOLocalMoveY(m_moveDistance / 2.0f, m_animeTime)).SetEase(m_easeType);
-            m_moveSequence.Append(transform.DOLocalMoveY(pos.y, m_animeTime*1.7f)).SetEase(m_easeType);
+            m_moveSequence.Append(transform.DOLocalMoveY(pos.y, m_animeTime * 1.7f)).SetEase(m_easeType);
             m_moveSequence.SetLoops(-1);
         }
 
@@ -56,6 +62,17 @@ namespace YamagenLib
         {
             // 一時停止
             m_moveSequence.Play();
+        }
+
+        public void SetTexture(Texture[] txt)
+        {
+            int i = 0;
+            //子のマテリアルに設定する
+            foreach (Transform childTransform in this.gameObject.transform)
+            {
+                childTransform.gameObject.GetComponent<MeshRenderer>().material.mainTexture= txt[i];
+                i++;
+            }
         }
     }
 }
