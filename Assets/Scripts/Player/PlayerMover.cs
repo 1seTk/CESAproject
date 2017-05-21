@@ -31,7 +31,7 @@ public class PlayerMover : MonoBehaviour
 
 		// 移動処理
 		input.IsMoving
-			.Where(x => x == true)
+			.Where(x => x == true && Input.touchCount == 1)
 			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
 			{
