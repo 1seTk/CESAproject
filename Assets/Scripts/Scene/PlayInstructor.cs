@@ -29,11 +29,11 @@ namespace YamagenLib
         static public PlayInstructor instance;
 
         [SerializeField]
-        // 初期シーン
+        // 初期ステージ
         PlayStage m_initScene = PlayStage.Stage1;
 
-        // ロードされてるシーン
-        Scene m_loadStage;
+        // ロードされてるステージ
+        PlayStage m_loadStage;
 
         bool m_initFlag = true;
 
@@ -46,7 +46,6 @@ namespace YamagenLib
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -63,18 +62,18 @@ namespace YamagenLib
         public void LoadStage(PlayStage stage)
         {
             if (m_initFlag == false)
-                SceneManager.UnloadSceneAsync(m_loadStage.name);
+                SceneManager.UnloadSceneAsync(m_loadStage.ToString());
             else
                 m_initFlag = false;
             SceneManager.LoadScene(stage.ToString(), LoadSceneMode.Additive);
-            m_loadStage = SceneManager.GetSceneByName(stage.ToString());
-
+            m_loadStage = stage;
         }
 
         // ステージをリロードする
         public void ReLoadStage()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
+            SceneManager.LoadScene(m_loadStage.ToString(), LoadSceneMode.Additive);
         }
 
     }
