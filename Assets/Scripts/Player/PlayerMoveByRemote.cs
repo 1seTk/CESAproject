@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+using UnityEngine.SceneManagement;
+
 public class PlayerMoveByRemote : MonoBehaviour
 {
     // ジャンプ力
@@ -14,6 +16,10 @@ public class PlayerMoveByRemote : MonoBehaviour
     // ジャンプ距離
     [SerializeField, Range(0, 10)]
     private float _jumpDistance;
+
+    // アニメーション時間
+    [SerializeField, Range(0, 10)]
+    private float _duration;
 
     // プレイヤーの状態取得用
     private PlayerCore _core;
@@ -27,10 +33,13 @@ public class PlayerMoveByRemote : MonoBehaviour
     // タッチ終了座標
     private Vector3 touchEndPos;
 
+    [Range(0,1.0f)]
+    public float _touchDelayCnt;
 
     // ジャンプ入力監視サブジェクト
     private Subject<bool> onJumpButtonSubject = new Subject<bool>();
 
+    bool jumpFlg = false;
 
     /// <summary>
     /// ジャンプボタンが押されているか
@@ -50,9 +59,9 @@ public class PlayerMoveByRemote : MonoBehaviour
         _checkGR = GetComponent<CheckGround>();
 
         // ジャンプ入力
-        this.UpdateAsObservable()
-            .Select(_ => Input.touchCount >= 2)
-            .Subscribe(onJumpButtonSubject);
+        //this.UpdateAsObservable()
+        //    .Select(_ => Input.touchCount >= 2 && jumpFlg == true)
+        //    .Subscribe(onJumpButtonSubject);
 
     }
 
@@ -62,7 +71,6 @@ public class PlayerMoveByRemote : MonoBehaviour
 
         Flick();
     }
-
     void OnTouchDown()
     {
         if(0 < Input.touchCount)
@@ -70,19 +78,36 @@ public class PlayerMoveByRemote : MonoBehaviour
             switch (Input.touchCount)
             {
                 case 1:
-                    Debug.Log("single");
-                    break;
-                case 2:
-                    if (_core.PlayerControllable.Value == true)
+                    if (_touchDelayCnt <= 1.5f && Input.GetKeyUp(KeyCode.Mouse0))
                     {
-                        transform.position += new Vector3(0, _jumpPower, 0) * Time.deltaTime;
-                        Debug.Log("double");
+                        Debug.Log("single");
+                        if (_core.PlayerControllable.Value == true)
+                        {
+                            _core.PlayerControllable.Value = false;
+
+                            transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
+                                () =>
+                                {
+                                    _core.PlayerControllable.Value = true;
+
+                                    Debug.Log("jumpEnd");
+                                }
+                                );
+                        }
                     }
                     break;
             }
         }
+        else
+        {
+            _touchDelayCnt = 0;
+        }
+        if (Input.touchCount == 1)
+        {
+            _touchDelayCnt+=0.1f;
+        }
     }
-    
+
     // フリック操作
     void Flick()
     {
@@ -107,14 +132,6 @@ public class PlayerMoveByRemote : MonoBehaviour
         float directionY = Mathf.Abs(touchEndPos.y) - Mathf.Abs(touchStartPos.y);
         string Direction = null;
 
-        Debug.Log("touchStartPos.y=" + touchStartPos.y);
-        Debug.Log("touchEndPos.y=" + touchEndPos.y);
-
-
-        Debug.Log("directionY=" + directionY);
-
-
-
         if (30 < directionY)
         {
             //上向きにフリック
@@ -130,14 +147,11 @@ public class PlayerMoveByRemote : MonoBehaviour
         {
             case "up":
                 //上フリックされた時の処理
-                if (_core.PlayerControllable.Value == true && _checkGR.IsGround.Value == true)
+                if (_core.PlayerControllable.Value == true /*&& _checkGR.IsGround.Value == true*/)
                 {
-                    //transform.position += new Vector3(0, _jumpPower, _jumpPower) * Time.deltaTime;
-
                     _core.PlayerControllable.Value = false;
 
-
-                    transform.DOJump(new Vector3(0, 0, transform.position.z + _jumpDistance), _jumpPower, 1, 1.5f)
+                    transform.DOJump(new Vector3(0, 0, transform.position.z + _jumpDistance), _jumpPower, 1, _duration)
                         .OnComplete(()=> {
                             _core.PlayerControllable.Value = true;
 
