@@ -9,6 +9,14 @@ namespace YamagenLib
 {
     public class SelectCube : MonoBehaviour
     {
+        public enum Face
+        {
+            FRONT = 0,
+            RIGHT = 1,
+            BACK = 2,
+            LEFT= 3
+        }
+
         [SerializeField]
         private float m_moveDistance = 0.0f;
 
@@ -21,11 +29,9 @@ namespace YamagenLib
         // ぷかぷか
         private Sequence m_moveSequence;
 
-        // 画像を付ける面の数
-        private const int FACE_NUM = 3;
         // 画像
-        private GameObject[] m_texture;
-
+        private MeshRenderer[] m_face = new MeshRenderer[4];
+        
         /// <summary>
         /// 初期化
         /// </summary>
@@ -64,15 +70,32 @@ namespace YamagenLib
             m_moveSequence.Play();
         }
 
-        public void SetTexture(Texture[] txt)
+        /// <summary>
+        /// テクスチャの初期設定
+        /// </summary>
+        /// <param name="txt"></param>
+        /// <returns></returns>
+        public void SetInitTexture(Texture[] txt)
         {
             int i = 0;
             //子のマテリアルに設定する
             foreach (Transform childTransform in this.gameObject.transform)
             {
-                childTransform.gameObject.GetComponent<MeshRenderer>().material.mainTexture= txt[i];
+                m_face[i] = childTransform.gameObject.GetComponent<MeshRenderer>();
+                m_face[i].material.mainTexture = txt[i];
+
                 i++;
             }
+        }
+
+        /// <summary>
+        /// 指定された面の画像変更
+        /// </summary>
+        /// <param name="face">面</param>
+        /// <param name="txt">変更する画像</param>
+        public void ChangeTexture(Face face, Texture txt)
+        {
+            m_face[(int)face].material.mainTexture = txt;
         }
     }
 }

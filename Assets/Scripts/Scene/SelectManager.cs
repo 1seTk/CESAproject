@@ -9,16 +9,16 @@ namespace YamagenLib
     {
         // シングルトン
         static public SelectManager instance;
-    
+
         // 次のシーン
         [SerializeField]
         GameScene m_nextScene;
 
-        [SerializeField]
+        [SerializeField, Header("オブジェクトに設定する画像（ステージ数まで）")]
         Texture[] m_texture;
 
         // 回転させるオブジェクト
-        [SerializeField]
+        [SerializeField, Space(10)]
         private GameObject m_obj;
 
         // 回転時間
@@ -39,20 +39,23 @@ namespace YamagenLib
         // 回転tween
         private Tweener m_rotation;         // 回転
 
+        // 現在背面の面
+        private SelectCube.Face m_backFace = SelectCube.Face.BACK;
+        private int m_backTextureNum = 0;
+
+        private SelectCube.Face m_leftFace = SelectCube.Face.LEFT;
+        private int m_leftTextureNum = 0;
+
+        private int m_selectScene = 0;
+
         /// <summary>
         /// 初期化
         /// </summary>
         void Awake()
         {
             // シングルトン
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
 
             // 画面の横幅
             m_screenWidth = Screen.width;
@@ -60,7 +63,8 @@ namespace YamagenLib
             // ついーん初期化
             DOTween.Init();
 
-            SetCubeTexture();
+            // キューブの画像初期化
+            InitializeCubeTexture();
         }
 
         /// <summary>
@@ -70,6 +74,7 @@ namespace YamagenLib
         {
             TouchUpdate();
             MouseUpdate();
+            
         }
 
         /// <summary>
@@ -156,20 +161,30 @@ namespace YamagenLib
         /// <param name="moveDir">移動割合</param>
         public void ObjectRotate(float moveDir)
         {
-            // 1か-1にする
-            moveDir /= Mathf.Abs(moveDir);
-
             // 回転
             if (m_rotation == null)
             {
+                if ((moveDir < 0) && (m_selectScene < m_texture.Length - 1)) RotateTexture(true);   // 右
+                else if ((moveDir > 0) && (m_selectScene > 0)) RotateTexture(false);                // 左
+                else return;
+
+                // 1か-1にする
+                moveDir /= Mathf.Abs(moveDir);
+
                 m_rotation =
                     m_obj.transform.DORotate(
                     new Vector3(0, m_obj.transform.eulerAngles.y + (-90 * moveDir), 0),    // 終了時点のRotation
                     m_rotateTime                        // アニメーション時間
                 ).OnKill(() => m_rotation = null);
             }
+
         }
 
+        /// <summary>
+        /// 指定座標にオブジェクトがあるかの確認
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
         private bool SearchObject(Vector3 pos)
         {
             bool isSearch = false;
@@ -197,9 +212,81 @@ namespace YamagenLib
             SceneInstructor.instance.LoadMainScene(m_nextScene);
         }
 
-        private void SetCubeTexture()
+        /// <summary>
+        /// cube画像の初期設定
+        /// </summary>
+        private void InitializeCubeTexture()
         {
-            m_obj.GetComponent<SelectCube>().SetTexture(m_texture);
+            m_obj.GetComponent<SelectCube>().SetInitTexture(m_texture);
+            m_backFace = SelectCube.Face.BACK;
+            m_leftFace = SelectCube.Face.LEFT;
+            m_backTextureNum = (int)m_backFace;
+            m_leftTextureNum = (int)m_leftFace;
+            Debug.Log("左面は" + m_leftFace + "で画像は " + m_leftTextureNum);
+            Debug.Log("背面は" + m_backFace + "で画像は " + m_backTextureNum);
+        }
+
+        /// <summary>
+        /// テクスチャの変更
+        /// </summary>
+        /// <param name="dir"></param>
+        private void RotateTexture(bool dir)
+        {
+            if (dir)
+            {// 右移動
+                // Leftが正面の時は左にする
+                if (m_leftFace == SelectCube.Face.LEFT) m_leftFace = SelectCube.Face.FRONT;
+                else m_leftFace++;   // その他はマイナス
+                if (m_backFace == SelectCube.Face.LEFT) m_backFace = SelectCube.Face.FRONT;
+                else m_backFace++;
+
+                // 画像番号処理
+                MoveTextureNum(1);
+
+                // 背面の画像を変更
+                m_obj.GetComponent<SelectCube>().ChangeTexture(m_backFace, m_texture[m_backTextureNum]);
+
+                Debug.Log("右移動");
+            }
+            else
+            {// 左移動
+                
+             // frontの時は一周回ったことになりleftへ
+                if (m_leftFace == SelectCube.Face.FRONT) m_leftFace = SelectCube.Face.LEFT;
+                else m_leftFace--;
+                if (m_backFace == SelectCube.Face.FRONT) m_backFace = SelectCube.Face.LEFT;
+                else m_backFace--;
+
+                // 番号処理
+                MoveTextureNum(-1);
+
+                // 左面の画像を変更
+                m_obj.GetComponent<SelectCube>().ChangeTexture(m_leftFace, m_texture[m_leftTextureNum]);
+
+                Debug.Log("左移動");
+                
+            }
+            Debug.Log(m_selectScene);
+        }
+
+        /// <summary>
+        /// 画像の番号処理
+        /// </summary>
+        /// <param name="num">移動数</param>
+        private void MoveTextureNum(int num)
+        {
+            // 背面画像の番号処理
+            if ((m_backTextureNum + num) > m_texture.Length - 1) m_backTextureNum -= 3;
+            else if ((m_backTextureNum + num) < 0) m_backTextureNum += 3;
+            else m_backTextureNum += num;
+
+            // 左面画像の番号処理
+            if ((m_leftTextureNum + num) > m_texture.Length - 1) m_leftTextureNum -= 3;
+            else if ((m_leftTextureNum + num) < 0) m_leftTextureNum += 3;
+            else if (num < 0) { m_leftTextureNum += num; }
+            else m_leftTextureNum += num;
+
+            m_selectScene += num;
         }
     }
 }
