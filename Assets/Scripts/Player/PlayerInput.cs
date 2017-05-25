@@ -41,10 +41,9 @@ public class PlayerInput : MonoBehaviour
 	{
 		// ジャンプ入力
 		this.UpdateAsObservable()
-                        //.Select(_ => Input.GetButtonDown("Jump"))
-                        .Select(_ => Input.touchCount >= 2)
-
-            .Subscribe(onJumpButtonSubject);
+			.Select(_ => Input.GetButtonDown("Jump"))
+			//.Select(_ => Input.touchCount >= 2)
+			.Subscribe(onJumpButtonSubject);
 
 		// 移動入力
 		this.UpdateAsObservable()
