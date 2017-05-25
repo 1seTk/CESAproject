@@ -11,6 +11,7 @@ namespace YamagenLib
     {
         Title,
         Select,
+        Endless,
         Play,
         Clear,
         Over
@@ -77,6 +78,11 @@ namespace YamagenLib
                 // それ以外の時は破棄
                 Destroy(SelectManager.instance.gameObject);
             }
+        }
+
+        public GameScene GetLoadScene()
+        {
+            return m_loadScene;
         }
     }
 }

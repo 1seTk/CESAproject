@@ -28,14 +28,13 @@ namespace YamagenLib
         // シングルトン
         static public PlayInstructor instance;
 
-        [SerializeField]
         // 初期ステージ
-        PlayStage m_initScene = PlayStage.Stage1;
+        static public PlayStage m_nextScene = PlayStage.Stage1;
 
         // ロードされてるステージ
-        PlayStage m_loadStage;
+        private PlayStage m_loadStage;
 
-        bool m_initFlag = true;
+        private bool m_initFlag = true;
 
         /// <summary>
         /// 初期化
@@ -55,7 +54,7 @@ namespace YamagenLib
         void Start() // ScenemanagerはStart以降じゃないと危ないため
         {
             // 初期ステージをロード
-            LoadStage(m_initScene);
+            LoadStage(m_nextScene);
         }
 
         // ステージをロードする
@@ -76,5 +75,9 @@ namespace YamagenLib
             SceneManager.LoadScene(m_loadStage.ToString(), LoadSceneMode.Additive);
         }
 
+        public PlayStage GetLoadStage()
+        {
+            return m_loadStage;
+        }
     }
 }
