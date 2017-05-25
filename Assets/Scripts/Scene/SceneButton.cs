@@ -22,7 +22,7 @@ namespace YamagenLib
         // シーンをロードする
         public void LoadScene()
         {
-            FindObjectOfType<SceneInstructor>().LoadMainScene(m_scene);
+            SceneInstructor.instance.LoadMainScene(m_scene);
         }
     }
 }
