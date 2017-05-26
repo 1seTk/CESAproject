@@ -25,6 +25,7 @@ public class BreakBlock : MonoBehaviour {
 
         foreach (var item in parts)
         {
+			item.gameObject.layer = LayerMask.NameToLayer("Default");
             item.gameObject.AddComponent<Rigidbody>();
 			item.parent = null;
         }
