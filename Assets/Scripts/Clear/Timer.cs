@@ -17,6 +17,11 @@ public class Timer : MonoBehaviour
     {
         m_elapsedTime += Time.deltaTime;
         Debug.Log(m_elapsedTime);
+
+        if (m_elapsedTime > 60.0f)
+        {
+            Reset();
+        }
 	}
 
 
@@ -28,6 +33,11 @@ public class Timer : MonoBehaviour
         m_elapsedTime = 0.0f;
     }
 
+
+    /// <summary>
+    /// 経過時間を取得
+    /// </summary>
+    /// <returns>経過時間</returns>
     float GetTime()
     {
         return m_elapsedTime;
