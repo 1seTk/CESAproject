@@ -93,6 +93,11 @@ namespace ShunLib
         //更新
         void Update()
         {
+            if (CallBack(0))
+            {
+                m_isCallBack = false;
+            }
+
             //フェードイン単体
             if (m_fadeIn)
             {
@@ -121,7 +126,7 @@ namespace ShunLib
             {
                 m_fadeImage.UpdateMaskTexture(m_fadeOutMaskTexture);
                 m_fade.FadeOut(m_fadeOutTime);
-                m_isCallBack = false;
+                //m_isCallBack = false;
             }
         }
 
@@ -150,7 +155,7 @@ namespace ShunLib
         {
             m_isCallBack = true;
         }
-        bool CallBack(int a)
+        public bool CallBack(int a)
         {
             return m_isCallBack;
         }

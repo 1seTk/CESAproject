@@ -82,8 +82,8 @@ namespace YamagenLib
             foreach (Transform childTransform in this.gameObject.transform)
             {
                 m_face[i] = childTransform.gameObject.GetComponent<MeshRenderer>();
-                m_face[i].material.mainTexture = txt[i];
-
+                if (i == 3) m_face[i].material.mainTexture = txt[txt.Length - 1];
+                else m_face[i].material.mainTexture = txt[i];
                 i++;
             }
         }
