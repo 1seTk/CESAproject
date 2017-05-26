@@ -10,7 +10,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviour, IPlayerInput
 {
 	// ジャンプ入力監視サブジェクト
 	private Subject<bool> onJumpButtonSubject = new Subject<bool>();
@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
 	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>();
 
 	// 移動しているか
-	public IReactiveProperty<bool> IsMoving
+	public IReactiveProperty<bool> IsMovingRP
 	{
 		get { return isMovingRP; }
 	}

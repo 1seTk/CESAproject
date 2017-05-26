@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------
 // Brief : プレイヤーのコア部分
-// 
+//
 // Date  : 2017/04/27
-// 
+//
 // Author: Y.Watanabe
 // ---------------------------------------
 
@@ -25,7 +25,7 @@ public class PlayerCore : MonoBehaviour
 	/// </summary>
 	public ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>(false);
 
-	/// <summary> 
+	/// <summary>
 	/// 更新前処理
 	/// </summary>
 	void Start ()

@@ -6,8 +6,9 @@ using UnityEngine;
 using DG.Tweening;
 
 using UnityEngine.SceneManagement;
+using System;
 
-public class PlayerMoveByRemote : MonoBehaviour
+public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 {
     // ジャンプ力
     [SerializeField, Range(0,10)]
@@ -36,36 +37,49 @@ public class PlayerMoveByRemote : MonoBehaviour
     [Range(0,1.0f)]
     public float _touchDelayCnt;
 
-    // ジャンプ入力監視サブジェクト
-    private Subject<bool> onJumpButtonSubject = new Subject<bool>();
-
     bool jumpFlg = false;
 
-    /// <summary>
-    /// ジャンプボタンが押されているか
-    /// </summary>
-    public IObservable<bool> OnJumpButtonObservable
-    {
-        get
-        {
-            return onJumpButtonSubject.AsObservable();
-        }
-    }
+	// インタフェース実装部分 =====
 
-    private void Start()
-    {
-        _core = GetComponent<PlayerCore>();
+	// ジャンプ入力監視サブジェクト
+	private Subject<bool> onJumpButtonSubject = new Subject<bool>();
 
-        _checkGR = GetComponent<CheckGround>();
+	/// <summary>
+	/// ジャンプボタンが押されているか
+	/// </summary>
+	public IObservable<bool> OnJumpButtonObservable
+	{
+		get
+		{
+			return onJumpButtonSubject.AsObservable();
+		}
+	}
 
-        // ジャンプ入力
-        //this.UpdateAsObservable()
-        //    .Select(_ => Input.touchCount >= 2 && jumpFlg == true)
-        //    .Subscribe(onJumpButtonSubject);
+	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>();
 
-    }
+	// 移動しているか
+	public IReactiveProperty<bool> IsMovingRP
+	{
+		get { return isMovingRP; }
+	}
 
-    private void Update()
+	private void Start()
+	{
+		// ジャンプ入力
+		this.UpdateAsObservable()
+			.Select(_ => jumpFlg)
+			.Subscribe(onJumpButtonSubject);
+
+		// 移動入力
+		this.UpdateAsObservable()
+			.Select(_ => Input.GetButton("Fire1"))
+			.Subscribe(x =>
+			{
+				isMovingRP.SetValueAndForceNotify(x);
+			});
+	}
+
+	private void Update()
     {
         OnTouchDown();
 
@@ -81,19 +95,20 @@ public class PlayerMoveByRemote : MonoBehaviour
                     if (_touchDelayCnt <= 1.5f && Input.GetKeyUp(KeyCode.Mouse0))
                     {
                         Debug.Log("single");
-                        if (_core.PlayerControllable.Value == true)
-                        {
-                            _core.PlayerControllable.Value = false;
+						//if (_core.PlayerControllable.Value == true)
+						//{
+						//    _core.PlayerControllable.Value = false;
 
-                            transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
-                                () =>
-                                {
-                                    _core.PlayerControllable.Value = true;
+						//    transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
+						//        () =>
+						//        {
+						//            _core.PlayerControllable.Value = true;
 
-                                    Debug.Log("jumpEnd");
-                                }
-                                );
-                        }
+						//            Debug.Log("jumpEnd");
+						//        }
+						//        );
+						//}
+						jumpFlg = true;
                     }
                     break;
             }
@@ -101,8 +116,10 @@ public class PlayerMoveByRemote : MonoBehaviour
         else
         {
             _touchDelayCnt = 0;
-        }
-        if (Input.touchCount == 1)
+			jumpFlg = false;
+
+		}
+		if (Input.touchCount == 1)
         {
             _touchDelayCnt+=0.1f;
         }
@@ -160,10 +177,20 @@ public class PlayerMoveByRemote : MonoBehaviour
                         });
                     
                     Debug.Log("flick");
-                }
+					jumpFlg = true;
 
-                break;
-        }
+				}
+				else
+				{
+					jumpFlg = false;
+				}
+				break;
 
-    }
+			default:
+				jumpFlg = false;
+				break;
+
+		}
+
+	}
 }
