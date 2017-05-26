@@ -8,6 +8,9 @@ namespace ShunLib
 {
     public class GameOverDirection : MonoBehaviour
     {
+        // シングルトン
+        static public GameOverDirection instance;
+
         // 終点
         [SerializeField, Tooltip("移動する距離")]
         private float m_targetPositionX = 0.0f;
@@ -35,8 +38,18 @@ namespace ShunLib
         private bool m_isGameOver = false;
         private bool m_isStarted = false;
 
-        [SerializeField, Tooltip("プレイヤーの死亡判定用")]
+        // プレイヤーの死亡判定用
         private PlayerCore m_playerCore;
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+        }
 
         /// <summary>
         /// 初期設定
@@ -49,8 +62,6 @@ namespace ShunLib
             var color = m_black.color;
             color.a = 0.0f;
             m_black.color = color;
-
-
         }
 
 
@@ -59,7 +70,7 @@ namespace ShunLib
         /// </summary>
         void Update()
         {
-            //クリアするまで更新しない
+            // 死んでいなかったら更新しない
             if (!IsStarted())
             {
                 return;
@@ -78,7 +89,10 @@ namespace ShunLib
         /// </summary>
         private bool IsStarted()
         {
-            //クリアしていなければ更新しない
+            // コアがないときは更新しない
+            if (m_playerCore = null) return false;
+
+            // 死んでいなければ更新しない
             if (!(m_playerCore.IsDead.Value))
             {
                 return false;
@@ -136,12 +150,21 @@ namespace ShunLib
 
         }
         /// <summary>
-        /// クリアしたら呼ぶ
+        /// 死んだら呼ぶ
         /// </summary>
         public void GameOver()
         {
             Debug.Log("GameOver");
             m_isGameOver = true;
+        }
+
+        /// <summary>
+        /// コアの設定
+        /// </summary>
+        /// <param name="core"></param>
+        public void SetPlayerCore(PlayerCore core)
+        {
+            m_playerCore = core;
         }
     }
 }

@@ -30,7 +30,11 @@ public class PlayerMover : MonoBehaviour
 		var cg = GetComponent<CheckGround>();
 
 		// 移動処理
+<<<<<<< HEAD
+		input.IsMoving
+=======
 		input.IsMovingRP
+>>>>>>> e2a46d084884accda1bffd6bf3a96d4cedebe204
 			.Where(x => x == true)
 			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
