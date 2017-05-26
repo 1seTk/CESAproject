@@ -32,7 +32,7 @@ public class PlayerCore : MonoBehaviour
 	{
 		StartCoroutine(WaitStartAnimation());
 
-		var des = GetComponentInChildren<BreakBlock>();
+        var des = GetComponentInChildren<BreakBlock>();
 
 		IsDead
 			.DistinctUntilChanged()
