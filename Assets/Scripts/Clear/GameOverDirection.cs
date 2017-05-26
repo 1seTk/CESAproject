@@ -38,9 +38,6 @@ namespace ShunLib
         private bool m_isGameOver = false;
         private bool m_isStarted = false;
 
-        // プレイヤーの死亡判定用
-        private PlayerCore m_playerCore;
-
         /// <summary>
         /// 初期化
         /// </summary>
@@ -89,13 +86,10 @@ namespace ShunLib
         /// </summary>
         private bool IsStarted()
         {
-            // コアがないときは更新しない
-            if (m_playerCore = null) return false;
-
             // 死んでいなければ更新しない
-            if (!(m_playerCore.IsDead.Value))
+            if (!(m_isGameOver))
             {
-                return false;
+                return m_isStarted;
             }
             else
             {
@@ -105,7 +99,7 @@ namespace ShunLib
                     m_isStarted = true;
                 }
             }
-            return true;
+            return m_isStarted;
         }
 
 
@@ -156,15 +150,6 @@ namespace ShunLib
         {
             Debug.Log("GameOver");
             m_isGameOver = true;
-        }
-
-        /// <summary>
-        /// コアの設定
-        /// </summary>
-        /// <param name="core"></param>
-        public void SetPlayerCore(PlayerCore core)
-        {
-            m_playerCore = core;
         }
     }
 }

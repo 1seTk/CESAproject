@@ -16,6 +16,9 @@ namespace ShunLib
 {
     public class ClearDirection : MonoBehaviour
     {
+        // シングルトン
+        static public ClearDirection instance;
+
         // 終点
         [SerializeField, Tooltip("移動する距離")]
         private float m_targetPositionX = 0.0f;
@@ -43,7 +46,15 @@ namespace ShunLib
         private bool m_isCleared = false;
         private bool m_isStarted = false;
 
-
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+        }
         /// <summary>
         /// 初期設定
         /// </summary>
@@ -142,7 +153,7 @@ namespace ShunLib
         /// <summary>
         /// クリアしたら呼ぶ
         /// </summary>
-        public void Cleared()
+        public void GameClear()
         {
             Debug.Log("Clear");
             m_isCleared = true;
