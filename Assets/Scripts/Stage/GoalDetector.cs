@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------
 // Brief : ゴール判定用
-// 
+//
 // Date  : 2017/04/27
-// 
+//
 // Author: Y.Watanabe
 // ---------------------------------------
 
@@ -13,7 +13,8 @@ using System.Collections;
 
 public class GoalDetector : MonoBehaviour
 {
-	/// <summary> 
+
+	/// <summary>
 	/// 更新前処理
 	/// </summary>
 	void Start ()

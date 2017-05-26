@@ -27,14 +27,14 @@ public class PlayerMover : MonoBehaviour
     void Start ()
 	{
 		var core = GetComponent<PlayerCore>();
-		var input = GetComponent<PlayerInput>();
+		var input = GetComponent<IPlayerInput>();
 		var col = GetComponent<PlayerCollision>();
 		var cg = GetComponent<CheckGround>();
 
         _remote = GetComponent<PlayerMoveByRemote>();
 
 		// 移動処理
-		input.IsMoving
+		input.IsMovingRP
 			.Where(x => x == true && Input.touchCount == 1)
 			.Where(_ => core.PlayerControllable.Value == true && _remote._touchDelayCnt > 1.5f)
 			.Subscribe(x =>
