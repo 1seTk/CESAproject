@@ -19,6 +19,8 @@ public class PlayerMover : MonoBehaviour
     [SerializeField, Range(0, 10)]
     private float m_jumpPower = 10.0f;
 
+    PlayerMoveByRemote _remote;
+
     /// <summary> 
     /// 更新前処理
     /// </summary>
@@ -29,20 +31,23 @@ public class PlayerMover : MonoBehaviour
 		var col = GetComponent<PlayerCollision>();
 		var cg = GetComponent<CheckGround>();
 
+        _remote = GetComponent<PlayerMoveByRemote>();
+
 		// 移動処理
 		input.IsMoving
-			.Where(x => x == true)
-			.Where(_ => core.PlayerControllable.Value == true)
+			.Where(x => x == true && Input.touchCount == 1)
+			.Where(_ => core.PlayerControllable.Value == true && _remote._touchDelayCnt > 1.5f)
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
+				//transform.GetComponent<Rigidbody>().AddForce(Vector3.forward * m_speed / 10.0f, ForceMode.Impulse);
 			});
 
 		// ジャンプ処理
 		input.OnJumpButtonObservable
 			.Where(x => x == true)
 			.Where(_ => core.PlayerControllable.Value == true)
-			.Where(_ => cg.IsGround.Value == true)
+			.Where(_ => cg.IsGround.Value == true )
 			.Subscribe(_ =>
 			{
 				transform.GetComponent<Rigidbody>().AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
