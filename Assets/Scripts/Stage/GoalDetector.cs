@@ -13,6 +13,7 @@ using System.Collections;
 
 public class GoalDetector : MonoBehaviour
 {
+    private bool m_isGoal = false;
 
 	/// <summary>
 	/// 更新前処理
@@ -26,7 +27,12 @@ public class GoalDetector : MonoBehaviour
 			.Subscribe(_ =>
 			{
 				Debug.Log("Goal");
-				ins.LoadMainScene(YamagenLib.GameScene.Clear);
+                m_isGoal = true;
 			});
 	}
+
+    public bool GetState()
+    {
+        return m_isGoal;
+    }
 }

@@ -6,6 +6,9 @@ namespace ShunLib
 {
     public class FadeScene : MonoBehaviour
     {
+        // シングルトン
+        static public FadeScene instance;
+
         //フェード用のクラス取得用
         private Fade m_fade = null;
 
@@ -66,6 +69,16 @@ namespace ShunLib
 
         private bool m_isCallBack;
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+        }
+
         // Use this for initialization
         //初期化
         void Start()
@@ -80,6 +93,11 @@ namespace ShunLib
         //更新
         void Update()
         {
+            if (CallBack(0))
+            {
+                m_isCallBack = false;
+            }
+
             //フェードイン単体
             if (m_fadeIn)
             {
@@ -108,7 +126,7 @@ namespace ShunLib
             {
                 m_fadeImage.UpdateMaskTexture(m_fadeOutMaskTexture);
                 m_fade.FadeOut(m_fadeOutTime);
-                m_isCallBack = false;
+                //m_isCallBack = false;
             }
         }
 
@@ -137,7 +155,7 @@ namespace ShunLib
         {
             m_isCallBack = true;
         }
-        bool CallBack(int a)
+        public bool CallBack(int a)
         {
             return m_isCallBack;
         }
