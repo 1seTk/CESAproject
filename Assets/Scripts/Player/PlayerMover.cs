@@ -35,8 +35,8 @@ public class PlayerMover : MonoBehaviour
 
 		// 移動処理
 		input.IsMoving
-			.Where(x => x == true && Input.touchCount == 1)
-			.Where(_ => core.PlayerControllable.Value == true && _remote._touchDelayCnt > 1.5f)
+			.Where(x => x == true)
+			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
