@@ -25,7 +25,7 @@ namespace YamagenLib
 
         [SerializeField]
         // 初期シーン
-        GameScene m_initScene=GameScene.Title;
+        GameScene m_initScene = GameScene.Title;
 
         // ロードされてるシーン
         GameScene m_loadScene;
@@ -71,13 +71,13 @@ namespace YamagenLib
             m_loadScene = scene;
 
             // シーンがタイトル画面かセレクト画面の時SelectManagerを作成
-            if (scene==GameScene.Title||scene==GameScene.Select){
-                SelectManager.instance = new SelectManager();
-            }
-            else{
-                // それ以外の時は破棄
-                Destroy(SelectManager.instance.gameObject);
-            }
+            //if (scene==GameScene.Title||scene==GameScene.Select){
+            //    //SelectManager.instance = new SelectManager();
+            //}
+            //else{
+            //    // それ以外の時は破棄
+            //    Destroy(SelectManager.instance.gameObject);
+            //}
         }
 
         public GameScene GetLoadScene()

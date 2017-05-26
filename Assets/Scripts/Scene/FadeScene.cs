@@ -6,6 +6,9 @@ namespace ShunLib
 {
     public class FadeScene : MonoBehaviour
     {
+        // シングルトン
+        static public FadeScene instance;
+
         //フェード用のクラス取得用
         private Fade m_fade = null;
 
@@ -65,6 +68,16 @@ namespace ShunLib
         }
 
         private bool m_isCallBack;
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Awake()
+        {
+            // シングルトン
+            if (instance == null) instance = this;
+            else Destroy(gameObject);
+        }
 
         // Use this for initialization
         //初期化

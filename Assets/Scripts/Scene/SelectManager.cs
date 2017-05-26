@@ -46,7 +46,7 @@ namespace YamagenLib
         private int m_leftTextureNum = 0;
 
         // 選択されている数
-        private int m_selectScene = 0;
+        private int m_selectScene;
 
         /// <summary>
         /// 初期化
@@ -67,6 +67,8 @@ namespace YamagenLib
             InitializeCubeTexture();
 
             this.Initialize();
+
+            m_selectScene = 0;
         }
 
         public void Initialize()
@@ -193,7 +195,6 @@ namespace YamagenLib
                 if (m_leftTextureNum >= 0 && m_leftTextureNum < m_texture.Length) 
                     m_obj.GetComponent<SelectCube>().ChangeTexture(m_leftFace, m_texture[m_leftTextureNum]);                
             }
-            //Debug.Log(m_selectScene);
         }
 
         public GameObject GetSetingObject() { return m_obj; }
