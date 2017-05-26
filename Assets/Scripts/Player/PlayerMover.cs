@@ -16,25 +16,25 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_speed;
 
-    [SerializeField, Range(0, 10)]
-    private float m_jumpPower = 10.0f;
+	[SerializeField, Range(0, 10)]
+	private float m_jumpPower = 10.0f;
 
-    PlayerMoveByRemote _remote;
-
-    /// <summary> 
-    /// 更新前処理
-    /// </summary>
-    void Start ()
+	/// <summary> 
+	/// 更新前処理
+	/// </summary>
+	void Start ()
 	{
 		var core = GetComponent<PlayerCore>();
-		var input = GetComponent<PlayerInput>();
+		var input = GetComponent<IPlayerInput>();
 		var col = GetComponent<PlayerCollision>();
 		var cg = GetComponent<CheckGround>();
 
-        _remote = GetComponent<PlayerMoveByRemote>();
-
 		// 移動処理
+<<<<<<< HEAD
 		input.IsMoving
+=======
+		input.IsMovingRP
+>>>>>>> e2a46d084884accda1bffd6bf3a96d4cedebe204
 			.Where(x => x == true)
 			.Where(_ => core.PlayerControllable.Value == true)
 			.Subscribe(x =>
