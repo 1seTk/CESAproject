@@ -59,20 +59,16 @@ public class PlayerCollision : MonoBehaviour
 				{
 					int ind = item.Index / 2;
 
-					Debug.Log("衝突方向：" + ind + "インデックス:" + item.Index);
-
 					int id = col.gameObject.GetInstanceID();
 
 					if (m_hitObjects[ind] == -1)
 					{
 						// 代入
 						m_hitObjects[ind] = id;
-						Debug.Log(ind + "に" + id + "を代入" + "衝突方向：" + item.Index);
 					}
 					else if (m_hitObjects[ind] != id)
 					{
 						// はさまれた
-						Debug.Log("は？" + "ind : " + (ind == 0 ? "左右" : "上下") + "id : " + id);
 						core.IsDead.Value = true;
 					}
 				});
