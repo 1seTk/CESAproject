@@ -10,23 +10,23 @@ using System;
 
 public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 {
-    // ジャンプ力
-    [SerializeField, Range(0,10)]
-    private float _jumpPower;
+    //// ジャンプ力
+    //[SerializeField, Range(0,10)]
+    //private float _jumpPower;
 
-    // ジャンプ距離
-    [SerializeField, Range(0, 10)]
-    private float _jumpDistance;
+    //// ジャンプ距離
+    //[SerializeField, Range(0, 10)]
+    //private float _jumpDistance;
 
-    // アニメーション時間
-    [SerializeField, Range(0, 10)]
-    private float _duration;
+    //// アニメーション時間
+    //[SerializeField, Range(0, 10)]
+    //private float _duration;
 
-    // プレイヤーの状態取得用
-    private PlayerCore _core;
+    //// プレイヤーの状態取得用
+    //private PlayerCore _core;
 
-    // 地面についているか
-    private CheckGround _checkGR;
+    //// 地面についているか
+    //private CheckGround _checkGR;
 
     // タッチ開始座標
     private Vector3 touchStartPos;
@@ -34,10 +34,12 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
     // タッチ終了座標
     private Vector3 touchEndPos;
 
-    [Range(0,1.0f)]
-    public float _touchDelayCnt;
+    [Range(0, 1.0f)]
+    public int _touchTime = 0;
 
-    bool jumpFlg = false;
+    bool _jumpFlg = false;
+
+    bool _flick = false;
 
 	// インタフェース実装部分 =====
 
@@ -67,68 +69,119 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 	{
 		// ジャンプ入力
 		this.UpdateAsObservable()
-			.Select(_ => jumpFlg)
-			.Subscribe(onJumpButtonSubject);
+			.Select(_ => _jumpFlg)
+			.Subscribe(onJumpButtonSubject =>
+            {
+                if (_jumpFlg == true)
+                {
+                    Debug.Log("jump");
+                }
+            });
+
 
 		// 移動入力
 		this.UpdateAsObservable()
-			.Select(_ => Input.GetButton("Fire1"))
+			.Select(_ => Input.GetButton("Fire1")|| _flick == true)
 			.Subscribe(x =>
 			{
 				isMovingRP.SetValueAndForceNotify(x);
 			});
 	}
 
-	private void Update()
+    /// <summary>
+    /// 更新処理
+    /// </summary>
+    private void Update()
     {
-        OnTouchDown();
+        Action();
+    }
+
+    /// <summary>
+    /// アクション
+    /// </summary>
+    void Action()
+    {
+        // タッチカウントが1ならカウントを増やす;
+        if (Input.touchCount == 1)
+        {
+            //Debug.Log("touch");
+            _touchTime++;
+        }
+        else
+        {
+            _touchTime = 0;
+        }
+
+        if (_touchTime <= 30 && Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            _jumpFlg = true;
+        }
+
+
+        OnLongTap();
 
         Flick();
+
     }
-    void OnTouchDown()
+
+    /// <summary>
+    /// タップ時の処理
+    /// </summary>
+    void OnTap()
     {
-        if(0 < Input.touchCount)
+        if (0 < Input.touchCount)
         {
             switch (Input.touchCount)
             {
                 case 1:
-                    if (_touchDelayCnt <= 1.5f && Input.GetKeyUp(KeyCode.Mouse0))
+                    if (_touchTime <= 1.5f && Input.GetKeyUp(KeyCode.Mouse0))
                     {
                         Debug.Log("single");
-						//if (_core.PlayerControllable.Value == true)
-						//{
-						//    _core.PlayerControllable.Value = false;
+                        //if (_core.PlayerControllable.Value == true)
+                        //{
+                        //    _core.PlayerControllable.Value = false;
 
-						//    transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
-						//        () =>
-						//        {
-						//            _core.PlayerControllable.Value = true;
+                        //    transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
+                        //        () =>
+                        //        {
+                        //            _core.PlayerControllable.Value = true;
 
-						//            Debug.Log("jumpEnd");
-						//        }
-						//        );
-						//}
-						jumpFlg = true;
+                        //            Debug.Log("jumpEnd");
+                        //        }
+                        //        );
+                        //}
+                        //_jumpFlg = true;
                     }
                     break;
             }
         }
         else
         {
-            _touchDelayCnt = 0;
-			jumpFlg = false;
+            _touchTime = 0;
+            //_jumpFlg = false;
 
-		}
-		if (Input.touchCount == 1)
-        {
-            _touchDelayCnt+=0.1f;
         }
+        //	if (Input.touchCount == 1)
+        //       {
+        //           _touchDelayCnt+=0.1f;
+        //       }
+        //   }
     }
 
-    // フリック操作
+    /// <summary>
+    /// ロングタップ時の処理
+    /// </summary>
+    void OnLongTap()
+    {
+
+    }
+
+    /// <summary>
+    /// フリック時の処理
+    /// </summary>
     void Flick()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             touchStartPos = new Vector3(Input.mousePosition.x,
                             Input.mousePosition.y,
@@ -144,6 +197,9 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
         }
     }
 
+    /// <summary>
+    /// 方向取得関数
+    /// </summary>
     void GetDirection()
     {
         float directionY = Mathf.Abs(touchEndPos.y) - Mathf.Abs(touchStartPos.y);
@@ -164,33 +220,32 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
         {
             case "up":
                 //上フリックされた時の処理
-                if (_core.PlayerControllable.Value == true /*&& _checkGR.IsGround.Value == true*/)
+                //if (_flick == true)
+                //{
+                //    _core.PlayerControllable.Value = false;
+
+                    //transform.DOJump(new Vector3(0, 0, transform.position.z + _jumpDistance), _jumpPower, 1, _duration)
+                    //    .OnComplete(() =>
+                    //    {
+                    //        _core.PlayerControllable.Value = true;
+
+                    //        Debug.Log("animend");
+
+                    //    });
+
+                //    Debug.Log("flick");
+                //    jumpFlg = true;
+
+                //}
+                //else
                 {
-                    _core.PlayerControllable.Value = false;
+                    //jumpFlg = false;
+                }
+                break;
 
-                    transform.DOJump(new Vector3(0, 0, transform.position.z + _jumpDistance), _jumpPower, 1, _duration)
-                        .OnComplete(()=> {
-                            _core.PlayerControllable.Value = true;
-
-                            Debug.Log("animend");
-
-                        });
-                    
-                    Debug.Log("flick");
-					jumpFlg = true;
-
-				}
-				else
-				{
-					jumpFlg = false;
-				}
-				break;
-
-			default:
-				jumpFlg = false;
-				break;
-
-		}
-
-	}
+            default:
+                //_jumpFlg = false;
+                break;
+        }
+    }
 }
