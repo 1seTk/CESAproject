@@ -1,20 +1,12 @@
-﻿//************************************************/
-//* @file  :ClearDirection.cs
-//* @brief :クリア画面の演出
-//* @date  :2017/05/24
-//* @author:S.Katou
-//************************************************/
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-
 namespace ShunLib
 {
-    public class ClearDirection : MonoBehaviour
+    public class GameOverDirection : MonoBehaviour
     {
         // 終点
         [SerializeField, Tooltip("移動する距離")]
@@ -40,9 +32,11 @@ namespace ShunLib
         private float m_startTime = 0.0f;
 
         //クリア判定とスタート判定
-        private bool m_isCleared = false;
+        private bool m_isGameOver = false;
         private bool m_isStarted = false;
 
+        [SerializeField, Tooltip("プレイヤーの死亡判定用")]
+        private PlayerCore m_playerCore;
 
         /// <summary>
         /// 初期設定
@@ -55,6 +49,8 @@ namespace ShunLib
             var color = m_black.color;
             color.a = 0.0f;
             m_black.color = color;
+
+
         }
 
 
@@ -83,7 +79,7 @@ namespace ShunLib
         private bool IsStarted()
         {
             //クリアしていなければ更新しない
-            if (!m_isCleared)
+            if (!(m_playerCore.IsDead.Value))
             {
                 return false;
             }
@@ -142,10 +138,10 @@ namespace ShunLib
         /// <summary>
         /// クリアしたら呼ぶ
         /// </summary>
-        public void Cleared()
+        public void GameOver()
         {
-            Debug.Log("Clear");
-            m_isCleared = true;
+            Debug.Log("GameOver");
+            m_isGameOver = true;
         }
     }
 }
