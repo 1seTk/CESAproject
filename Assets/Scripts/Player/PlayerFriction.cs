@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------
-// Brief : 
+// Brief : プレイヤーの摩擦
 // 
-// Date  : 
+// Date  : 2017/05/26
 // 
 // Author: Y.Watanabe
 // ---------------------------------------
@@ -65,5 +65,8 @@ public class PlayerFriction : MonoBehaviour
 		// デバッグRay描画
 		this.UpdateAsObservable()
 			.Subscribe(_ => Debug.DrawRay(transform.position, -transform.up, Color.red, m_hitDistance));
+
+
+		// 衝突していたら子にする、離れたら子にしない
 	}
 }
