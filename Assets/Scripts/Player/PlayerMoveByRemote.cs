@@ -10,36 +10,32 @@ using System;
 
 public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 {
-    //// ジャンプ力
-    //[SerializeField, Range(0,10)]
-    //private float _jumpPower;
-
-    //// ジャンプ距離
-    //[SerializeField, Range(0, 10)]
-    //private float _jumpDistance;
-
-    //// アニメーション時間
-    //[SerializeField, Range(0, 10)]
-    //private float _duration;
-
-    //// プレイヤーの状態取得用
-    //private PlayerCore _core;
-
-    //// 地面についているか
-    //private CheckGround _checkGR;
-
     // タッチ開始座標
-    private Vector3 touchStartPos;
+    private float _touchStartPosY;
 
     // タッチ終了座標
-    private Vector3 touchEndPos;
+    private float _touchEndPosY;
 
-    [Range(0, 1.0f)]
-    public int _touchTime = 0;
+    private int _touchTime = 0;
 
-    bool _jumpFlg = false;
+    private bool _jumpFlg = false;
 
-    bool _flick = false;
+    private bool _flickFlg = false;
+
+    private bool _advanceFlg = false;
+
+    [Range(5,100)]
+    public int _delayFrame = 20;
+
+    private CheckGround _checkGround;
+
+    private bool _oldGroundValue = false;
+
+    [Range(0,10)]
+    public float _adPower = 3f;
+
+    [Range(1, 10)]
+    public float _jumpTime = 1;
 
 	// インタフェース実装部分 =====
 
@@ -67,21 +63,17 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 
 	private void Start()
 	{
+        _checkGround = GetComponent<CheckGround>();
+
 		// ジャンプ入力
 		this.UpdateAsObservable()
-			.Select(_ => _jumpFlg)
-			.Subscribe(onJumpButtonSubject =>
-            {
-                if (_jumpFlg == true)
-                {
-                    Debug.Log("jump");
-                }
-            });
+			.Select(_ => _jumpFlg == true)
+			.Subscribe(onJumpButtonSubject);
 
 
 		// 移動入力
 		this.UpdateAsObservable()
-			.Select(_ => Input.GetButton("Fire1")|| _flick == true)
+			.Select(_ => _advanceFlg == true)
 			.Subscribe(x =>
 			{
 				isMovingRP.SetValueAndForceNotify(x);
@@ -93,159 +85,69 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
     /// </summary>
     private void Update()
     {
-        Action();
-    }
-
-    /// <summary>
-    /// アクション
-    /// </summary>
-    void Action()
-    {
-        // タッチカウントが1ならカウントを増やす;
-        if (Input.touchCount == 1)
+        foreach (Touch t in Input.touches)
         {
-            //Debug.Log("touch");
-            _touchTime++;
-        }
-        else
-        {
-            _touchTime = 0;
-        }
-
-        if (_touchTime <= 30 && Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            _jumpFlg = true;
-        }
-
-
-        OnLongTap();
-
-        Flick();
-
-    }
-
-    /// <summary>
-    /// タップ時の処理
-    /// </summary>
-    void OnTap()
-    {
-        if (0 < Input.touchCount)
-        {
-            switch (Input.touchCount)
+            switch (t.phase)
             {
-                case 1:
-                    if (_touchTime <= 1.5f && Input.GetKeyUp(KeyCode.Mouse0))
+                case TouchPhase.Began:
+                    // タッチ開始座標を代入
+                    _touchStartPosY = t.position.y;
+
+                    Debug.Log("Begin");
+                    break;
+                case TouchPhase.Stationary:
+                    // タッチ時間計測を開始
+                    _touchTime++;
+                    Debug.Log("Stationaly");
+                    
+                    // タッチ時間が一定フレームを超えたら前進開始
+                    if (_touchTime > _delayFrame && _checkGround.IsGround.Value == true)
                     {
-                        Debug.Log("single");
-                        //if (_core.PlayerControllable.Value == true)
-                        //{
-                        //    _core.PlayerControllable.Value = false;
-
-                        //    transform.DOJump(new Vector3(transform.position.x, transform.position.y, transform.position.z), _jumpPower, 1, 1).OnComplete(
-                        //        () =>
-                        //        {
-                        //            _core.PlayerControllable.Value = true;
-
-                        //            Debug.Log("jumpEnd");
-                        //        }
-                        //        );
-                        //}
-                        //_jumpFlg = true;
+                        _advanceFlg = true;
                     }
+                    break;
+                case TouchPhase.Ended:
+                    // タッチ終了座標を代入
+                    _touchEndPosY = t.position.y;
+
+                    Debug.Log("StartPos" + _touchStartPosY);
+
+                    Debug.Log("EndPos" + _touchEndPosY);
+
+                    // 移動していない場合ジャンプを実行
+                    if (_advanceFlg == false)
+                    {                        
+                        _jumpFlg = true;
+                        Observable.NextFrame().Subscribe(_ =>
+                        {
+                            _jumpFlg = false;
+                        });
+                    }
+                    
+                    // 指が離れた時に前進移動を停止
+                    if ((_advanceFlg == true && _checkGround.IsGround.Value) == true)
+                    {
+                        _advanceFlg = false;
+                    }
+
+                    if (30 < Math.Abs(_touchEndPosY) - Mathf.Abs(_touchStartPosY))
+                    {
+                        // スワイプしている場合
+                        //_advanceFlg = true;
+                        if ((_checkGround.IsGround.Value) == true)
+                        transform.DOMoveZ(transform.position.z + _adPower, _jumpTime);
+                    }
+                    // タッチ時間をリセット
+                    _touchTime = 0;
                     break;
             }
         }
-        else
+        if (_checkGround.IsGround.Value != _oldGroundValue)
         {
-            _touchTime = 0;
-            //_jumpFlg = false;
-
+            _advanceFlg = false;
         }
-        //	if (Input.touchCount == 1)
-        //       {
-        //           _touchDelayCnt+=0.1f;
-        //       }
-        //   }
+
+        _oldGroundValue = _checkGround.IsGround.Value;
     }
 
-    /// <summary>
-    /// ロングタップ時の処理
-    /// </summary>
-    void OnLongTap()
-    {
-
-    }
-
-    /// <summary>
-    /// フリック時の処理
-    /// </summary>
-    void Flick()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            touchStartPos = new Vector3(Input.mousePosition.x,
-                            Input.mousePosition.y,
-                            Input.mousePosition.z);
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            touchEndPos = new Vector3(Input.mousePosition.x,
-                                      Input.mousePosition.y,
-                                      Input.mousePosition.z);
-
-            GetDirection();
-        }
-    }
-
-    /// <summary>
-    /// 方向取得関数
-    /// </summary>
-    void GetDirection()
-    {
-        float directionY = Mathf.Abs(touchEndPos.y) - Mathf.Abs(touchStartPos.y);
-        string Direction = null;
-
-        if (30 < directionY)
-        {
-            //上向きにフリック
-            Direction = "up";
-        }
-        else
-        {
-            //タッチを検出
-            Direction = "touch";
-        }
-
-        switch (Direction)
-        {
-            case "up":
-                //上フリックされた時の処理
-                //if (_flick == true)
-                //{
-                //    _core.PlayerControllable.Value = false;
-
-                    //transform.DOJump(new Vector3(0, 0, transform.position.z + _jumpDistance), _jumpPower, 1, _duration)
-                    //    .OnComplete(() =>
-                    //    {
-                    //        _core.PlayerControllable.Value = true;
-
-                    //        Debug.Log("animend");
-
-                    //    });
-
-                //    Debug.Log("flick");
-                //    jumpFlg = true;
-
-                //}
-                //else
-                {
-                    //jumpFlg = false;
-                }
-                break;
-
-            default:
-                //_jumpFlg = false;
-                break;
-        }
-    }
 }
