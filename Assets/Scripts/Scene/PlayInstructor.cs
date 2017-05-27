@@ -17,7 +17,8 @@ namespace YamagenLib
         Stage5,
         Stage6,
         Stage7,
-        Stage8
+        Stage8,
+        Stage9
     }
 
     /// <summary>
@@ -60,10 +61,14 @@ namespace YamagenLib
         // ステージをロードする
         public void LoadStage(PlayStage stage)
         {
-            if (m_initFlag == false)
+            if (m_initFlag == false){
+                ShunLib.GameOverDirection.instance.Initialize();    // オーバーの初期化
+                ShunLib.ClearDirection.instance.Initialize();    // クリアの初期化
                 SceneManager.UnloadSceneAsync(m_loadStage.ToString());
-            else
+            }
+            else{
                 m_initFlag = false;
+            }
             SceneManager.LoadScene(stage.ToString(), LoadSceneMode.Additive);
             m_loadStage = stage;
         }
@@ -71,6 +76,8 @@ namespace YamagenLib
         // ステージをリロードする
         public void ReLoadStage()
         {
+            ShunLib.GameOverDirection.instance.Initialize();    // オーバーの初期化
+            ShunLib.ClearDirection.instance.Initialize();    // クリアの初期化
             SceneManager.UnloadSceneAsync(m_loadStage.ToString());
             SceneManager.LoadScene(m_loadStage.ToString(), LoadSceneMode.Additive);
         }
@@ -78,6 +85,20 @@ namespace YamagenLib
         public PlayStage GetLoadStage()
         {
             return m_loadStage;
+        }
+
+        public void ChangenextScene()
+        {
+            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
+            LoadStage(m_loadStage);
+        }
+
+        /// <summary>
+        /// ステージをアンロード
+        /// </summary>
+        public void StageUnLoad()
+        {
+            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
         }
     }
 }
