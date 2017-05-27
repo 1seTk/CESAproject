@@ -94,8 +94,6 @@ namespace YamagenLib
         /// </summary>
         void Update()
         {
-            // シーン遷移の判定
-            m_enterScript.Update(m_selectScene);
 
             // マウスが押された時
             if (Input.GetMouseButtonDown(0))
@@ -111,11 +109,14 @@ namespace YamagenLib
                 // 横移動量画面割合(-1<tx<1)
                 m_MoveMouseX = (Input.mousePosition.x - m_startPos.x) / m_screenWidth;
 
-                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
-                {
+                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue)){
                     // 許容値内でスワイプの場合
                     // 回転
                     ObjectRotate(m_MoveMouseX);
+                }
+                else {
+                    // シーン遷移の判定
+                    m_enterScript.Change(m_selectScene, m_startPos, m_endPos);
                 }
                 m_MoveMouseX = 0.0f;                       // 移動量リセット
             }

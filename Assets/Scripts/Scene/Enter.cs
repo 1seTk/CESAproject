@@ -20,24 +20,12 @@ namespace YamagenLib
         }
 
         // Update is called once per frame
-        public void Update(int select) {
-            Debug.Log("Enter更新");
-            // マウスが押された時
-            if (Input.GetMouseButtonDown(0)) m_startPos = Input.mousePosition; // プッシュ開始座標    
-
-            // マウスが離された時
-            if (Input.GetMouseButtonUp(0)){
-                m_endPos = Input.mousePosition;
-                // クリック開始位置と終了位置がオブジェクト内の場合シーンを変更
-                if (SearchObject(m_startPos) && SearchObject(m_endPos)){
-                    SceneChange(select);
-                    Debug.Log("change！");
-                }
-                else{
-                    m_startPos = Vector3.zero;
-                    m_endPos = Vector3.zero;
-                    Debug.Log("リセット");
-                }
+        public void Change(int select,Vector3 startPos, Vector3 endPos) {
+            // クリック開始位置と終了位置がオブジェクト内の場合シーンを変更
+            if (SearchObject(startPos) && SearchObject(endPos))
+            {
+                SceneChange(select);
+                Debug.Log("change！");
             }
         }
 
