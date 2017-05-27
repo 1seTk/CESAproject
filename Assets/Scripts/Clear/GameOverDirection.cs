@@ -80,7 +80,7 @@ namespace ShunLib
             //Debug.Log("座標は " + m_obj[0].transform.position);
             for (int i = 0; i < m_obj.Length; i++){
                 if (m_obj[i] != null)
-                m_obj[i].transform.DOLocalMoveX(m_objPos[i], 1.0f).SetEase(Ease.Linear);
+                m_obj[i].transform.DOLocalMoveX(m_objPos[i], m_time[i]).SetEase(Ease.Linear);
             }
             //Debug.Log("座標は " + m_obj[0].transform.position);
         }
@@ -99,9 +99,6 @@ namespace ShunLib
 
             //画面を暗くする
             DarkenScreen();
-
-            //オブジェクトを移動させる
-            MoveObject();
         }
 
 
@@ -132,17 +129,12 @@ namespace ShunLib
         /// </summary>
         private void MoveObject()
         {
-            float timeStep = (Time.time - m_startTime);
-
             //オブジェクトが存在するならば移動させる
             if (m_obj.Length > 0)
             {
-                for (int i = 0; i < m_obj.Length; i++)
-                {
-                    if (m_intervalTime[i] < timeStep)
-                    {
-                        m_obj[i].transform.DOLocalMoveX(m_targetPositionX, m_time[i]).SetEase(Ease.Linear);
-                    }
+                for (int i = 0; i < m_obj.Length; i++){
+                    if (m_obj[i] != null)
+                    m_obj[i].transform.DOLocalMoveX(m_targetPositionX, m_time[i]).SetEase(Ease.Linear).SetDelay(m_intervalTime[i]);
                 }
             }
         }
@@ -174,6 +166,8 @@ namespace ShunLib
         {
             Debug.Log("GameOver");
             m_isGameOver = true;
+            //オブジェクトを移動させる
+            MoveObject();
         }
     }
 }

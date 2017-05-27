@@ -733,17 +733,17 @@ Prefab:
     - target: {fileID: 114421276684632558, guid: 4c84fbeb4a3aca04a8699212ab2faceb,
         type: 2}
       propertyPath: m_intervalTime.Array.data[0]
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 114421276684632558, guid: 4c84fbeb4a3aca04a8699212ab2faceb,
         type: 2}
       propertyPath: m_intervalTime.Array.data[1]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114421276684632558, guid: 4c84fbeb4a3aca04a8699212ab2faceb,
         type: 2}
       propertyPath: m_intervalTime.Array.data[2]
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c84fbeb4a3aca04a8699212ab2faceb, type: 2}
@@ -781,9 +781,9 @@ MonoBehaviour:
   m_obj:
   - {fileID: 1946136692}
   m_time:
-  - 0.5
+  - 0.1
   m_intervalTime:
-  - 0
+  - 0.5
   m_black: {fileID: 716441013}
 --- !u!4 &1038388366
 Transform:
