@@ -30,16 +30,37 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if(m_goal.GetState()||m_isClear)
+        if(m_goal.GetState())
+        {
+            m_isClear = true;
+        }
+
+        if (m_core.IsDead.Value)
+        {
+            m_isOver = true;
+        }
+
+        GameClear();
+        GameOver();
+    }
+
+    private void GameClear()
+    {
+        if (m_isClear)
         {
             // ゴールした時
             ShunLib.ClearDirection.instance.GameClear();
+            m_isClear = false;
         }
+    }
 
-        if (m_core.IsDead.Value||m_isOver)
+    private void GameOver()
+    {
+        if (m_isOver && m_isClear == false) 
         {
-            // 死んだ時
+            // 死んでクリアしていない時
             ShunLib.GameOverDirection.instance.GameOver();
+            m_isOver = false;
         }
     }
 

@@ -19,6 +19,9 @@ namespace ShunLib
         [SerializeField, Tooltip("移動させるオブジェクト")]
         private GameObject[] m_obj;
 
+        // オブジェクトの初期座標
+        private float[] m_objPos;
+
         //時間
         [SerializeField, Tooltip("移動にかかる時間")]
         private float[] m_time;
@@ -46,19 +49,40 @@ namespace ShunLib
             // シングルトン
             if (instance == null) instance = this;
             else Destroy(gameObject);
+
+            // 配列確保
+            m_objPos = new float[m_obj.Length];
+            // 座標記憶
+            for (int i = 0; i < m_obj.Length; i++)
+            {
+                if (m_obj[i] != null) m_objPos[i] = m_obj[i].transform.position.x;
+            }
+            // 初期設定
+            Initialize();
         }
 
         /// <summary>
         /// 初期設定
         /// </summary>
-        void Start()
+        public void Initialize()
         {
             m_startTime = Time.time;
+
+            m_isGameOver = false;   // オーバーしていない
+            m_isStarted = false;
 
             //念のため透明にする
             var color = m_black.color;
             color.a = 0.0f;
             m_black.color = color;
+
+            // オブジェクトの座標設定
+            //Debug.Log("座標は " + m_obj[0].transform.position);
+            for (int i = 0; i < m_obj.Length; i++){
+                if (m_obj[i] != null)
+                m_obj[i].transform.DOLocalMoveX(m_objPos[i], 1.0f).SetEase(Ease.Linear);
+            }
+            //Debug.Log("座標は " + m_obj[0].transform.position);
         }
 
 
@@ -87,13 +111,13 @@ namespace ShunLib
         private bool IsStarted()
         {
             // 死んでいなければ更新しない
-            if (!(m_isGameOver))
+            if (m_isGameOver == false)
             {
                 return m_isStarted;
             }
             else
             {
-                if (!m_isStarted)
+                if (m_isStarted == false)
                 {
                     m_startTime = Time.time;
                     m_isStarted = true;
@@ -140,7 +164,7 @@ namespace ShunLib
             }
             color.a = alpha;
             m_black.color = color;
-            Debug.Log(alpha);
+            //Debug.Log(alpha);
 
         }
         /// <summary>
