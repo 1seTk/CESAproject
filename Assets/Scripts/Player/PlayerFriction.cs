@@ -20,10 +20,19 @@ public class PlayerFriction : MonoBehaviour
 	[SerializeField]
 	private LayerMask m_ignoreMask;
 
+	RaycastHit hit = new RaycastHit();
+
+	private Vector3 m_scale;
+
+	private Vector3 m_defaultScale;
+
 	void Start ()
 	{
-		RaycastHit hit = new RaycastHit();
 
+		var cg = GetComponent<CheckGround>();
+
+		m_scale = transform.localScale;
+		m_defaultScale = transform.lossyScale;
 		// 四方にレイを飛ばす
 
 		// レイにヒットしたオブジェクトを方向のリストに
@@ -53,20 +62,68 @@ public class PlayerFriction : MonoBehaviour
 
 		// 衝突情報と通知を飛ばす
 		this.UpdateAsObservable()
-			.Where(_ => Physics.Raycast(transform.position, -transform.up, out hit, m_hitDistance, ~m_ignoreMask) == true)
+			//.Where(_ => Physics.Raycast(transform.position, -transform.up, out hit, m_hitDistance, ~m_ignoreMask) == true)
 			.Subscribe(x => {
-				//isHitRP.SetValueAndForceNotify(x);
-				//m_hitObject = hit.transform;
-				//Debug.Log(m_hitObject.name);
-				Debug.Log("hit");
+				// Rayを飛ばす
+				// var h = Physics.BoxCast(transform.position, Vector3.one * 0.5f, -transform.up, out hit, Quaternion.identity ,m_hitDistance, ~m_ignoreMask);
+				Physics.Raycast(transform.position, -transform.up, out hit, m_hitDistance, ~m_ignoreMask);
+				//// Rayがヒットしたら
+				//if(h == true)
+				//{
+				//	Debug.Log(hit.transform.name);
+
+				//	// 親を解除して衝突相手の子に設定する
+				//	transform.parent.parent = null;
+				//	transform.parent.parent = hit.transform;
+				//}
+				//// Rayがヒットしていなかったら
+				//// 親を解除する
+				//else
+				//{
+				//	transform.parent.parent = null;
+				//}
+			});
+
+		this.UpdateAsObservable()
+			.Subscribe(_ =>
+			{
+				Vector3 lossScale = transform.lossyScale;
+				Vector3 localScale = transform.localScale;
+				transform.localScale = new Vector3(
+						localScale.x / lossScale.x * m_defaultScale.x,
+						localScale.y / lossScale.y * m_defaultScale.y,
+						localScale.z / lossScale.z * m_defaultScale.z
+				);
+
 			});
 
 
+		this.ObserveEveryValueChanged(x => hit)
+			.Where(x => x.transform != null)
+			.DistinctUntilChanged()
+			.Subscribe(x =>
+			{
+				Debug.Log("switch parent" + x.transform.name);
+
+				// 親を解除して衝突相手の子に設定する
+				//transform.parent = null;
+				transform.parent = x.transform;
+
+				// transform.localScale = Vector3.one;
+			});
+
+		this.ObserveEveryValueChanged(x => hit)
+			.Where(x => x.transform == null)
+			.Where(_ => cg.IsGround.Value != true)
+			//.ThrottleFrame(30)
+			.Subscribe(_ => transform.parent = null);
+
 		// デバッグRay描画
 		this.UpdateAsObservable()
-			.Subscribe(_ => Debug.DrawRay(transform.position, -transform.up, Color.red, m_hitDistance));
+			.Subscribe(_ =>
+			{
+				Debug.DrawRay(transform.position, -transform.up, Color.red, m_hitDistance);
 
-
-		// 衝突していたら子にする、離れたら子にしない
+			});
 	}
 }
