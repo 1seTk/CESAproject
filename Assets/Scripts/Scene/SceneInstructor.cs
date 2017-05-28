@@ -100,7 +100,7 @@ namespace YamagenLib
             // フェードイン
             ShunLib.FadeScene.instance.FadeIn();
             // 1秒待つ  
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(1.0f);
             // 今のシーンをアンロード
             SceneManager.UnloadSceneAsync(m_oldLoadScene.ToString());
             // 1秒待つ  

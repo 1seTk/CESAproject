@@ -96,8 +96,10 @@ namespace YamagenLib
         /// <summary>
         /// ステージをアンロード
         /// </summary>
-        public void StageUnLoad()
+        public IEnumerator StageUnLoad()
         {
+            // 1秒待つ  
+            yield return new WaitForSeconds(0.7f);
             SceneManager.UnloadSceneAsync(m_loadStage.ToString());
         }
     }

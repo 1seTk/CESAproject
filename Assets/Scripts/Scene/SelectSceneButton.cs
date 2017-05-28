@@ -15,7 +15,7 @@ namespace YamagenLib {
         // シーンをSelectにする
         public void ChangeSelect()
         {
-            PlayInstructor.instance.StageUnLoad();
+            PlayInstructor.instance.StartCoroutine("StageUnLoad");
             SceneInstructor.instance.LoadMainScene(GameScene.Select);
         }
     }
