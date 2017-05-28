@@ -101,7 +101,7 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
                     Debug.Log("Stationaly");
                     
                     // タッチ時間が一定フレームを超えたら前進開始
-                    if (_touchTime > _delayFrame && _checkGround.IsGround.Value == true)
+                    if (_touchTime > _delayFrame /*&& _checkGround.IsGround.Value == true*/)
                     {
                         _advanceFlg = true;
                     }
