@@ -44,11 +44,8 @@ public class PlayerCore : MonoBehaviour
 			.Where(x => x == true)
 			.Subscribe(_ =>
 			{
-                if ((ShunLib.ClearDirection.instance.isClear() == false))
-                {
-                    Debug.Log("死ゾ");
-                    des.Break();
-                }
+                Debug.Log("死ゾ");
+                des.Break();
 			});
 	}
 

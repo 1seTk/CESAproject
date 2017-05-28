@@ -133,6 +133,7 @@ namespace ShunLib
         /// </summary>
         private void MoveObject()
         {
+            if ((ShunLib.ClearDirection.instance.isClear() == false))
             //オブジェクトが存在するならば移動させる
             if (m_obj.Length > 0)
             {
