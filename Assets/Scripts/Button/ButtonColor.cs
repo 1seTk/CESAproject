@@ -4,22 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[RequireComponent(typeof(ButtonEx))]
 public class ButtonColor : MonoBehaviour
 {
+
     //private float textColor;
 
     private Text m_text;
     private Image m_img;
 
+    private ButtonEx m_button;
+
     private Color m_startTextColor;
     private Color m_startImgColor;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         // 色への参照
         m_text = GetComponentInChildren<Text>();
         m_img = GetComponent<Image>();
+
+        // ボタンへの参照
+        m_button = GetComponent<ButtonEx>();
 
         // 初期色の取得
         m_startTextColor = m_text.color;
@@ -30,14 +37,11 @@ public class ButtonColor : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-
         //if (Input.touchCount > 0)
         //{
-        if (Input.GetMouseButtonDown(0))
+        if (m_button.IsOn)
         {
             DOTween.Kill(this.gameObject);
-            //m_text.color = Color.white - m_text.color + Color.black;
-            //m_img.color = Color.white - m_img.color + Color.black;
             DOTween.To(
                 () => m_text.color,                // 何を対象にするのか
                 c => m_text.color = c,    // 値の更新
@@ -52,11 +56,10 @@ public class ButtonColor : MonoBehaviour
                     0.2f                                // アニメーション時間
                 );
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (!m_button.IsOn)
         {
             DOTween.Kill(this.gameObject);
-            //m_text.color = Color.white - m_text.color + Color.black;
-            //m_img.color = Color.white - m_img.color + Color.black;
+
             DOTween.To(
                 () => m_text.color,                // 何を対象にするのか
                 c => m_text.color = c,    // 値の更新
@@ -72,14 +75,6 @@ public class ButtonColor : MonoBehaviour
                 );
 
         }
-        //Touch touch = Input.GetTouch(0);
-        //if (touch.phase == TouchPhase.Began)
-        //{                
-        //    Debug.Log("color change");
-        //    m_text.color = Color.white - m_text.color + Color.black;
-        //    m_img.color = Color.white - m_img.color + Color.black;
-        //}
-        //}
     }
 
 
@@ -92,4 +87,5 @@ public class ButtonColor : MonoBehaviour
             3f                                // アニメーション時間
         );
     }
+
 }

@@ -25,10 +25,15 @@ public class PlayerCore : MonoBehaviour
 	/// </summary>
 	public ReactiveProperty<bool> IsDead = new ReactiveProperty<bool>(false);
 
-	/// <summary>
-	/// 更新前処理
-	/// </summary>
-	void Start ()
+    /// <summary>
+    /// 復活
+    /// </summary>
+    public void Resurrection() { IsDead = new ReactiveProperty<bool>(false); }
+
+    /// <summary>
+    /// 更新前処理
+    /// </summary>
+    void Start ()
 	{
 		StartCoroutine(WaitStartAnimation());
 
@@ -39,8 +44,11 @@ public class PlayerCore : MonoBehaviour
 			.Where(x => x == true)
 			.Subscribe(_ =>
 			{
-				Debug.Log("死ゾ");
-				des.Break();
+                if ((ShunLib.ClearDirection.instance.isClear() == false))
+                {
+                    Debug.Log("死ゾ");
+                    des.Break();
+                }
 			});
 	}
 

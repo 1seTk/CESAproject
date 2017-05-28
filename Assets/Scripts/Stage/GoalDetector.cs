@@ -35,4 +35,9 @@ public class GoalDetector : MonoBehaviour
     {
         return m_isGoal;
     }
+
+    public void SetDefault()
+    {
+        m_isGoal = false;
+    }
 }

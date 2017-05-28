@@ -33,9 +33,10 @@ public class StageManager : MonoBehaviour
         if(m_goal.GetState())
         {
             m_isClear = true;
+            m_goal.SetDefault();
         }
 
-        if (m_core.IsDead.Value)
+        if (m_core.IsDead.Value && (ShunLib.ClearDirection.instance.isClear()==false))
         {
             m_isOver = true;
         }
@@ -56,12 +57,13 @@ public class StageManager : MonoBehaviour
 
     private void GameOver()
     {
-        if (m_isOver && m_isClear == false) 
+        if (m_isOver && (ShunLib.ClearDirection.instance.isClear() == false)) 
         {
             // 死んでクリアしていない時
             ShunLib.GameOverDirection.instance.GameOver();
-            m_isOver = false;
         }
+        m_core.Resurrection();
+        m_isOver = false;
     }
 
 }

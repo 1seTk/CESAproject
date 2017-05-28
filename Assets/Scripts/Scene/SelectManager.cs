@@ -199,5 +199,7 @@ namespace YamagenLib
         }
 
         public GameObject GetSetingObject() { return m_obj; }
+        public PlayStage GetSelectStage() { return (PlayStage)m_selectScene; }
+
     }
 }

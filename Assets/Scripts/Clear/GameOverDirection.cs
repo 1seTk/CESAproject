@@ -78,9 +78,13 @@ namespace ShunLib
 
             // オブジェクトの座標設定
             //Debug.Log("座標は " + m_obj[0].transform.position);
-            for (int i = 0; i < m_obj.Length; i++){
+            for (int i = 0; i < m_obj.Length; i++)
+            {
                 if (m_obj[i] != null)
-                m_obj[i].transform.DOLocalMoveX(m_objPos[i], m_time[i]).SetEase(Ease.Linear);
+                {
+                    m_obj[i].transform.DOComplete();
+                    m_obj[i].transform.DOLocalMoveX(m_objPos[i], m_time[i]).SetEase(Ease.Linear).Complete();
+                }
             }
             //Debug.Log("座標は " + m_obj[0].transform.position);
         }
