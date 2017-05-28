@@ -32,6 +32,15 @@ public class AudioManager : MonoBehaviour
     private static AudioManager m_instance = null;
 
     /// <summary>
+    /// コルーチン中断に使用
+    /// </summary>
+    private IEnumerator fadeOutCoroutine;
+    /// <summary>
+    /// コルーチン中断に使用
+    /// </summary>
+    private IEnumerator fadeInCoroutine;
+
+    /// <summary>
     /// シングルトン
     /// </summary>
     public static AudioManager Instance
@@ -80,15 +89,11 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioKey">再生したい音楽ファイルのKey</param>
     /// <param name="isLoop">ループの可否：true:ループ/false:ループしない</param>
     /// <param name="isAwake">生成時の再生の可否：true:再生/false:再生しない</param>
-    public void Play(string audioKey, bool isLoop = false, bool isAwake = false)
+    public void SetOption(string audioKey, bool isLoop = false, bool isAwake = false)
     {
         AudioSource source = m_audioPool[audioKey];
-        print(audioKey+"を再生します。");
-
         source.loop = isLoop;
         source.playOnAwake = isAwake;
-
-        source.Play();
     }
 
     /// <summary>
@@ -97,5 +102,88 @@ public class AudioManager : MonoBehaviour
     public void Stop(string key)
     {
         m_audioPool[key].Stop();
+    }
+
+    /// <summary>
+    /// BGMをフェードインさせながら再生を開始します。
+    /// </summary>
+    /// <param name="bgm">AudioSource</param>
+    /// <param name="timeToFade">フェードインにかかる時間</param>
+    /// <param name="fromVolume">初期音量</param>
+    /// <param name="toVolume">フェードイン完了時の音量</param>
+    /// <param name="delay">フェードイン開始までの待ち時間</param>
+    private IEnumerator fadeIn(string key, float timeToFade, float fromVolume, float toVolume, float delay)
+    {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+
+
+        float startTime = Time.time;
+        m_audioPool[key].Play();
+        while (true)
+        {
+            float spentTime = Time.time - startTime;
+            if (spentTime > timeToFade)
+            {
+                m_audioPool[key].volume = toVolume;
+                this.fadeInCoroutine = null;
+                break;
+            }
+
+            float rate = spentTime / timeToFade;
+            float vol = Mathf.Lerp(fromVolume, toVolume, rate);
+            m_audioPool[key].volume = vol;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// BGMをフェードアウトし、その後停止します。
+    /// </summary>
+    /// <param name="bgm">フェードアウトさせるAudioSource</param>
+    /// <param name="timeToFade">フェードアウトにかかる時間</param>
+    /// <param name="fromVolume">フェードアウト開始前の音量</param>
+    /// <param name="toVolume">フェードアウト完了時の音量</param>
+    private IEnumerator fadeOut(string key, float timeToFade, float fromVolume, float toVolume)
+    {
+        float startTime = Time.time;
+        while (true)
+        {
+            float spentTime = Time.time - startTime;
+            if (spentTime > timeToFade)
+            {
+                m_audioPool[key].volume = toVolume;
+                m_audioPool[key].Stop();
+                this.fadeOutCoroutine = null;
+                break;
+            }
+
+            float rate = spentTime / timeToFade;
+            float vol = Mathf.Lerp(fromVolume, toVolume, rate);
+            m_audioPool[key].volume = vol;
+            yield return null;
+        }
+    }
+    /// <summary>
+    /// フェードイン処理を中断。
+    /// </summary>
+    private void stopFadeIn()
+    {
+        if (this.fadeInCoroutine != null)
+            StopCoroutine(this.fadeInCoroutine);
+        this.fadeInCoroutine = null;
+
+    }
+
+    /// <summary>
+    /// フェードアウト処理を中断。
+    /// </summary>
+    private void stopFadeOut()
+    {
+        if (this.fadeOutCoroutine != null)
+            StopCoroutine(this.fadeOutCoroutine);
+        this.fadeOutCoroutine = null;
     }
 }
