@@ -133,9 +133,24 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
                     if (30 < Math.Abs(_touchEndPosY) - Mathf.Abs(_touchStartPosY))
                     {
                         // スワイプしている場合
-                        //_advanceFlg = true;
+                        _advanceFlg = true;
                         if ((_checkGround.IsGround.Value) == true)
-                        transform.DOMoveZ(transform.position.z + _adPower, _jumpTime);
+                        {
+                            transform.DOMoveZ(transform.position.z + _adPower, _jumpTime);
+                            transform.DOMoveY(transform.position.y + 5, _jumpTime);
+
+                            //_advanceFlg = true;
+
+                            //_jumpFlg = true;
+                            //Observable.NextFrame().Subscribe(_ =>
+                            //{
+                            //    _jumpFlg = false;
+
+                            //    //_advanceFlg = false;
+                            //});
+
+
+                        }
                     }
                     // タッチ時間をリセット
                     _touchTime = 0;

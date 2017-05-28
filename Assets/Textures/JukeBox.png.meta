@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 2c32498e7d0ac024bb03ab3b22d4ede5
 timeCreated: 1495969337
+=======
+guid: f54bb2467a65cae4da37aeacab09a578
+timeCreated: 1495962891
+>>>>>>> origin/fix_player_move
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -28,6 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
+<<<<<<< HEAD
     aniso: -1
     mipBias: -1
     wrapMode: -1
@@ -35,6 +41,15 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 0
+=======
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+>>>>>>> origin/fix_player_move
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -44,7 +59,11 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
+<<<<<<< HEAD
   textureType: 0
+=======
+  textureType: 8
+>>>>>>> origin/fix_player_move
   textureShape: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
@@ -58,6 +77,25 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
+=======
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+>>>>>>> origin/fix_player_move
   spriteSheet:
     serializedVersion: 2
     sprites: []
