@@ -19,6 +19,7 @@ namespace YamagenLib
         // シーンをリロードする
         public void ReLoadScene()
         {
+            AudioManager.Instance.Play("SELECTCUBE");
             PlayInstructor.instance.ReLoadStage();
         }
     }

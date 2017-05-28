@@ -24,7 +24,7 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 
     private bool _advanceFlg = false;
 
-    [Range(5,100)]
+    [Range(0,100)]
     public int _delayFrame = 20;
 
     private CheckGround _checkGround;
@@ -116,7 +116,10 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 
                     // 移動していない場合ジャンプを実行
                     if (_advanceFlg == false)
-                    {                        
+                    {
+                        // 音の再生
+                        AudioManager.Instance.Play("JUMP");
+
                         _jumpFlg = true;
                         Observable.NextFrame().Subscribe(_ =>
                         {
@@ -136,6 +139,9 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
                         _advanceFlg = true;
                         if ((_checkGround.IsGround.Value) == true)
                         {
+                            // 音の再生
+                            AudioManager.Instance.Play("JUMP");
+
                             transform.DOMoveZ(transform.position.z + _adPower, _jumpTime);
                             transform.DOMoveY(transform.position.y + 5, _jumpTime);
 

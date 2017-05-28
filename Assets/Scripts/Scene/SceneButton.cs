@@ -22,6 +22,7 @@ namespace YamagenLib
         // シーンをロードする
         public void LoadScene()
         {
+            AudioManager.Instance.Play("SELECTCUBE");
             SceneInstructor.instance.LoadMainScene(m_scene);
         }
     }

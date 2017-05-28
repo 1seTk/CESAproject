@@ -60,6 +60,8 @@ public class StageManager : MonoBehaviour
     {
         if (m_isOver && (ShunLib.ClearDirection.instance.isClear() == false)) 
         {
+            AudioManager.Instance.Play("BROKEN");
+
             // 死んでクリアしていない時
             ShunLib.GameOverDirection.instance.GameOver();
             m_isOver = false;

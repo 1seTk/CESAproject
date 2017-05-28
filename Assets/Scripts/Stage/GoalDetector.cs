@@ -26,6 +26,7 @@ public class GoalDetector : MonoBehaviour
 			.DistinctUntilChanged()
 			.Subscribe(_ =>
 			{
+                AudioManager.Instance.Play("GOAL");
 				Debug.Log("Goal");
                 m_isGoal = true;
 			});

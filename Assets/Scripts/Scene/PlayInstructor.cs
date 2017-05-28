@@ -69,6 +69,15 @@ namespace YamagenLib
             else{
                 m_initFlag = false;
             }
+
+            // 音の停止
+            AudioManager.Instance.Stop("BGM");
+            // 音の設定
+            AudioManager.Instance.AudioSet("BGM", "BGM\\" + stage.ToString());
+            AudioManager.Instance.SetOption("BGM", true, false);
+            // 音の再生
+            AudioManager.Instance.Play("BGM");
+
             SceneManager.LoadScene(stage.ToString(), LoadSceneMode.Additive);
             m_loadStage = stage;
         }
@@ -101,6 +110,14 @@ namespace YamagenLib
             // 1秒待つ  
             yield return new WaitForSeconds(0.7f);
             SceneManager.UnloadSceneAsync(m_loadStage.ToString());
+        }
+
+        /// <summary>
+        /// 音の設定
+        /// </summary>
+        private void SoundSet(PlayStage stage)
+        {
+
         }
     }
 }

@@ -57,6 +57,22 @@ namespace YamagenLib
             m_loadScene = m_initScene;
             m_nextLoadScene = m_loadScene;
             m_oldLoadScene = m_initScene;
+
+            // 音設定
+            // 音の設定
+            AudioManager.Instance.AudioSet("BGM", "BGM\\Title");
+            AudioManager.Instance.SetOption("BGM", true, false);
+            // 音の再生
+            AudioManager.Instance.Play("BGM");
+
+            // 仮実装
+            AudioManager.Instance.AudioSet("JUMP", "Shun\\jump");
+            AudioManager.Instance.AudioSet("TYAKUTI", "SE\\tyakuchi");
+            AudioManager.Instance.AudioSet("SELECTCUBE", "SE\\SelectCubeFlic");
+            AudioManager.Instance.AudioSet("BROKEN", "SE\\GrassBroken");
+            AudioManager.Instance.AudioSet("GOAL", "SE\\Goal");
+            AudioManager.Instance.AudioSet("SWIPE", "SE\\Swipe");
+
         }
 
         /// <summary>
@@ -107,6 +123,12 @@ namespace YamagenLib
             yield return new WaitForSeconds(0.7f);
             // 次のシーンをロード
             SceneManager.LoadScene(m_nextLoadScene.ToString(), LoadSceneMode.Additive);
+            // 音の設定
+            AudioManager.Instance.Stop("BGM");
+            AudioManager.Instance.AudioSet("BGM", "BGM\\" + m_loadScene.ToString());
+            AudioManager.Instance.SetOption("BGM", true, false);
+            // 音の再生
+            AudioManager.Instance.Play("BGM");
             // フェードアウト
             ShunLib.FadeScene.instance.FadeOut();
             // 1秒待つ  

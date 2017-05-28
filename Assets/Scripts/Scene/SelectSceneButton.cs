@@ -15,6 +15,7 @@ namespace YamagenLib {
         // シーンをSelectにする
         public void ChangeSelect()
         {
+            AudioManager.Instance.Play("SELECTCUBE");
             PlayInstructor.instance.StartCoroutine("StageUnLoad");
             SceneInstructor.instance.LoadMainScene(GameScene.Select);
         }

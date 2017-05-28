@@ -24,6 +24,7 @@ namespace YamagenLib
             // クリック開始位置と終了位置がオブジェクト内の場合シーンを変更
             if (SearchObject(startPos) && SearchObject(endPos))
             {
+                AudioManager.Instance.Play("SELECTCUBE");
                 SceneChange(select);
                 Debug.Log("change！");
             }

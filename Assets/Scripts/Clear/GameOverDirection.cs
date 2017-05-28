@@ -169,6 +169,7 @@ namespace ShunLib
         /// </summary>
         public void GameOver()
         {
+            AudioManager.Instance.Play("BROKEN");
             Debug.Log("GameOver");
             m_isGameOver = true;
             //オブジェクトを移動させる

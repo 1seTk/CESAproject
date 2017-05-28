@@ -131,6 +131,8 @@ namespace YamagenLib
             // 回転
             if ((m_rotation == null) &&(m_selectScene >= 0 && m_selectScene < m_texture.Length))
             {
+                AudioManager.Instance.Stop("SWIPE");
+                AudioManager.Instance.Play("SWIPE");
                 if ((moveDir < 0) && (m_selectScene < m_texture.Length - 1)) RotateTexture(true);   // 右
                 else if ((moveDir > 0) && (m_selectScene > 0)) RotateTexture(false);                // 左
                 else return;
