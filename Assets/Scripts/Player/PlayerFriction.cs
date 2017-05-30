@@ -33,6 +33,18 @@ public class PlayerFriction : MonoBehaviour
 
 		m_scale = transform.localScale;
 		m_defaultScale = transform.lossyScale;
+
+		{
+			Vector3 lossScale = transform.lossyScale;
+			Vector3 localScale = transform.localScale;
+			transform.localScale = new Vector3(
+					localScale.x / lossScale.x * m_defaultScale.x,
+					localScale.y / lossScale.y * m_defaultScale.y,
+					localScale.z / lossScale.z * m_defaultScale.z
+			);
+
+		}
+
 		// 四方にレイを飛ばす
 
 		// レイにヒットしたオブジェクトを方向のリストに
@@ -67,26 +79,23 @@ public class PlayerFriction : MonoBehaviour
 				// Rayを飛ばす
 				// var h = Physics.BoxCast(transform.position, Vector3.one * 0.5f, -transform.up, out hit, Quaternion.identity ,m_hitDistance, ~m_ignoreMask);
 				Physics.Raycast(transform.position, -transform.up, out hit, m_hitDistance, ~m_ignoreMask);
-				//// Rayがヒットしたら
-				//if(h == true)
-				//{
-				//	Debug.Log(hit.transform.name);
 
-				//	// 親を解除して衝突相手の子に設定する
-				//	transform.parent.parent = null;
-				//	transform.parent.parent = hit.transform;
-				//}
-				//// Rayがヒットしていなかったら
-				//// 親を解除する
-				//else
-				//{
-				//	transform.parent.parent = null;
-				//}
+				// デバッグRay描画
+				Debug.DrawRay(transform.position, -transform.up, Color.red, m_hitDistance);
+
 			});
 
 		this.UpdateAsObservable()
 			.Subscribe(_ =>
 			{
+				var foo = transform.localScale;
+				transform.localScale = Vector3.one;
+				transform.localScale = foo;
+
+				var bar = transform.localRotation;
+				transform.localRotation = Quaternion.identity;
+				transform.localRotation = bar;
+
 				Vector3 lossScale = transform.lossyScale;
 				Vector3 localScale = transform.localScale;
 				transform.localScale = new Vector3(
@@ -100,7 +109,6 @@ public class PlayerFriction : MonoBehaviour
 
 		this.ObserveEveryValueChanged(x => hit)
 			.Where(x => x.transform != null)
-			.DistinctUntilChanged()
 			.Subscribe(x =>
 			{
 				Debug.Log("switch parent" + x.transform.name);
@@ -108,22 +116,18 @@ public class PlayerFriction : MonoBehaviour
 				// 親を解除して衝突相手の子に設定する
 				//transform.parent = null;
 				transform.parent = x.transform;
-
 				// transform.localScale = Vector3.one;
 			});
 
 		this.ObserveEveryValueChanged(x => hit)
-			.Where(x => x.transform == null)
 			.Where(_ => cg.IsGround.Value != true)
-			//.ThrottleFrame(30)
-			.Subscribe(_ => transform.parent = null);
-
-		// デバッグRay描画
-		this.UpdateAsObservable()
+			// .Where(x => x.transform == null)
+			// .ThrottleFrame(5)
 			.Subscribe(_ =>
 			{
-				Debug.DrawRay(transform.position, -transform.up, Color.red, m_hitDistance);
-
+				Debug.Log("detach");
+				transform.parent = null;
+				// transform.localScale = m_defaultScale;
 			});
 	}
 }
