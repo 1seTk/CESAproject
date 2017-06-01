@@ -35,7 +35,6 @@ public class Timer : MonoBehaviour
         if (!(m_playerCore.IsDead.Value))
         {
             m_elapsedTime += Time.deltaTime;
-            Debug.Log(m_elapsedTime);
         }
 
 	}
