@@ -23,6 +23,7 @@ public class GoalDetector : MonoBehaviour
 		var ins = FindObjectOfType<YamagenLib.SceneInstructor>();
 
 		this.OnTriggerEnterAsObservable()
+            .Where(x => x.name == "Player")
 			.DistinctUntilChanged()
 			.Subscribe(_ =>
 			{
