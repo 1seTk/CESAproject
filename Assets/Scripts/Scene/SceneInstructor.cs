@@ -44,6 +44,7 @@ namespace YamagenLib
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
+                Screen.SetResolution(600, 960, false, 60);
             }
             else
             {
