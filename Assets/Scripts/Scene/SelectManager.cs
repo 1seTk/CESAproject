@@ -129,10 +129,10 @@ namespace YamagenLib
         public void ObjectRotate(float moveDir)
         {
             // 回転
-            if ((m_rotation == null) &&(m_selectScene >= 0 && m_selectScene < m_texture.Length))
+            if ((m_rotation == null))
             {
-                if ((moveDir < 0) && (m_selectScene < m_texture.Length - 1)) RotateTexture(true);   // 右
-                else if ((moveDir > 0) && (m_selectScene > 0)) RotateTexture(false);                // 左
+                if ((moveDir < 0)) RotateTexture(true);   // 右
+                else if ((moveDir > 0)) RotateTexture(false);                // 左
                 else return;
 
                 // 1か-1にする
@@ -173,8 +173,9 @@ namespace YamagenLib
                 else m_backFace++;
 
                 // 画像番号処理
-                m_backTextureNum = m_selectScene + 3;
                 m_selectScene++;
+                if (m_selectScene > m_texture.Length-1) m_selectScene = 0; 
+                m_backTextureNum = m_selectScene + 2;
 
                 // 背面の画像を変更
                 if (m_backTextureNum > 0 && m_backTextureNum < m_texture.Length)
@@ -189,8 +190,9 @@ namespace YamagenLib
                 else m_backFace--;
 
                 // 番号処理
-                m_leftTextureNum = m_selectScene - 2;
                 m_selectScene--;
+                if (m_selectScene < 0) m_selectScene = m_texture.Length - 1;
+                m_leftTextureNum = m_selectScene - 1;
 
                 // 左面の画像を変更
                 if (m_leftTextureNum >= 0 && m_leftTextureNum < m_texture.Length) 
