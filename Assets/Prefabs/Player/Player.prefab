@@ -498,8 +498,8 @@ GameObject:
   - component: {fileID: 114469731576024288}
   - component: {fileID: 114134723549063500}
   - component: {fileID: 96627302022887978}
-  - component: {fileID: 114967610624518920}
   - component: {fileID: 114528561357219808}
+  - component: {fileID: 114967610624518920}
   - component: {fileID: 114414692687789962}
   m_Layer: 0
   m_Name: Player
@@ -2570,7 +2570,7 @@ TrailRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_MotionVectors: 1
+  m_MotionVectors: 2
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -2596,7 +2596,7 @@ TrailRenderer:
   m_Time: 0.4
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.8
+    widthMultiplier: 0.4
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -2647,7 +2647,7 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 1
+    textureMode: 0
   m_MinVertexDistance: 0.01
   m_Autodestruct: 0
 --- !u!114 &114059732820031036
@@ -2718,7 +2718,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819578169173050}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6b29a9c67ad8c541800f4864fd09722, type: 3}
   m_Name: 
@@ -2789,7 +2789,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819578169173050}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 554ab1236b7077c468b761db75664e42, type: 3}
   m_Name: 
