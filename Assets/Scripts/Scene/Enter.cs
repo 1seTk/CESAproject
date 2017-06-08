@@ -25,7 +25,6 @@ namespace YamagenLib
             if (SearchObject(startPos) && SearchObject(endPos))
             {
                 SceneChange(select);
-                Debug.Log("change！");
             }
         }
 
