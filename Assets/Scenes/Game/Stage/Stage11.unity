@@ -1057,7 +1057,7 @@ Prefab:
         type: 2}
       propertyPath: m_goal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 514459740}
     - target: {fileID: 114147864496754776, guid: 688c998b08594b3439013348c1b7a1a7,
         type: 2}
       propertyPath: m_core
@@ -1468,6 +1468,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7708bb4b63b0a05468dbff69e6e808a4, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &514459740 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114432012070549306, guid: 7708bb4b63b0a05468dbff69e6e808a4,
+    type: 2}
+  m_PrefabInternal: {fileID: 514459739}
+  m_Script: {fileID: 11500000, guid: d48e55af34b778d4f8a650d2dc86305e, type: 3}
 --- !u!1 &667738157
 GameObject:
   m_ObjectHideFlags: 0

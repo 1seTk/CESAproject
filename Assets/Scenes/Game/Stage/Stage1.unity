@@ -1360,6 +1360,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.047313273, y: 0.8639016, z: 0.9}
   m_Center: {x: 0.48, y: -0.017012358, z: 0}
+--- !u!114 &701905965 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114432012070549306, guid: 7708bb4b63b0a05468dbff69e6e808a4,
+    type: 2}
+  m_PrefabInternal: {fileID: 104627499}
+  m_Script: {fileID: 11500000, guid: d48e55af34b778d4f8a650d2dc86305e, type: 3}
 --- !u!1 &712269015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,7 +2306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554ab1236b7077c468b761db75664e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayFrame: 20
   _adPower: 3
   _jumpTime: 1
 --- !u!96 &1190313443
@@ -4542,7 +4547,7 @@ Prefab:
         type: 2}
       propertyPath: m_goal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 701905965}
     - target: {fileID: 114147864496754776, guid: 688c998b08594b3439013348c1b7a1a7,
         type: 2}
       propertyPath: m_core

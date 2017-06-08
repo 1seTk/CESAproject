@@ -7236,7 +7236,7 @@ Prefab:
         type: 2}
       propertyPath: m_goal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1557591927}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 688c998b08594b3439013348c1b7a1a7, type: 2}
   m_IsPrefabParent: 0
@@ -7960,7 +7960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554ab1236b7077c468b761db75664e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayFrame: 20
   _adPower: 3
   _jumpTime: 1
 --- !u!96 &1285819035
@@ -10961,6 +10960,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7708bb4b63b0a05468dbff69e6e808a4, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1557591927 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114432012070549306, guid: 7708bb4b63b0a05468dbff69e6e808a4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1557591926}
+  m_Script: {fileID: 11500000, guid: d48e55af34b778d4f8a650d2dc86305e, type: 3}
 --- !u!1 &1557897124
 GameObject:
   m_ObjectHideFlags: 0
