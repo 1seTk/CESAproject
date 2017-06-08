@@ -47,14 +47,18 @@ namespace YamagenLib
 
         // 選択されている数
         private int m_selectScene;
-
+        static private int m_saveScene = 0;
         /// <summary>
         /// 初期化
         /// </summary>
         void Awake()
         {
             // シングルトン
-            if (instance == null) instance = this;
+            if (instance == null)
+            {
+                instance = this;
+                m_selectScene = m_saveScene;
+            }
             else Destroy(gameObject);
 
             // 画面の横幅
@@ -67,8 +71,6 @@ namespace YamagenLib
             InitializeCubeTexture();
 
             this.Initialize();
-
-            m_selectScene = 0;
         }
 
         public void Initialize()
@@ -198,6 +200,7 @@ namespace YamagenLib
                 if (m_leftTextureNum >= 0 && m_leftTextureNum < m_texture.Length) 
                     m_obj.GetComponent<SelectCube>().ChangeTexture(m_leftFace, m_texture[m_leftTextureNum]);                
             }
+            m_saveScene = m_selectScene;
         }
 
         public GameObject GetSetingObject() { return m_obj; }
