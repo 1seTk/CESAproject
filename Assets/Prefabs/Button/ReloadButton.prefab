@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 222084047372215302}
   - component: {fileID: 114450604652022104}
   - component: {fileID: 114646102701001804}
-  - component: {fileID: 114167563226079142}
   - component: {fileID: 114966173337875412}
   m_Layer: 5
   m_Name: Reload_Button
@@ -70,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308083265040808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 160, y: -170, z: 0}
+  m_LocalPosition: {x: 1000, y: -170, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224020140663840720}
@@ -104,17 +103,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114167563226079142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262573584501362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c57f8516dfc584d4987532f8f81d1b35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114450604652022104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -222,7 +210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 160, y: 0}
   m_SizeDelta: {x: 208, y: 207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224630279268522892

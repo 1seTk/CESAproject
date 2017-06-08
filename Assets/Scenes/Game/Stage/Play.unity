@@ -696,13 +696,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 224020140663840720, guid: e6c8b8aa9730d434e95e4e648fe2d373,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 160
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114167563226079142, guid: e6c8b8aa9730d434e95e4e648fe2d373, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6c8b8aa9730d434e95e4e648fe2d373, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1280286037 stripped
@@ -850,11 +844,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 2076681396}
     m_Modifications:
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4975990178735652, guid: d16a637ca6db0e249a12fabe153f5298, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1000
@@ -887,43 +876,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224891320619414336, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224891320619414336, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ClickButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114106416283928612, guid: d16a637ca6db0e249a12fabe153f5298,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114315859994861554, guid: d16a637ca6db0e249a12fabe153f5298, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d16a637ca6db0e249a12fabe153f5298, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2084928161 stripped
