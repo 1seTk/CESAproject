@@ -30,8 +30,8 @@ namespace YamagenLib
         private float m_screenWidth;        // 画面の横幅
 
         // スワイプ許容割合
-        [SerializeField, Range(0.0f, 1.0f)]
-        private float m_AcceptableValue;
+        [SerializeField, Range(0.0f, 1.0f)]        private float m_AcceptableValue;
+
         private float m_MoveTouchX;         // 横軸移動量
         private float m_MoveMouseX;         // 横軸移動量
 
