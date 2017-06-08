@@ -109,6 +109,7 @@ public class PlayerFriction : MonoBehaviour
 
 		this.ObserveEveryValueChanged(x => hit)
 			.Where(x => x.transform != null)
+			.DistinctUntilChanged()
 			.Subscribe(x =>
 			{
 				Debug.Log("switch parent" + x.transform.name);
@@ -120,7 +121,7 @@ public class PlayerFriction : MonoBehaviour
 			});
 
 		this.ObserveEveryValueChanged(x => hit)
-			.Where(_ => cg.IsGround.Value != true)
+			// .Where(_ => cg.IsGround.Value != true)
 			// .Where(x => x.transform == null)
 			// .ThrottleFrame(5)
 			.Subscribe(_ =>

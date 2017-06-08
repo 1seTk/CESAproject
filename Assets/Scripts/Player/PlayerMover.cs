@@ -28,6 +28,7 @@ public class PlayerMover : MonoBehaviour
 		var input = GetComponent<IPlayerInput>();
 		var col = GetComponent<PlayerCollision>();
 		var cg = GetComponent<CheckGround>();
+		var rb = GetComponent<Rigidbody>();
 
 		// 移動処理
 		input.IsMovingRP
@@ -36,7 +37,8 @@ public class PlayerMover : MonoBehaviour
 			.Subscribe(x =>
 			{
 				transform.position += new Vector3(0, 0, m_speed) * Time.deltaTime;
-				//transform.GetComponent<Rigidbody>().AddForce(Vector3.forward * m_speed / 10.0f, ForceMode.Impulse);
+				// rb.MovePosition(transform.position + new Vector3(0, 0, m_speed) * Time.deltaTime);
+				// transform.GetComponent<Rigidbody>().AddForce(Vector3.forward * m_speed / 10.0f, ForceMode.Impulse);
 			});
 
 		// ジャンプ処理
@@ -46,7 +48,7 @@ public class PlayerMover : MonoBehaviour
 			.Where(_ => cg.IsGround.Value == true )
 			.Subscribe(_ =>
 			{
-				transform.GetComponent<Rigidbody>().AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+				rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
 			});
 
 		// 衝突状態によって移動を制限する
