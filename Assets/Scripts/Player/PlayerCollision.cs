@@ -35,7 +35,7 @@ public class PlayerCollision : MonoBehaviour
 		var core = GetComponentInParent<PlayerCore>();
 		// var sprCol = GetComponent<SphereCollider>();
 
-		this.OnCollisionStayAsObservable()
+		this.OnCollisionEnterAsObservable()
 			.Subscribe(x =>
 			{
 				Debug.Log("stay");
@@ -96,9 +96,12 @@ public class PlayerCollision : MonoBehaviour
 
 		this.UpdateAsObservable()
 			// 2つ以上のオブジェクトに接している
-			.Where(_ => m_contactPoints.Count > 1)
+			//.Where(_ => m_contactPoints.Count > 1)
 			.Subscribe(_ =>
 			{
+                
+                Debug.Log("hitcount " + m_contactPoints.Count);
+                if (m_contactPoints.Count < 1) return;
 				for (int i = 0; i < m_contactPoints.Count - 1; i++)
 				{
 					float distance = Vector3.Distance(m_contactPoints[i], m_contactPoints[i + 1]);
@@ -111,5 +114,7 @@ public class PlayerCollision : MonoBehaviour
 					}
 				}
 			});
+        this.UpdateAsObservable()
+            .Subscribe(_ => GetComponent<Rigidbody>().WakeUp());
 	}
 }

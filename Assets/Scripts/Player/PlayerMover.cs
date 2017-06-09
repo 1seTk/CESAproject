@@ -51,9 +51,20 @@ public class PlayerMover : MonoBehaviour
 				rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
 			});
 
-		// 衝突状態によって移動を制限する
-		//this.UpdateAsObservable()
-		//	.Subscribe(_ => core.PlayerControllable.Value = !col.IsHit.Value);
+        // 衝突状態によって移動を制限する
+        //this.UpdateAsObservable()
+        //	.Subscribe(_ => core.PlayerControllable.Value = !col.IsHit.Value);
 
-	}
+        // 移動処理
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetMouseButton(1) == true)
+            .Where(_ => core.PlayerControllable.Value == true)
+            .Subscribe(x =>
+            {
+                transform.position -= new Vector3(0, 0, m_speed) * Time.deltaTime;
+                // rb.MovePosition(transform.position + new Vector3(0, 0, m_speed) * Time.deltaTime);
+                // transform.GetComponent<Rigidbody>().AddForce(Vector3.forward * m_speed / 10.0f, ForceMode.Impulse);
+            });
+
+    }
 }
