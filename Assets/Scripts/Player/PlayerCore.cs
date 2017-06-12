@@ -37,15 +37,13 @@ public class PlayerCore : MonoBehaviour
 	{
 		StartCoroutine(WaitStartAnimation());
 
-        var des = GetComponentInChildren<BreakBlock>();
-
 		IsDead
 			.DistinctUntilChanged()
 			.Where(x => x == true)
 			.Subscribe(_ =>
 			{
-                Debug.Log("死ゾ");
-                des.Break();
+				Debug.Log("死ゾ");
+				GetComponent<BreakBlock>().Break();
 			});
 	}
 
