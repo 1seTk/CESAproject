@@ -54,7 +54,7 @@ public class PlayerMover : MonoBehaviour
 		// ジャンプ処理
 		input.OnJumpButtonObservable
 			.Where(x => x == true)
-			.Where(_ => core.PlayerControllable.Value == true)
+			.Where(_ => enter.IsPlayerEnter == true)
 			.Where(_ => cg.IsGround.Value == true )
 			.Subscribe(_ =>
 			{
