@@ -112,8 +112,6 @@ public class PlayerFriction : MonoBehaviour
 			.DistinctUntilChanged()
 			.Subscribe(x =>
 			{
-				Debug.Log("switch parent" + x.transform.name);
-
 				// 親を解除して衝突相手の子に設定する
 				//transform.parent = null;
 				transform.parent = x.transform;
@@ -126,7 +124,6 @@ public class PlayerFriction : MonoBehaviour
 			// .ThrottleFrame(5)
 			.Subscribe(_ =>
 			{
-				Debug.Log("detach");
 				transform.parent = null;
 				// transform.localScale = m_defaultScale;
 			});
