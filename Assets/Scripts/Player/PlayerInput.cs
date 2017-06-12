@@ -26,7 +26,7 @@ public class PlayerInput : MonoBehaviour, IPlayerInput
 		}
 	}
 
-	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>();
+	private ReactiveProperty<bool> isMovingRP = new ReactiveProperty<bool>(false);
 
 	// 移動しているか
 	public IReactiveProperty<bool> IsMovingRP
