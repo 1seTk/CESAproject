@@ -13,6 +13,9 @@ using System.Collections;
 
 public class PlayerDebug : MonoBehaviour
 {
+	[SerializeField, Range(0, 10)]
+	private float m_backSpeed = 5.0f;
+
 	void Start ()
 	{
 		var core = GetComponent<PlayerCore>();
@@ -24,5 +27,12 @@ public class PlayerDebug : MonoBehaviour
 			{
 				core.IsDead.Value = true;
 			});
+
+		// 逆走
+		this.UpdateAsObservable()
+			.Where(_ => Input.GetMouseButton(1))
+			.Where(_ => core.PlayerControllable.Value == true)
+			.Subscribe(_ => transform.position -= new Vector3(0, 0, m_backSpeed) * Time.deltaTime);
+
 	}
 }

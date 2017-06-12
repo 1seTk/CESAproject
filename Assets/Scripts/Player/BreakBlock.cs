@@ -7,24 +7,29 @@ public class BreakBlock : MonoBehaviour {
 	[SerializeField, Tooltip("死んだときに破裂するか")]
 	private bool m_useBomb = true;
 
-    public void Break()
-    {
-        var parts = GetComponentsInChildren<Transform>();
+	[SerializeField, Tooltip("パーツのプレハブ")]
+	private GameObject m_parts;
 
-		var parent = transform.parent;
+	public void Break()
+	{
+		// 破片の生成
+		var obj = Instantiate(m_parts, transform.position, Quaternion.identity) as GameObject;
 
-		transform.parent = null;
+		// 破片の参照を取る
+		var parts = obj.GetComponentsInChildren<Transform>();
 
-        foreach (var item in parts)
-        {
+		// 破片にいろいろ施す
+		foreach (var item in parts)
+		{
 			if(m_useBomb)
 				item.gameObject.layer = LayerMask.NameToLayer("Default");
-            item.gameObject.AddComponent<Rigidbody>();
-			item.parent = null;
-        }
 
-		Destroy(parent.gameObject, 0.1f);
+			if(!item.GetComponent<Rigidbody>())
+				item.gameObject.AddComponent<Rigidbody>();
+			item.parent = null;
+		}
+
+		Destroy(gameObject, 0.1f);
 		Destroy(transform.gameObject, 0.1f);
-		// GetComponentInParent<Collider>().enabled = false;
-    }
+	}
 }
