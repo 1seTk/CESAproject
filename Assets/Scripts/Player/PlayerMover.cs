@@ -19,6 +19,12 @@ public class PlayerMover : MonoBehaviour
 	[SerializeField, Range(0, 10)]
 	private float m_jumpPower = 10.0f;
 
+	// 正面にギミックが存在する時に進めなくする用
+	private RaycastHit m_hit = new RaycastHit();
+
+	// 正面方向を記憶しておく(回転してもいいように)
+	private Vector3 m_forward;
+
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
@@ -29,6 +35,10 @@ public class PlayerMover : MonoBehaviour
 		var col = GetComponent<PlayerCollision>();
 		var cg = GetComponent<CheckGround>();
 		var rb = GetComponent<Rigidbody>();
+		var enter = GetComponent<PlayerEnter>();
+
+		// 正面方向を記憶しておく
+		m_forward = transform.parent.forward;
 
 		// 移動処理
 		input.IsMovingRP
@@ -51,9 +61,22 @@ public class PlayerMover : MonoBehaviour
 				rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
 			});
 
-		// 衝突状態によって移動を制限する
-		//this.UpdateAsObservable()
-		//	.Subscribe(_ => core.PlayerControllable.Value = !col.IsHit.Value);
-
+		// 衝突相手の情報を更新する
+		this.UpdateAsObservable()
+			.Where(_ => enter.IsPlayerEnter)
+			.Subscribe(_ =>
+			{
+				// Player以外と当たっていたら
+				if (Physics.BoxCast(transform.position, (Vector3.one * 0.8f) * transform.lossyScale.x * 0.5f, m_forward, Quaternion.identity, 0.3f, ~LayerMask.GetMask("Player")))
+				{
+					// 進めなくする
+					core.PlayerControllable.Value = false;
+				}
+				else
+				{
+					// 進めるようにする
+					core.PlayerControllable.Value = true;
+				}
+			});
 	}
 }
