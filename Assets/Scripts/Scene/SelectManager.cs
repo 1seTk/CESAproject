@@ -17,7 +17,11 @@ namespace YamagenLib
         Enter m_enterScript;
 
         // 回転させるオブジェクト
-        [SerializeField, Space(10)]
+        [SerializeField]
+        private GameObject m_cube;
+        [SerializeField]
+        private GameObject m_cube10;
+
         private GameObject m_obj;
 
         // 回転時間
@@ -28,12 +32,13 @@ namespace YamagenLib
         private Vector3 m_startPos;           // タッチ開始座標
         private Vector3 m_endPos;             // タッチ終了座標
         private float m_screenWidth;        // 画面の横幅
+        private float m_screenHeight;        // 画面の縦幅
 
         // スワイプ許容割合
         [SerializeField, Range(0.0f, 1.0f)]        private float m_AcceptableValue;
 
-        private float m_MoveTouchX;         // 横軸移動量
         private float m_MoveMouseX;         // 横軸移動量
+        private float m_MoveMouseY;         // 縦軸移動量
 
         // 回転tween
         private Tweener m_rotation;         // 回転
@@ -61,8 +66,12 @@ namespace YamagenLib
             }
             else Destroy(gameObject);
 
+            // オブジェクト設定
+            SetingObject();
+
             // 画面の横幅
             m_screenWidth = Screen.width;
+            m_screenHeight = Screen.height;
 
             // ついーん初期化
             DOTween.Init();
@@ -85,7 +94,6 @@ namespace YamagenLib
                     m_enterScript = new SelectEnter();
                     break;
                 default:
-                    Debug.Log("あかんよ");
                     break;
             }
             m_enterScript.Initialize();
@@ -110,13 +118,21 @@ namespace YamagenLib
 
                 // 横移動量画面割合(-1<tx<1)
                 m_MoveMouseX = (Input.mousePosition.x - m_startPos.x) / m_screenWidth;
+                m_MoveMouseY = (Input.mousePosition.y - m_startPos.y) / m_screenHeight;
 
-                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue)){
-                    // 許容値内でスワイプの場合
+                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
+                {
+                    // 許容値内で横スワイプの場合
                     // 回転
                     ObjectRotate(m_MoveMouseX);
                 }
-                else {
+                else if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
+                {
+                    // 許容値内で縦スワイプの場合
+                    // ブロック変更
+                }
+                else
+                {
                     // シーン遷移の判定
                     m_enterScript.Change(m_selectScene, m_startPos, m_endPos);
                 }
@@ -179,8 +195,11 @@ namespace YamagenLib
                 if (m_selectScene > m_texture.Length-1) m_selectScene = 0; 
                 m_backTextureNum = m_selectScene + 2;
 
+                if      (m_selectScene == m_texture.Length - 2) m_backTextureNum = 0;
+                else if (m_selectScene == m_texture.Length - 1) m_backTextureNum = 1;
+
                 // 背面の画像を変更
-                if (m_backTextureNum > 0 && m_backTextureNum < m_texture.Length)
+                if (m_backTextureNum >= 0 && m_backTextureNum < m_texture.Length)
                     m_obj.GetComponent<SelectCube>().ChangeTexture(m_backFace, m_texture[m_backTextureNum]);
             }
             else
@@ -193,8 +212,10 @@ namespace YamagenLib
 
                 // 番号処理
                 m_selectScene--;
-                if (m_selectScene < 0) m_selectScene = m_texture.Length - 1;
+                if (m_selectScene < 0) m_selectScene = m_texture.Length-1;
                 m_leftTextureNum = m_selectScene - 1;
+
+                if (m_selectScene == 0) m_leftTextureNum = m_texture.Length - 1;
 
                 // 左面の画像を変更
                 if (m_leftTextureNum >= 0 && m_leftTextureNum < m_texture.Length) 
@@ -206,5 +227,19 @@ namespace YamagenLib
         public GameObject GetSetingObject() { return m_obj; }
         public PlayStage GetSelectStage() { return (PlayStage)m_selectScene; }
 
+        /// <summary>
+        /// オブジェクトの設定
+        /// </summary>
+        void SetingObject()
+        {
+            if (m_selectScene < m_texture.Length / 2)
+            {
+                // 1~
+            }
+            else
+            {
+                // 10~
+            }
+        }
     }
 }
