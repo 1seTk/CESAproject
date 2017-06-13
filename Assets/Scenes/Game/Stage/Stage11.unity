@@ -157,6 +157,11 @@ Prefab:
       propertyPath: m_hitDistance
       value: 0.22
       objectReference: {fileID: 0}
+    - target: {fileID: 114864261700329562, guid: 81e63fb568e4f5944b96c10d7a6edb4b,
+        type: 2}
+      propertyPath: m_minCrossDistance
+      value: 0.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81e63fb568e4f5944b96c10d7a6edb4b, type: 2}
   m_IsPrefabParent: 0
