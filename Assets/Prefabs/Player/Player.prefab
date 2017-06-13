@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4336074912464366}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4578370685909082}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4377012484124648}
   - component: {fileID: 119072876698306124}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: BlobShadowProjector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 4584657671490706}
   - component: {fileID: 54063571255519528}
   - component: {fileID: 114669738766819510}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: FreeLookCameraRig
   m_TagString: Untagged
   m_Icon: {fileID: -215833656, guid: 0000000000000000d000000000000000, type: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 92928720589569376}
   - component: {fileID: 124285873948361210}
   - component: {fileID: 81584666214808624}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 114414692687789962}
   - component: {fileID: 114864261700329562}
   - component: {fileID: 114660775047072026}
+  - component: {fileID: 114979782897617120}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -468,8 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e003315c617744cbf2ac1e916b0d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 5
-  m_jumpPower: 10
+  m_speed: 4
+  m_jumpPower: 7
 --- !u!114 &114134723549063500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877b26153bc098944ae6288d61a7048f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_hitDistance: 0.5
+  m_hitDistance: 0.55
   m_ignoreMask:
     serializedVersion: 2
     m_Bits: 256
@@ -576,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a385b3b4fe211c4091c37510c529db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_minCrossDistance: 0.8
+  m_minCrossDistance: 0.55
   m_maxCrossDistance: 1.2
 --- !u!114 &114924288878794774
 MonoBehaviour:
@@ -590,7 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetObj: {fileID: 1074497229846056}
-  _popPosY: 30
+  _popPosY: 5
   _endSec: 1
   _playerType: 0
 --- !u!114 &114967610624518920
@@ -606,6 +607,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _adPower: 3
   _jumpTime: 1
+--- !u!114 &114979782897617120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819578169173050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8be1de5c59ea30449cad4fd578d1eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fall: -2
 --- !u!119 &119072876698306124
 Projector:
   m_ObjectHideFlags: 1

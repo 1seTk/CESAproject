@@ -21,8 +21,6 @@ public class BreakBlock : MonoBehaviour {
 		// 破片にいろいろ施す
 		foreach (var item in parts)
 		{
-			item.parent = transform;
-
 			if(m_useBomb)
 				item.gameObject.layer = LayerMask.NameToLayer("Default");
 
