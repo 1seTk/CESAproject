@@ -11,17 +11,13 @@ namespace YamagenLib
         static public SelectManager instance;
 
         [SerializeField, Header("オブジェクトに設定する画像（ステージ数まで）")]
-        Texture[] m_texture;
+        Texture2D[] m_texture;
 
         // シーンを移動する用のScript
         Enter m_enterScript;
 
         // 回転させるオブジェクト
         [SerializeField]
-        private GameObject m_cube;
-        [SerializeField]
-        private GameObject m_cube10;
-
         private GameObject m_obj;
 
         // 回転時間
@@ -32,13 +28,12 @@ namespace YamagenLib
         private Vector3 m_startPos;           // タッチ開始座標
         private Vector3 m_endPos;             // タッチ終了座標
         private float m_screenWidth;        // 画面の横幅
-        private float m_screenHeight;        // 画面の縦幅
 
         // スワイプ許容割合
-        [SerializeField, Range(0.0f, 1.0f)]        private float m_AcceptableValue;
+        [SerializeField, Range(0.0f, 1.0f)]
+        private float m_AcceptableValue;
 
         private float m_MoveMouseX;         // 横軸移動量
-        private float m_MoveMouseY;         // 縦軸移動量
 
         // 回転tween
         private Tweener m_rotation;         // 回転
@@ -66,12 +61,8 @@ namespace YamagenLib
             }
             else Destroy(gameObject);
 
-            // オブジェクト設定
-            SetingObject();
-
             // 画面の横幅
             m_screenWidth = Screen.width;
-            m_screenHeight = Screen.height;
 
             // ついーん初期化
             DOTween.Init();
@@ -118,18 +109,12 @@ namespace YamagenLib
 
                 // 横移動量画面割合(-1<tx<1)
                 m_MoveMouseX = (Input.mousePosition.x - m_startPos.x) / m_screenWidth;
-                m_MoveMouseY = (Input.mousePosition.y - m_startPos.y) / m_screenHeight;
 
                 if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
                 {
                     // 許容値内で横スワイプの場合
                     // 回転
                     ObjectRotate(m_MoveMouseX);
-                }
-                else if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
-                {
-                    // 許容値内で縦スワイプの場合
-                    // ブロック変更
                 }
                 else
                 {
@@ -226,20 +211,6 @@ namespace YamagenLib
 
         public GameObject GetSetingObject() { return m_obj; }
         public PlayStage GetSelectStage() { return (PlayStage)m_selectScene; }
-
-        /// <summary>
-        /// オブジェクトの設定
-        /// </summary>
-        void SetingObject()
-        {
-            if (m_selectScene < m_texture.Length / 2)
-            {
-                // 1~
-            }
-            else
-            {
-                // 10~
-            }
-        }
+        public Texture2D[] GetTexture() { return m_texture; }
     }
 }
