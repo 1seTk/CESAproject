@@ -25,10 +25,6 @@ public class PlayerMover : MonoBehaviour
 	// 正面方向を記憶しておく(回転してもいいように)
 	private Vector3 m_forward;
 
-	// オブジェクトに突っ込むのを防ぐためのオブジェクト検出距離
-	[SerializeField, Range(0 ,1.0f)]
-	private float m_hitDistance = 0.3f;
-
 	/// <summary> 
 	/// 更新前処理
 	/// </summary>
@@ -58,7 +54,7 @@ public class PlayerMover : MonoBehaviour
 		// ジャンプ処理
 		input.OnJumpButtonObservable
 			.Where(x => x == true)
-			.Where(_ => enter.IsPlayerEnter == true)
+			.Where(_ => core.PlayerControllable.Value == true)
 			.Where(_ => cg.IsGround.Value == true )
 			.Subscribe(_ =>
 			{
@@ -71,7 +67,7 @@ public class PlayerMover : MonoBehaviour
 			.Subscribe(_ =>
 			{
 				// Player以外と当たっていたら
-				if (Physics.BoxCast(transform.position, (Vector3.one * 0.8f) * transform.lossyScale.x * 0.5f, m_forward, Quaternion.identity, m_hitDistance, ~LayerMask.GetMask("Player")))
+				if (Physics.BoxCast(transform.position, (Vector3.one * 0.8f) * transform.lossyScale.x * 0.5f, m_forward, Quaternion.identity, 0.3f, ~LayerMask.GetMask("Player")))
 				{
 					// 進めなくする
 					core.PlayerControllable.Value = false;
