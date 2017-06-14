@@ -11,7 +11,7 @@ namespace YamagenLib
             select = select % System.Enum.GetValues(typeof(PlayStage)).Length;
             PlayStage change = (PlayStage)select;
 
-            // プレイインストラクターにシーンを設定
+            // プレイインストラクターにシーンを設定!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             PlayInstructor.m_nextScene = change;
 
             // 次のシーンに移動

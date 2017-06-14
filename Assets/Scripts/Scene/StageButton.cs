@@ -10,10 +10,10 @@ namespace YamagenLib
     public class StageButton : MonoBehaviour
     {
         // ロードしたいシーン
-        public PlayStage m_stage = PlayStage.Stage1;
+        public PlayStage m_stage;
 
         // 初期化
-        void Awake()
+        void Start()
         {
             GetComponent<Button>().onClick.AddListener(LoadScene);
         }
