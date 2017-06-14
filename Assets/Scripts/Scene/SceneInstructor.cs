@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;  //シーンの管理用
+using DG.Tweening;
 
 // 山元のやーつ
 namespace YamagenLib
@@ -43,6 +44,8 @@ namespace YamagenLib
             if (instance == null)
             {
                 instance = this;
+                // どついーん初期化
+                DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
                 DontDestroyOnLoad(gameObject);
             }
             else
