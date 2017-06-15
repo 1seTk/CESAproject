@@ -349,6 +349,16 @@ Prefab:
       propertyPath: m_fadeOutTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114035907991350338, guid: cfe32ba20be46cf42b0c2aa537823cf2,
+        type: 2}
+      propertyPath: m_fadeInMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 720881bbd807e694ab84879ca3c4afe6, type: 3}
+    - target: {fileID: 114035907991350338, guid: cfe32ba20be46cf42b0c2aa537823cf2,
+        type: 2}
+      propertyPath: m_fadeOutMaskTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 720881bbd807e694ab84879ca3c4afe6, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cfe32ba20be46cf42b0c2aa537823cf2, type: 2}
   m_IsPrefabParent: 0

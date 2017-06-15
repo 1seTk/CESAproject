@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioTest : MonoBehaviour {
+public class AudioTest : MonoBehaviour
+{
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         AudioManager.Instance.AudioSet("BGM", "MP3\\bgm");
         AudioManager.Instance.Play("BGM");
 	}
