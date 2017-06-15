@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioTest : MonoBehaviour
+public class MainBGM : MonoBehaviour
 {
 
 	// Use this for initialization
@@ -13,7 +13,8 @@ public class AudioTest : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 }
