@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 114414692687789962}
   - component: {fileID: 114864261700329562}
   - component: {fileID: 114660775047072026}
+  - component: {fileID: 114848107139379334}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -565,6 +566,18 @@ MonoBehaviour:
   m_TiltMin: 45
   m_LockCursor: 0
   m_VerticalAutoReturn: 0
+--- !u!114 &114848107139379334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819578169173050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8be1de5c59ea30449cad4fd578d1eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fall: -2
 --- !u!114 &114864261700329562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -606,18 +619,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _adPower: 3
   _jumpTime: 1
---- !u!114 &114979782897617120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1819578169173050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8be1de5c59ea30449cad4fd578d1eb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fall: -2
 --- !u!119 &119072876698306124
 Projector:
   m_ObjectHideFlags: 1
