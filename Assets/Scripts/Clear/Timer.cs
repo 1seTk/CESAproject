@@ -31,8 +31,6 @@ public class Timer : MonoBehaviour
         m_playerEnter = m_player.GetComponent<PlayerEnter>();
         m_text = GetComponent<Text>();
         m_recordKey = YamagenLib.SelectManager.instance.GetSelectStage().ToString() + "Time";
-
-        Debug.Log(YamagenLib.SelectManager.instance.GetSelectStage().ToString());
     }
 
 
@@ -40,8 +38,8 @@ public class Timer : MonoBehaviour
     void Update ()
     {
         //時間描画
-        //m_text.text = ConvertStringTime(m_elapsedTime);
-        m_text.text = ConvertStringTime(PlayerPrefs.GetFloat(m_recordKey, float.MaxValue));
+        m_text.text = ConvertStringTime(m_elapsedTime);
+        //m_text.text = ConvertStringTime(PlayerPrefs.GetFloat(m_recordKey, float.MaxValue));
 
         //プレイヤーが登場するまでカウントしない
         if (!(m_playerEnter.IsPlayerEnter)) return;
