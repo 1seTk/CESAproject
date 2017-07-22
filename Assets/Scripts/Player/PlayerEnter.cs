@@ -49,22 +49,25 @@ public class PlayerEnter : MonoBehaviour {
 
 		// Playerの重力を無効にする(アニメーションに影響がないようにするため)
 		GetComponent<Rigidbody>().useGravity = false;
+
+        StartCoroutine(WaitStartCamera());
     }
-  
+
     // Use this for initialization
     void Start ()
     {
-        //// 設定された時間待機する
-        //Observable.Return(Unit.Default)
-        //    .Delay(TimeSpan.FromMilliseconds(_endSec * 1200))
-        //    .Subscribe(_ =>
-        //    {
-        //        Debug.Log("active");
-        //    });
+		//// 設定された時間待機する
+		//Observable.Return(Unit.Default)
+		//    .Delay(TimeSpan.FromMilliseconds(_endSec * 1200))
+		//    .Subscribe(_ =>
+		//    {
+		//        Debug.Log("active");
+		//    });
 
-        // player登場
-      
-        SetPlayer();
+		// player登場
+
+		// SetPlayer();
+
     }
 
 	void Update()
@@ -123,4 +126,14 @@ public class PlayerEnter : MonoBehaviour {
         }
     }
 
+	IEnumerator WaitStartCamera()
+	{
+		var cam = GetComponentInChildren<Camera>();
+		while (cam != null)
+		{
+			yield return new WaitForEndOfFrame();
+		}
+
+		SetPlayer();
+	}
 }

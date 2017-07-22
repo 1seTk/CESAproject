@@ -14,7 +14,7 @@ namespace YamagenLib
             FRONT = 0,
             RIGHT = 1,
             BACK = 2,
-            LEFT= 3
+            LEFT = 3
         }
 
         [SerializeField]
@@ -26,12 +26,16 @@ namespace YamagenLib
         [SerializeField]
         private Ease m_easeType = Ease.InSine;
 
+        private Vector3 m_startPos;
+        private Vector3 m_endPos;
+
+
         // ぷかぷか
         private Sequence m_moveSequence;
 
         // 画像
         private MeshRenderer[] m_face = new MeshRenderer[4];
-        
+
         /// <summary>
         /// 初期化
         /// </summary>
@@ -42,14 +46,17 @@ namespace YamagenLib
             transform.position = new Vector3(pos.x, -(m_moveDistance / 2.0f), pos.z);
             pos = transform.position;
 
-            // どついーん初期化
-            DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
-
             // ループぷかぷか
             m_moveSequence = DOTween.Sequence();
             m_moveSequence.Append(transform.DOLocalMoveY(m_moveDistance / 2.0f, m_animeTime)).SetEase(m_easeType);
             m_moveSequence.Append(transform.DOLocalMoveY(pos.y, m_animeTime * 1.7f)).SetEase(m_easeType);
+            m_moveSequence.Append(transform.DOShakePosition(1.0f, new Vector3(10.0f, 0, 0), 7, 0));
             m_moveSequence.SetLoops(-1);
+
+        }
+
+        public void Update()
+        {
         }
 
         /// <summary>
@@ -77,14 +84,22 @@ namespace YamagenLib
         /// <returns></returns>
         public void SetInitTexture(Texture[] txt)
         {
-            int i = 0;
+            int i = (int)SelectManager.instance.GetSelectStage();
+            int cnt = 0;
             //子のマテリアルに設定する
             foreach (Transform childTransform in this.gameObject.transform)
             {
-                m_face[i] = childTransform.gameObject.GetComponent<MeshRenderer>();
-                if (i == 3) m_face[i].material.mainTexture = txt[txt.Length - 1];
-                else m_face[i].material.mainTexture = txt[i];
+                if (i >= txt.Length) i = 0;
+
+                m_face[cnt] = childTransform.gameObject.GetComponent<MeshRenderer>();
+                if (cnt == 3)
+                {
+                    if (i <= 3) m_face[cnt].material.mainTexture = txt[txt.Length - (4 - i)];
+                    else m_face[cnt].material.mainTexture = txt[i - 4];
+                }
+                else m_face[cnt].material.mainTexture = txt[i];
                 i++;
+                cnt++;
             }
         }
 
@@ -95,6 +110,7 @@ namespace YamagenLib
         /// <param name="txt">変更する画像</param>
         public void ChangeTexture(Face face, Texture txt)
         {
+            if(SceneInstructor.instance.GetLoadScene()==GameScene.Select)
             m_face[(int)face].material.mainTexture = txt;
         }
     }

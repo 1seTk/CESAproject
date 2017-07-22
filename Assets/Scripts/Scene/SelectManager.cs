@@ -11,13 +11,13 @@ namespace YamagenLib
         static public SelectManager instance;
 
         [SerializeField, Header("オブジェクトに設定する画像（ステージ数まで）")]
-        Texture[] m_texture;
+        Texture2D[] m_texture;
 
         // シーンを移動する用のScript
         Enter m_enterScript;
 
         // 回転させるオブジェクト
-        [SerializeField, Space(10)]
+        [SerializeField]
         private GameObject m_obj;
 
         // 回転時間
@@ -30,9 +30,9 @@ namespace YamagenLib
         private float m_screenWidth;        // 画面の横幅
 
         // スワイプ許容割合
-        [SerializeField, Range(0.0f, 1.0f)]        private float m_AcceptableValue;
+        [SerializeField, Range(0.0f, 1.0f)]
+        private float m_AcceptableValue;
 
-        private float m_MoveTouchX;         // 横軸移動量
         private float m_MoveMouseX;         // 横軸移動量
 
         // 回転tween
@@ -46,16 +46,25 @@ namespace YamagenLib
         private int m_leftTextureNum = 0;
 
         // 選択されている数
-        private int m_selectScene;
-
+        static private int m_selectScene;
+        static private int m_saveScene = 0;
         /// <summary>
         /// 初期化
         /// </summary>
         void Awake()
         {
             // シングルトン
-            if (instance == null) instance = this;
+            if (instance == null)
+            {
+                instance = this;
+            }
             else Destroy(gameObject);
+
+            // 音のロード
+            AudioManager.Instance.AudioSet("select", "MP3\\Select");
+            AudioManager.Instance.SetVolume("select", 0.4f);
+            AudioManager.Instance.AudioSet("flic", "MP3\\Flic");
+            AudioManager.Instance.SetVolume("flic", 0.5f);
 
             // 画面の横幅
             m_screenWidth = Screen.width;
@@ -63,12 +72,11 @@ namespace YamagenLib
             // ついーん初期化
             DOTween.Init();
 
+            this.Initialize();
+
             // キューブの画像初期化
             InitializeCubeTexture();
 
-            this.Initialize();
-
-            m_selectScene = 0;
         }
 
         public void Initialize()
@@ -83,9 +91,9 @@ namespace YamagenLib
                     m_enterScript = new SelectEnter();
                     break;
                 default:
-                    Debug.Log("あかんよ");
                     break;
             }
+            m_selectScene = m_saveScene;
             m_enterScript.Initialize();
         }
 
@@ -94,7 +102,6 @@ namespace YamagenLib
         /// </summary>
         void Update()
         {
-
             // マウスが押された時
             if (Input.GetMouseButtonDown(0))
             {
@@ -109,14 +116,17 @@ namespace YamagenLib
                 // 横移動量画面割合(-1<tx<1)
                 m_MoveMouseX = (Input.mousePosition.x - m_startPos.x) / m_screenWidth;
 
-                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue)){
-                    // 許容値内でスワイプの場合
+                if ((m_MoveMouseX > m_AcceptableValue) || (m_MoveMouseX < -m_AcceptableValue))
+                {
+                    // 許容値内で横スワイプの場合
                     // 回転
-                    ObjectRotate(m_MoveMouseX);
+                    if (SceneInstructor.instance.GetLoadScene() == GameScene.Select)
+                        ObjectRotate(m_MoveMouseX);
                 }
-                else {
+                else
+                {
                     // シーン遷移の判定
-                    m_enterScript.Change(m_selectScene, m_startPos, m_endPos);
+                    m_enterScript.Change(m_selectScene, m_startPos, m_endPos,m_obj);
                 }
                 m_MoveMouseX = 0.0f;                       // 移動量リセット
             }
@@ -131,6 +141,9 @@ namespace YamagenLib
             // 回転
             if ((m_rotation == null))
             {
+                // 音
+                AudioManager.Instance.Play("flic");
+
                 if ((moveDir < 0)) RotateTexture(true);   // 右
                 else if ((moveDir > 0)) RotateTexture(false);                // 左
                 else return;
@@ -177,8 +190,11 @@ namespace YamagenLib
                 if (m_selectScene > m_texture.Length-1) m_selectScene = 0; 
                 m_backTextureNum = m_selectScene + 2;
 
+                if      (m_selectScene == m_texture.Length - 2) m_backTextureNum = 0;
+                else if (m_selectScene == m_texture.Length - 1) m_backTextureNum = 1;
+
                 // 背面の画像を変更
-                if (m_backTextureNum > 0 && m_backTextureNum < m_texture.Length)
+                if (m_backTextureNum >= 0 && m_backTextureNum < m_texture.Length)
                     m_obj.GetComponent<SelectCube>().ChangeTexture(m_backFace, m_texture[m_backTextureNum]);
             }
             else
@@ -191,17 +207,25 @@ namespace YamagenLib
 
                 // 番号処理
                 m_selectScene--;
-                if (m_selectScene < 0) m_selectScene = m_texture.Length - 1;
+                if (m_selectScene < 0) m_selectScene = m_texture.Length-1;
                 m_leftTextureNum = m_selectScene - 1;
+
+                if (m_selectScene == 0) m_leftTextureNum = m_texture.Length - 1;
 
                 // 左面の画像を変更
                 if (m_leftTextureNum >= 0 && m_leftTextureNum < m_texture.Length) 
                     m_obj.GetComponent<SelectCube>().ChangeTexture(m_leftFace, m_texture[m_leftTextureNum]);                
             }
+            m_saveScene = m_selectScene;
+        }
+
+        static public void SceneSave(int stage) {
+            m_saveScene = stage;
+            m_selectScene = m_saveScene;
         }
 
         public GameObject GetSetingObject() { return m_obj; }
         public PlayStage GetSelectStage() { return (PlayStage)m_selectScene; }
-
+        public Texture2D[] GetTexture() { return m_texture; }
     }
 }

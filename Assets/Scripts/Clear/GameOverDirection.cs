@@ -84,6 +84,7 @@ namespace ShunLib
                 {
                     m_obj[i].transform.DOComplete();
                     m_obj[i].transform.DOLocalMoveX(m_objPos[i], m_time[i]).SetEase(Ease.Linear).Complete();
+                    m_obj[i].SetActive(false);
                 }
             }
             //Debug.Log("座標は " + m_obj[0].transform.position);
@@ -134,14 +135,18 @@ namespace ShunLib
         private void MoveObject()
         {
             if ((ShunLib.ClearDirection.instance.isClear() == false))
-            //オブジェクトが存在するならば移動させる
-            if (m_obj.Length > 0)
-            {
-                for (int i = 0; i < m_obj.Length; i++){
-                    if (m_obj[i] != null)
-                    m_obj[i].transform.DOLocalMoveX(m_targetPositionX, m_time[i]).SetEase(Ease.Linear).SetDelay(m_intervalTime[i]);
+                //オブジェクトが存在するならば移動させる
+                if (m_obj.Length > 0)
+                {
+                    for (int i = 0; i < m_obj.Length; i++)
+                    {
+                        if (m_obj[i] != null)
+                        {
+                            m_obj[i].SetActive(true);
+                            m_obj[i].transform.DOLocalMoveX(m_targetPositionX, m_time[i]).SetEase(Ease.Linear).SetDelay(m_intervalTime[i]);
+                        }
+                    }
                 }
-            }
         }
 
 

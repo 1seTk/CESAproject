@@ -49,7 +49,6 @@ namespace ShunLib
         [SerializeField]
         private Texture m_fadeOutMaskTexture = null;
 
-
         //フェードアウトの時間
         [SerializeField, Range(0, 10)]
         private float m_fadeOutTime;
@@ -57,7 +56,6 @@ namespace ShunLib
         {
             set { this.m_fadeOutTime = value; }
         }
-
 
         //フェードインするかどうか
         [SerializeField]

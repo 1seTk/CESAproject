@@ -25,18 +25,14 @@ namespace ShunLib
 
         //動かすオブジェクト
         [SerializeField, Tooltip("移動させるオブジェクト")]
-        private GameObject[] m_obj;
+        private GameObject[] m_obj = new GameObject[5];
 
         // オブジェクトの初期座標
-        private float[] m_objPos;
-
-        //時間
-        [SerializeField, Tooltip("移動にかかる時間")]
-        private float[] m_time;
+        private float[] m_objPos = new float[5];
 
         //待ち時間
         [SerializeField, Tooltip("移動が始まるまでの時間")]
-        private float[] m_intervalTime;
+        private float[] m_intervalTime = new float[5];
 
         //画面を暗くする
         [SerializeField, Tooltip("画面を暗くする")]
@@ -91,8 +87,12 @@ namespace ShunLib
             {
                 if (m_obj[i] != null)
                 {
-                    m_obj[i].transform.DOComplete();
-                    m_obj[i].transform.DOLocalMoveX(m_objPos[i], m_time[i]).SetEase(Ease.Linear).Complete();
+                    if (i >= 3||i==0)
+                    {
+                        m_obj[i].transform.DOComplete();
+                        m_obj[i].transform.DOLocalMoveX(m_objPos[i], 0.1f).SetEase(Ease.Linear).Complete();
+                    }
+                    m_obj[i].SetActive(false);
                 }
             }
             //Debug.Log("座標は " + m_obj[0].transform.position);
@@ -120,22 +120,23 @@ namespace ShunLib
         /// </summary>
         private bool IsStarted()
         {
-            //クリアしていなければ更新しない
-            if (!m_isGameClear)
-            {
-                return m_isStarted;
-            }
-            else
-            {
+            //クリアしているとき
+            if (m_isGameClear)
                 if (!m_isStarted)
                 {
                     m_startTime = Time.time;
                     m_isStarted = true;
                 }
-            }
             return m_isStarted;
         }
 
+        /// <summary>
+        /// タイム表示
+        /// </summary>
+        private void ShowTime()
+        {
+
+        }
 
         /// <summary>
         /// オブジェクトを移動させる
@@ -148,7 +149,17 @@ namespace ShunLib
                 for (int i = 0; i < m_obj.Length; i++)
                 {
                     if (m_obj[i] != null)
-                        m_obj[i].transform.DOLocalMoveX(m_targetPositionX, m_time[i]).SetEase(Ease.Linear).SetDelay(m_intervalTime[i]);
+                    {
+                        m_obj[i].SetActive(true);
+                        // 20ステの時は次へを出さない
+                        if (((int)(YamagenLib.PlayInstructor.instance.GetLoadStage())
+                            >= YamagenLib.SelectManager.instance.GetTexture().Length - 1
+                            && (i == 3)) == false)
+                        {
+                            if (i >= 3 || i == 0)
+                            m_obj[i].transform.DOLocalMoveX(m_targetPositionX, 0.1f).SetEase(Ease.Linear).SetDelay(m_intervalTime[i]);
+                        }
+                    }
                 }
             }
         }
@@ -170,8 +181,6 @@ namespace ShunLib
             }
             color.a = alpha;
             m_black.color = color;
-            //Debug.Log(alpha);
-
         }
         /// <summary>
         /// クリアしたら呼ぶ

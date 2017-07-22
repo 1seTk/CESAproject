@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace YamagenLib
 {
@@ -20,12 +21,19 @@ namespace YamagenLib
         }
 
         // Update is called once per frame
-        public void Change(int select,Vector3 startPos, Vector3 endPos) {
+        public void Change(int select,Vector3 startPos, Vector3 endPos,GameObject obj) {
             // クリック開始位置と終了位置がオブジェクト内の場合シーンを変更
             if (SearchObject(startPos) && SearchObject(endPos))
             {
-                SceneChange(select);
-                Debug.Log("change！");
+                if (SceneInstructor.instance.IsChange() == false)
+                {
+                    // 音
+                    AudioManager.Instance.Play("select");
+                    float y = obj.transform.eulerAngles.y;
+                    obj.transform.DORotate(new Vector3(0.0f, y + 380.0f, 0.0f), 1.0f, RotateMode.FastBeyond360);
+
+                    SceneChange(select);
+                }
             }
         }
 

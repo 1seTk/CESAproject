@@ -16,29 +16,31 @@ public class GoalDetector : MonoBehaviour
     private bool m_isGoal = false;
 
 
-	/// <summary>
-	/// 更新前処理
-	/// </summary>
-	void Start ()
-	{
+    /// <summary>
+    /// 更新前処理
+    /// </summary>
+    void Start()
+    {
 
-		var ins = FindObjectOfType<YamagenLib.SceneInstructor>();
+        var ins = FindObjectOfType<YamagenLib.SceneInstructor>();
 
         // ゴール用サウンドのセット
         AudioManager.Instance.AudioSet("Goal", "MP3\\Goal");
 
-		this.OnTriggerEnterAsObservable()
+        this.OnTriggerEnterAsObservable()
             .Where(x => x.name == "Player")
-			.DistinctUntilChanged()
-			.Subscribe(_ =>
-			{
+            .DistinctUntilChanged()
+            .Subscribe(player =>
+            {
                 // ゴール用サウンドを再生
                 AudioManager.Instance.Play("Goal");
 
                 Debug.Log("Goal");
                 m_isGoal = true;
-			});
-	}
+
+                StartCoroutine(PlayerGoal(player.GetComponent<PlayerCore>()));
+            });
+    }
 
     public bool GetState()
     {
@@ -48,5 +50,12 @@ public class GoalDetector : MonoBehaviour
     public void SetDefault()
     {
         m_isGoal = false;
+    }
+
+    IEnumerator PlayerGoal(PlayerCore core)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        core.Invincible = true;
     }
 }

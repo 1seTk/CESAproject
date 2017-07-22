@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4269514897815218}
   - component: {fileID: 198077370643702110}
   - component: {fileID: 199542591795983998}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65941769775522228}
   - component: {fileID: 23682629297504456}
   - component: {fileID: 114432012070549306}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GoalEx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296631137459158}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.999, z: 83.28}
+  m_LocalPosition: {x: 0, y: -1.99, z: 83.28}
   m_LocalScale: {x: 10, y: 3, z: 3}
   m_Children:
   - {fileID: 4269514897815218}
@@ -191,13 +191,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1858214657
+  randomSeed: 1238562683
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 1
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -335,10 +335,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.96024346, g: 1, b: 0.58823526, a: 1}
+      maxColor: {r: 0.9913793, g: 1, b: 0.375, a: 1}
     startSize:
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -619,11 +619,11 @@ ParticleSystem:
     type: 12
     angle: 25
     length: 5
-    boxX: 10
+    boxX: 1
     boxY: 1
     boxZ: 1
     radius:
-      value: 4.3518405
+      value: 4.35184
       mode: 0
       spread: 0
       speed:
@@ -820,8 +820,8 @@ ParticleSystem:
         - serializedVersion: 2
           time: 1
           value: 0
-          inSlope: -2
-          outSlope: -2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1936,14 +1936,14 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
-          time: 0
+          time: 0.034145355
           value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.9433899
-          value: 0
+          time: 0.97561646
+          value: 0.25454712
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2046,7 +2046,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 0, y: 1}
+    range: {x: 0.99, y: 1}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -3154,7 +3154,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fea58061c2a8a0445ab49413a76c3710, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -3187,7 +3187,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}

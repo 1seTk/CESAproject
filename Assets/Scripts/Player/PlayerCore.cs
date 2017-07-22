@@ -30,6 +30,15 @@ public class PlayerCore : MonoBehaviour
     /// </summary>
     public void Resurrection() { IsDead = new ReactiveProperty<bool>(false); }
 
+    // 無敵
+    private bool m_invincible = false;
+
+    public bool Invincible
+    {
+        get { return m_invincible; }
+        set { m_invincible = value; }
+    }
+
     /// <summary>
     /// 更新前処理
     /// </summary>
@@ -40,7 +49,8 @@ public class PlayerCore : MonoBehaviour
 		IsDead
 			.DistinctUntilChanged()
 			.Where(x => x == true)
-			.Subscribe(_ =>
+            .Where(_ => m_invincible != true)
+            .Subscribe(_ =>
 			{
 				Debug.Log("死ゾ");
 				GetComponent<BreakBlock>().Break();

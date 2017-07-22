@@ -63,25 +63,27 @@ public class AudioManager : MonoBehaviour
     /// <param name="path"></param>
     public void AudioSet(string keyName, string path)
     {
-        string pathBase = path;
-        AudioClip clip = Resources.Load(pathBase) as AudioClip;
-        AudioSource source = gameObject.AddComponent<AudioSource>();
-        if (Resources.Load(pathBase) == null)
-        {
-            print("clipはNULLです");
-            return;
-        }
-
         // 登録されていないkeyの場合登録
         if (!m_audioPool.ContainsKey(keyName))
         {
+            string pathBase = path;
+            AudioClip clip = Resources.Load(pathBase) as AudioClip;
+            AudioSource source = gameObject.AddComponent<AudioSource>();
+
+
+            if (Resources.Load(pathBase) == null)
+            {
+                print("clipはNULLです");
+                return;
+            }
+
             source.clip = clip;
             m_audioPool.Add(keyName, source);
         }
         else
         {// されている場合
-            source.clip = clip;
-            m_audioPool[keyName] = source;
+            //source.clip = clip;
+            //m_audioPool[keyName] = source;
         }
     }
 
@@ -110,6 +112,17 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ボリュームの設定
+    /// </summary>
+    /// <param name="audioKey">変更する音のキー</param>
+    /// <param name="volume">音量(0.0f~1.0f)</param>
+    public void SetVolume(string audioKey,float volume)
+    {
+        m_audioPool[audioKey].volume = volume;
+    }
+
+
+    /// <summary>
     /// 停止処理
     /// </summary>
     public void Stop(string key)
@@ -122,10 +135,8 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="bgm">AudioSource</param>
     /// <param name="timeToFade">フェードインにかかる時間</param>
-    /// <param name="fromVolume">初期音量</param>
-    /// <param name="toVolume">フェードイン完了時の音量</param>
     /// <param name="delay">フェードイン開始までの待ち時間</param>
-    private IEnumerator fadeIn(string key, float timeToFade, float fromVolume, float toVolume, float delay)
+    public IEnumerator fadeIn(string key, float timeToFade,float delay)
     {
         if (delay > 0)
         {
@@ -140,13 +151,13 @@ public class AudioManager : MonoBehaviour
             float spentTime = Time.time - startTime;
             if (spentTime > timeToFade)
             {
-                m_audioPool[key].volume = toVolume;
+                m_audioPool[key].volume = 1.0f;
                 this.fadeInCoroutine = null;
                 break;
             }
 
             float rate = spentTime / timeToFade;
-            float vol = Mathf.Lerp(fromVolume, toVolume, rate);
+            float vol = Mathf.Lerp(0.0f, 1.0f, rate);
             m_audioPool[key].volume = vol;
             yield return null;
         }
@@ -157,9 +168,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="bgm">フェードアウトさせるAudioSource</param>
     /// <param name="timeToFade">フェードアウトにかかる時間</param>
-    /// <param name="fromVolume">フェードアウト開始前の音量</param>
-    /// <param name="toVolume">フェードアウト完了時の音量</param>
-    private IEnumerator fadeOut(string key, float timeToFade, float fromVolume, float toVolume)
+    public IEnumerator fadeOut(string key, float timeToFade)
     {
         float startTime = Time.time;
         while (true)
@@ -167,14 +176,14 @@ public class AudioManager : MonoBehaviour
             float spentTime = Time.time - startTime;
             if (spentTime > timeToFade)
             {
-                m_audioPool[key].volume = toVolume;
+                m_audioPool[key].volume = 0.0f;
                 m_audioPool[key].Stop();
                 this.fadeOutCoroutine = null;
                 break;
             }
 
             float rate = spentTime / timeToFade;
-            float vol = Mathf.Lerp(fromVolume, toVolume, rate);
+            float vol = Mathf.Lerp(1.0f, 0.0f, rate);
             m_audioPool[key].volume = vol;
             yield return null;
         }
@@ -198,5 +207,10 @@ public class AudioManager : MonoBehaviour
         if (this.fadeOutCoroutine != null)
             StopCoroutine(this.fadeOutCoroutine);
         this.fadeOutCoroutine = null;
+    }
+
+    public bool IsPlaying(string key)
+    {
+        return m_audioPool[key].isPlaying;
     }
 }

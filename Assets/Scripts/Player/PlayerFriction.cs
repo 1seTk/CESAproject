@@ -86,7 +86,7 @@ public class PlayerFriction : MonoBehaviour
 			});
 
 		this.UpdateAsObservable()
-			.Subscribe(_ =>
+            .Subscribe(_ =>
 			{
 				var foo = transform.localScale;
 				transform.localScale = Vector3.one;
@@ -109,7 +109,7 @@ public class PlayerFriction : MonoBehaviour
 
 		this.ObserveEveryValueChanged(x => hit)
 			.Where(x => x.transform != null)
-			.DistinctUntilChanged()
+			//.DistinctUntilChanged()
 			.Subscribe(x =>
 			{
 				// 親を解除して衝突相手の子に設定する
@@ -120,8 +120,9 @@ public class PlayerFriction : MonoBehaviour
 
 		this.ObserveEveryValueChanged(x => hit)
 			// .Where(_ => cg.IsGround.Value != true)
-			// .Where(x => x.transform == null)
-			// .ThrottleFrame(5)
+			.Where(x => x.transform == null)
+			.ThrottleFrame(5)
+            .TakeUntilDestroy(this)
 			.Subscribe(_ =>
 			{
 				transform.parent = null;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;  //シーンの管理用
+using DG.Tweening;
 
 // 山元のやーつ
 namespace YamagenLib
@@ -11,10 +12,7 @@ namespace YamagenLib
     {
         Title,
         Select,
-        Endless,
         Play,
-        Clear,
-        Over
     }
 
     // シーンに指示出すクラス
@@ -43,6 +41,8 @@ namespace YamagenLib
             if (instance == null)
             {
                 instance = this;
+                // どついーん初期化
+                DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -99,7 +99,7 @@ namespace YamagenLib
             m_loadScene = m_nextLoadScene;
             // フェードイン
             ShunLib.FadeScene.instance.FadeIn();
-            // 1秒待つ  
+            // 1秒待つ  !!!!!!!!!!!!!!!!!
             yield return new WaitForSeconds(0.7f);
             // 今のシーンをアンロード
             SceneManager.UnloadSceneAsync(m_oldLoadScene.ToString());
@@ -113,6 +113,12 @@ namespace YamagenLib
             yield return new WaitForSeconds(1.0f);
             // 変更終了
             m_isChange = false;
+
+        }
+
+        public bool IsChange()
+        {
+            return m_isChange;
         }
 
         public GameScene GetLoadScene()

@@ -18,7 +18,18 @@ namespace YamagenLib
         Stage6,
         Stage7,
         Stage8,
-        Stage9
+        Stage9,
+        Stage10,
+        Stage11,
+        Stage12,
+        Stage13,
+        Stage14,
+        Stage15,
+        Stage16,
+        Stage17,
+        Stage18,
+        Stage19,
+        Stage20
     }
 
     /// <summary>
@@ -33,9 +44,12 @@ namespace YamagenLib
         static public PlayStage m_nextScene = PlayStage.Stage1;
 
         // ロードされてるステージ
-        private PlayStage m_loadStage;
+        private int m_loadStage = -1;
 
         private bool m_initFlag = true;
+
+		// 前回のステージ
+		private int m_lastStage = -1;
 
         /// <summary>
         /// 初期化
@@ -64,13 +78,15 @@ namespace YamagenLib
             if (m_initFlag == false){
                 ShunLib.GameOverDirection.instance.Initialize();    // オーバーの初期化
                 ShunLib.ClearDirection.instance.Initialize();    // クリアの初期化
-                SceneManager.UnloadSceneAsync(m_loadStage.ToString());
+                SceneManager.UnloadSceneAsync(((PlayStage)m_loadStage).ToString());
             }
             else{
                 m_initFlag = false;
             }
             SceneManager.LoadScene(stage.ToString(), LoadSceneMode.Additive);
-            m_loadStage = stage;
+            m_lastStage = m_loadStage;
+            m_loadStage = (int)stage;
+            SelectManager.SceneSave((int)stage);
         }
 
         // ステージをリロードする
@@ -78,19 +94,20 @@ namespace YamagenLib
         {
             ShunLib.GameOverDirection.instance.Initialize();    // オーバーの初期化
             ShunLib.ClearDirection.instance.Initialize();    // クリアの初期化
-            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
-            SceneManager.LoadScene(m_loadStage.ToString(), LoadSceneMode.Additive);
-        }
+            SceneManager.UnloadSceneAsync(( (PlayStage)m_loadStage ).ToString());
+            SceneManager.LoadScene(((PlayStage)m_loadStage).ToString(), LoadSceneMode.Additive);
+			m_lastStage = (int)m_loadStage;
+		}
 
-        public PlayStage GetLoadStage()
+		public PlayStage GetLoadStage()
         {
-            return m_loadStage;
+            return (PlayStage)m_loadStage;
         }
 
         public void ChangenextScene()
         {
-            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
-            LoadStage(m_loadStage);
+            SceneManager.UnloadSceneAsync(((PlayStage)m_loadStage).ToString());
+            LoadStage((PlayStage)m_loadStage);
         }
 
         /// <summary>
@@ -98,7 +115,16 @@ namespace YamagenLib
         /// </summary>
         public void StageUnLoad()
         {
-            SceneManager.UnloadSceneAsync(m_loadStage.ToString());
+            PlayAudioManager.instance.Stop();
+            SceneManager.UnloadSceneAsync(((PlayStage)m_loadStage).ToString());
         }
+
+		/// <summary>
+		/// リロードしたか？
+		/// </summary>
+		public bool IsReload()
+		{
+			return (int)m_loadStage == m_lastStage;
+		}
     }
 }

@@ -46,13 +46,16 @@ public class GimmickCore : MonoBehaviour
 		set { isLoop = value; }
 	}
 
-	private void OnEnable ()
+    private void Start()
+    {
+        // ギミックの初期座標を取得
+        m_startPosition = m_gimmick.position;
+    }
+
+    private void OnEnable ()
 	{
 		// ギミックへの参照を取得(子のコライダーを持ったゲームオブジェクト)
 		m_gimmick = GetComponentInChildren<Collider>().transform;
-
-		// ギミックの初期座標を取得
-		m_startPosition = m_gimmick.position;
 
 		// ターゲットへの登録処理 ======
 		// 自身を登録

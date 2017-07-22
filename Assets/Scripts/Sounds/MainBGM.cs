@@ -9,6 +9,7 @@ public class MainBGM : MonoBehaviour
 	void Start ()
     {
         AudioManager.Instance.AudioSet("BGM", "MP3\\bgm");
+        AudioManager.Instance.SetOption("BGM", true, false);
         AudioManager.Instance.Play("BGM");
 	}
 	

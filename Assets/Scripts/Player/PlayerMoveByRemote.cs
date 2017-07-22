@@ -11,8 +11,8 @@ using System;
 public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 {
     // 定数
-    private const int DELAY_JUMP_FRAME = 5;         // ジャンプ許容値
-    private const float ACCEPT_ABLE_VALUE = 30.0f;  // スワイプ許容値
+    private const int DELAY_JUMP_FRAME = 8;         // ジャンプ許容値
+    private const float ACCEPT_ABLE_VALUE = 20.0f;  // スワイプ許容値
 
     // タッチ開始座標
     private float _touchStartPosY;
@@ -71,9 +71,8 @@ public class PlayerMoveByRemote : MonoBehaviour, IPlayerInput
 			.Select(_ => _jumpFlg == true)
 			.Subscribe(onJumpButtonSubject);
 
-
-		// 移動入力
-		this.UpdateAsObservable()
+        // 移動入力
+        this.UpdateAsObservable()
 			.Select(_ => _advanceFlg == true)
 			.Subscribe(x =>
 			{

@@ -11,8 +11,12 @@ public class ShowStageName : MonoBehaviour {
         m_txt = GetComponent<Text>();
 	}
 
-    void Update()
+    private void Update()
     {
-        m_txt.text = YamagenLib.SelectManager.instance.GetSelectStage().ToString();
+        if (YamagenLib.SceneInstructor.instance.GetLoadScene() == YamagenLib.GameScene.Select)
+            m_txt.text = YamagenLib.SelectManager.instance.GetSelectStage().ToString();
+        else if (YamagenLib.SceneInstructor.instance.GetLoadScene() == YamagenLib.GameScene.Play)
+            if (YamagenLib.PlayInstructor.instance != null) 
+            m_txt.text = YamagenLib.PlayInstructor.instance.GetLoadStage().ToString();
     }
 }

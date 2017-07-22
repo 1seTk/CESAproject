@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakBlock : MonoBehaviour {
+public class BreakBlock : MonoBehaviour
+{
 
-	[SerializeField, Tooltip("死んだときに破裂するか")]
-	private bool m_useBomb = true;
+    [SerializeField, Tooltip("死んだときに破裂するか")]
+    private bool m_useBomb = true;
 
-	[SerializeField, Tooltip("パーツのプレハブ")]
-	private GameObject m_parts;
+    [SerializeField, Tooltip("パーツのプレハブ")]
+    private GameObject m_parts;
 
-	public void Break()
-	{
-		// 破片の生成
-		var obj = Instantiate(m_parts, transform.position, Quaternion.identity) as GameObject;
+    public void Break()
+    {
+        // 破片の生成
+        var obj = Instantiate(m_parts, transform.position, Quaternion.identity) as GameObject;
+        obj.transform.parent = this.transform;
 
-		// 破片の参照を取る
-		var parts = obj.GetComponentsInChildren<Transform>();
+        // 破片の参照を取る
+        var parts = obj.GetComponentsInChildren<Transform>();
 
-		// 破片にいろいろ施す
-		foreach (var item in parts)
-		{
-			if(m_useBomb)
-				item.gameObject.layer = LayerMask.NameToLayer("Default");
+        // 破片にいろいろ施す
+        foreach (var item in parts)
+        {
+            if (m_useBomb)
+                item.gameObject.layer = LayerMask.NameToLayer("Default");
 
-			if(!item.GetComponent<Rigidbody>())
-				item.gameObject.AddComponent<Rigidbody>();
-			item.parent = null;
-		}
+            if (!item.GetComponent<Rigidbody>())
+                item.gameObject.AddComponent<Rigidbody>();
+            item.parent = null;
+        }
 
-		Destroy(gameObject, 0.1f);
-		Destroy(transform.gameObject, 0.1f);
-	}
+        Destroy(gameObject, 0.1f);
+        Destroy(transform.gameObject, 0.1f);
+    }
 }
